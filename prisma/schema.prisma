@@ -1,0 +1,76 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Lead {
+  id                String   @id @default(cuid())
+  ownerName         String
+  propertyAddress   String
+  city              String?
+  zip               String?
+  saleDate          DateTime?
+  noticeStatus      String   @default("New")
+  bestPhone         String?
+  email             String?
+  rawNoticeText     String?
+  source            String?
+  leadScore         Int      @default(0)
+  needsAddressMatch Boolean  @default(false)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  notes             LeadNote[]
+  tasks             LeadTask[]
+  tags              LeadTag[]
+  contacts          LeadContact[]
+}
+
+model LeadContact {
+  id          String   @id @default(cuid())
+  leadId      String
+  lead        Lead     @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  type        String   // "Phone" or "Email"
+  value       String
+  isPrimary   Boolean  @default(false)
+  confidence  Int?     // 0-100
+  source      String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model LeadNote {
+  id        String   @id @default(cuid())
+  content   String
+  leadId    String
+  lead      Lead     @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model LeadTask {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  dueDate     DateTime?
+  status      String   @default("Pending")
+  type        String   @default("Follow-up")
+  leadId      String
+  lead        Lead     @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model LeadTag {
+  id        String   @id @default(cuid())
+  name      String
+  leadId    String
+  lead      Lead     @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([name, leadId])
+}
