@@ -1,10 +1,16 @@
 # TODO
 
-## Immediate Tasks (Phase 3: Contact Enrichment)
-- [ ] Add `LeadRelative` model to Prisma schema for tracking roommates/relatives.
-- [ ] Create API routes for adding contacts (`/api/contacts`) and relatives (`/api/relatives`).
-- [ ] Build a "Lookup Helper" in the Lead Detail page with quick links to public search tools.
-- [ ] Implement manual enrichment UI components (forms to add phones, emails, and relatives with confidence scores).
+## Immediate Tasks (Phase 4: CRM + Automation Integrations)
+- [ ] Implement generic webhook push utility (`src/lib/webhook.ts`) for Zapier/Make integrations.
+- [ ] Build an API endpoint (`/api/export/webhook`) to handle the server-side lead export.
+- [ ] Add a Webhook URL configuration form to the Settings UI.
+- [ ] Add a "Push to CRM" action button to the Lead Detail view.
+
+## Completed Tasks (Phase 3)
+- [x] Add `LeadRelative` model to Prisma schema for tracking roommates/relatives.
+- [x] Create API routes for adding contacts (`/api/contacts`) and relatives (`/api/relatives`).
+- [x] Build a "Lookup Helper" in the Lead Detail page with quick links to public search tools.
+- [x] Implement manual enrichment UI components (forms to add phones, emails, and relatives with confidence scores).
 
 ## Completed Tasks (Phase 2)
 - [x] Implement robust text parser (`src/lib/parser.ts`) to extract lead details from raw public notice text.

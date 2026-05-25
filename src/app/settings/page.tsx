@@ -1,3 +1,4 @@
+import { WebhookSettings } from "./WebhookSettings";
 import { IntakeTester } from "./ClientTester";
 import { Upload, Download, Database, Settings as SettingsIcon, AlertCircle } from "lucide-react";
 
@@ -65,6 +66,8 @@ export default function SettingsPage() {
         </div>
 
         {/* Automation Rules Placeholder */}
+        <WebhookSettings />
+
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 lg:col-span-2">
           <div className="flex items-center mb-4 border-b border-gray-100 pb-4">
             <SettingsIcon className="w-5 h-5 mr-2 text-blue-600" />

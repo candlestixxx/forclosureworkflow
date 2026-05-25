@@ -134,3 +134,58 @@ export function LookupHelper({ ownerName, propertyAddress, zip }: { ownerName: s
     </div>
   );
 }
+
+export function PushToCrmButton({ leadId }: { leadId: string }) {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+
+  const handlePush = async () => {
+    const targetUrl = localStorage.getItem("crm_webhook_url");
+
+    if (!targetUrl) {
+      alert("Please configure a Webhook URL in the Settings tab first.");
+      return;
+    }
+
+    setLoading(true);
+    setStatus("idle");
+
+    try {
+      const res = await fetch("/api/export/webhook", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ leadId, targetUrl })
+      });
+
+      if (!res.ok) throw new Error("Push failed");
+
+      setStatus("success");
+      setTimeout(() => setStatus("idle"), 3000);
+      router.refresh();
+    } catch (e) {
+      console.error(e);
+      setStatus("error");
+      setTimeout(() => setStatus("idle"), 3000);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <button
+      onClick={handlePush}
+      disabled={loading}
+      className={`flex items-center px-4 py-2 rounded-lg transition-colors font-medium border
+        ${status === 'success' ? 'bg-green-600 text-white border-green-700' :
+          status === 'error' ? 'bg-red-600 text-white border-red-700' :
+          'bg-indigo-600 hover:bg-indigo-700 text-white border-indigo-700'}
+        disabled:opacity-50`}
+    >
+      {loading ? "Pushing..." :
+       status === 'success' ? "Synced!" :
+       status === 'error' ? "Failed" :
+       "Push to CRM"}
+    </button>
+  );
+}
