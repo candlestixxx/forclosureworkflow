@@ -1,10 +1,16 @@
 # TODO
 
-## Immediate Tasks (Phase 2: Weekly Foreclosure Intake)
-- [ ] Implement robust text parser (`src/lib/parser.ts`) to extract lead details from raw public notice text.
-- [ ] Create Intake API endpoint (`src/app/api/intake/route.ts`) to process batch notices or single text inputs.
-- [ ] Build a test UI in Settings to manually input raw text and trigger the intake workflow.
-- [ ] Set up Vercel Cron configuration (`vercel.json`) to run the automated intake every Friday at 12:00 PM.
+## Immediate Tasks (Phase 3: Contact Enrichment)
+- [ ] Add `LeadRelative` model to Prisma schema for tracking roommates/relatives.
+- [ ] Create API routes for adding contacts (`/api/contacts`) and relatives (`/api/relatives`).
+- [ ] Build a "Lookup Helper" in the Lead Detail page with quick links to public search tools.
+- [ ] Implement manual enrichment UI components (forms to add phones, emails, and relatives with confidence scores).
+
+## Completed Tasks (Phase 2)
+- [x] Implement robust text parser (`src/lib/parser.ts`) to extract lead details from raw public notice text.
+- [x] Create Intake API endpoint (`src/app/api/intake/route.ts`) to process batch notices or single text inputs.
+- [x] Build a test UI in Settings to manually input raw text and trigger the intake workflow.
+- [x] Set up Vercel Cron configuration (`vercel.json`) to run the automated intake every Friday at 12:00 PM.
 
 ## Completed Tasks (Phase 1)
 - [x] Initialize Next.js project with Tailwind, ESLint, TypeScript.

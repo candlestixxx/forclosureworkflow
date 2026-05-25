@@ -109,3 +109,28 @@ export function AddTaskButton({ leadId }: { leadId: string }) {
     </form>
   );
 }
+
+export function LookupHelper({ ownerName, propertyAddress, zip }: { ownerName: string, propertyAddress: string, zip: string | null }) {
+  const formatForCyber = (str: string) => str.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-');
+
+  // CyberBackgroundChecks routing format roughly: /name/john-doe or /address/123-main-st/city/mi/12345
+  const nameQuery = formatForCyber(ownerName);
+  const cyberNameLink = `https://www.cyberbackgroundchecks.com/name/${nameQuery}`;
+
+  const googleLink = `https://www.google.com/search?q=${encodeURIComponent(`${ownerName} "${propertyAddress}" ${zip || ""}`)}`;
+
+  return (
+    <div className="mb-6 p-4 bg-indigo-50 border border-indigo-100 rounded-lg">
+      <h3 className="text-sm font-semibold text-indigo-900 mb-2">Enrichment Lookup Helpers</h3>
+      <p className="text-xs text-indigo-700 mb-3">Quickly search public records to find missing phone numbers, emails, and relatives.</p>
+      <div className="flex gap-2">
+        <a href={cyberNameLink} target="_blank" rel="noopener noreferrer" className="px-3 py-1.5 text-xs font-medium bg-white text-indigo-700 border border-indigo-200 rounded hover:bg-indigo-100 transition-colors">
+          CyberBackgroundChecks (Name)
+        </a>
+        <a href={googleLink} target="_blank" rel="noopener noreferrer" className="px-3 py-1.5 text-xs font-medium bg-white text-indigo-700 border border-indigo-200 rounded hover:bg-indigo-100 transition-colors">
+          Google Search
+        </a>
+      </div>
+    </div>
+  );
+}

@@ -1,8 +1,9 @@
-import { AddNoteButton, AddTaskButton } from "./ClientActions";
+import { AddNoteButton, AddTaskButton, LookupHelper } from "./ClientActions";
+import { AddContactButton, AddRelativeButton } from "./EnrichmentActions";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { format } from "date-fns";
-import { ArrowLeft, User, MapPin, Phone, Mail, FileText, Calendar, Edit, Plus, AlertTriangle } from "lucide-react";
+import { ArrowLeft, User, MapPin, Phone, Mail, FileText, Calendar, Edit, AlertTriangle } from "lucide-react";
 import { notFound } from "next/navigation";
 
 export default async function LeadDetailPage({
@@ -15,6 +16,7 @@ export default async function LeadDetailPage({
     where: { id: resolvedParams.id },
     include: {
       contacts: true,
+      relatives: true,
       notes: { orderBy: { createdAt: 'desc' } },
       tasks: { orderBy: { dueDate: 'asc' } },
       tags: true,
@@ -101,14 +103,14 @@ export default async function LeadDetailPage({
           </div>
 
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+            <LookupHelper ownerName={lead.ownerName} propertyAddress={lead.propertyAddress} zip={lead.zip} />
+
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-lg font-semibold text-gray-800 flex items-center">
                 <FileText className="w-5 h-5 mr-2 text-gray-400" />
                 Notes
               </h2>
-              <button className="text-sm text-blue-600 hover:text-blue-800 font-medium flex items-center">
-                <Plus className="w-4 h-4 mr-1" /> Add Note
-              </button>
+              <AddNoteButton leadId={lead.id} />
             </div>
             {lead.notes.length === 0 ? (
               <p className="text-gray-500 text-sm italic">No notes yet.</p>
@@ -145,7 +147,6 @@ export default async function LeadDetailPage({
                 <User className="w-5 h-5 mr-2 text-gray-400" />
                 Contact Info
               </h2>
-              <button className="text-sm text-blue-600 hover:text-blue-800 font-medium">Enrich</button>
             </div>
 
             <div className="space-y-4">
@@ -165,6 +166,8 @@ export default async function LeadDetailPage({
               </div>
             </div>
 
+            <AddContactButton leadId={lead.id} />
+
             {lead.contacts.length > 0 && (
               <div className="mt-6 pt-4 border-t border-gray-100">
                 <p className="text-sm font-medium text-gray-600 mb-3">Other Contacts</p>
@@ -178,6 +181,25 @@ export default async function LeadDetailPage({
                 </div>
               </div>
             )}
+
+            {lead.relatives && lead.relatives.length > 0 && (
+              <div className="mt-4 pt-4 border-t border-gray-100">
+                <p className="text-sm font-medium text-gray-600 mb-3">Relatives / Roommates</p>
+                <div className="space-y-3">
+                  {lead.relatives.map((relative: any) => (
+                    <div key={relative.id} className="p-3 bg-gray-50 border border-gray-100 rounded-md">
+                      <p className="text-sm font-medium text-gray-900">{relative.name}</p>
+                      <div className="flex text-xs text-gray-500 mt-1 space-x-3">
+                        <span>{relative.relation || "Unknown Relation"}</span>
+                        {relative.phone && <span>• {relative.phone}</span>}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <AddRelativeButton leadId={lead.id} />
           </div>
 
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
@@ -186,9 +208,7 @@ export default async function LeadDetailPage({
                 <Calendar className="w-5 h-5 mr-2 text-gray-400" />
                 Tasks
               </h2>
-              <button className="text-sm text-blue-600 hover:text-blue-800 font-medium flex items-center">
-                <Plus className="w-4 h-4 mr-1" /> Add
-              </button>
+              <AddTaskButton leadId={lead.id} />
             </div>
             {lead.tasks.length === 0 ? (
               <p className="text-gray-500 text-sm italic">No upcoming tasks.</p>

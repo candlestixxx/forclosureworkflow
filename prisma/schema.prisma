@@ -28,6 +28,7 @@ model Lead {
   tasks             LeadTask[]
   tags              LeadTag[]
   contacts          LeadContact[]
+  relatives         LeadRelative[]
 }
 
 model LeadContact {
@@ -73,4 +74,15 @@ model LeadTag {
   createdAt DateTime @default(now())
 
   @@unique([name, leadId])
+}
+
+model LeadRelative {
+  id        String   @id @default(cuid())
+  name      String
+  relation  String?  // e.g., "Spouse", "Roommate", "Sibling"
+  phone     String?
+  leadId    String
+  lead      Lead     @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
