@@ -1,8 +1,10 @@
+import { SessionProvider } from "./SessionProvider";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
 import { LayoutDashboard, Users, Settings } from "lucide-react";
+import { LogoutButton } from "./LogoutButton";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,6 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        <SessionProvider>
         <div className="flex h-screen bg-gray-100">
           {/* Sidebar */}
           <aside className="w-64 bg-white border-r shadow-sm">
@@ -38,6 +41,10 @@ export default function RootLayout({
                 <Settings className="w-5 h-5 mr-3" />
                 Settings
               </Link>
+              <div className="pt-4 mt-4 border-t border-gray-100">
+                <LogoutButton />
+              </div>
+
             </nav>
           </aside>
 
@@ -48,6 +55,7 @@ export default function RootLayout({
             </div>
           </main>
         </div>
+              </SessionProvider>
       </body>
     </html>
   );

@@ -1,10 +1,16 @@
 # TODO
 
-## Immediate Tasks (Phase 4: CRM + Automation Integrations)
-- [ ] Implement generic webhook push utility (`src/lib/webhook.ts`) for Zapier/Make integrations.
-- [ ] Build an API endpoint (`/api/export/webhook`) to handle the server-side lead export.
-- [ ] Add a Webhook URL configuration form to the Settings UI.
-- [ ] Add a "Push to CRM" action button to the Lead Detail view.
+## Immediate Tasks (Phase 5: Auth Foundation & Browser Workflows)
+- [ ] Install NextAuth (`next-auth`) to establish basic application security boundaries.
+- [ ] Implement Next.js `middleware.ts` to protect `/leads` and `/settings` routes.
+- [ ] Build a generic `/login` page UI.
+- [ ] (Future) Add Playwright connectors to the settings UI for advanced browser automation tasks (pending strict compliance rules).
+
+## Completed Tasks (Phase 4)
+- [x] Implement generic webhook push utility (`src/lib/webhook.ts`) for Zapier/Make integrations.
+- [x] Build an API endpoint (`/api/export/webhook`) to handle the server-side lead export.
+- [x] Add a Webhook URL configuration form to the Settings UI.
+- [x] Add a "Push to CRM" action button to the Lead Detail view.
 
 ## Completed Tasks (Phase 3)
 - [x] Add `LeadRelative` model to Prisma schema for tracking roommates/relatives.
