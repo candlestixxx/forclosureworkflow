@@ -29,6 +29,24 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
+
+    // Basic Duplicate Detection Phase 1: Check exact match on Address OR Owner Name
+    const existingLead = await prisma.lead.findFirst({
+      where: {
+        OR: [
+          { propertyAddress: { equals: body.propertyAddress } },
+          { ownerName: { equals: body.ownerName } }
+        ]
+      }
+    });
+
+    if (existingLead) {
+      return NextResponse.json(
+        { error: "A lead with this property address or owner name already exists." },
+        { status: 409 }
+      );
+    }
+
     const newLead = await prisma.lead.create({
       data: {
         ownerName: body.ownerName,

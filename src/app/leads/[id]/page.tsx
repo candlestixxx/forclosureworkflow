@@ -1,3 +1,4 @@
+import { AddNoteButton, AddTaskButton } from "./ClientActions";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { format } from "date-fns";
