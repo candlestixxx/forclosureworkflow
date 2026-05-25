@@ -1,0 +1,84 @@
+import { prisma } from "@/lib/prisma";
+import { NextResponse } from "next/server";
+import { parseNoticeText } from "@/lib/parser";
+
+export async function POST(request: Request) {
+  try {
+    const authHeader = request.headers.get("authorization");
+
+    // Security check - Allow UI manual testing token OR Vercel Cron Secret
+    const isCronAuthed = process.env.CRON_SECRET && authHeader === `Bearer ${process.env.CRON_SECRET}`;
+    const isUIAuthed = authHeader === `Bearer manual-ui-test-token-mvp`;
+
+    if (!isCronAuthed && !isUIAuthed) {
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
+
+    const body = await request.json();
+    const notices = Array.isArray(body.notices) ? body.notices : [body.notices];
+
+    if (!notices || notices.length === 0) {
+      return NextResponse.json({ error: "No notice text provided" }, { status: 400 });
+    }
+
+    const results = {
+      totalProcessed: 0,
+      created: 0,
+      duplicates: 0,
+      errors: 0
+    };
+
+    for (const text of notices) {
+      if (typeof text !== "string") continue;
+      results.totalProcessed++;
+
+      try {
+        const parsedData = parseNoticeText(text, body.source || "Automated Intake Workflow");
+
+        // Basic duplicate check by Address (AND Owner Name if available) to avoid false positives on Unknown Owners
+        const whereCondition: any = { propertyAddress: { equals: parsedData.propertyAddress } };
+        if (parsedData.ownerName && parsedData.ownerName !== "Unknown Owner") {
+           whereCondition.ownerName = { equals: parsedData.ownerName };
+        }
+
+        const existingLead = await prisma.lead.findFirst({
+          where: whereCondition
+        });
+
+        if (existingLead) {
+          results.duplicates++;
+          continue; // Skip creation
+        }
+
+        await prisma.lead.create({
+          data: {
+            ownerName: parsedData.ownerName,
+            propertyAddress: parsedData.propertyAddress,
+            city: parsedData.city,
+            zip: parsedData.zip,
+            saleDate: parsedData.saleDate ? new Date(parsedData.saleDate) : null,
+            noticeStatus: "New",
+            rawNoticeText: parsedData.rawNoticeText,
+            source: parsedData.source,
+            needsAddressMatch: parsedData.needsAddressMatch,
+            leadScore: 10 // Base automated score
+          }
+        });
+
+        results.created++;
+      } catch (err) {
+        console.error("Intake parser error:", err);
+        results.errors++;
+      }
+    }
+
+    return NextResponse.json({
+      message: "Intake processing complete",
+      results
+    }, { status: 200 });
+
+  } catch (error) {
+    console.error("Fatal intake route error:", error);
+    return NextResponse.json({ error: "Failed to process intake" }, { status: 500 });
+  }
+}

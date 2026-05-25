@@ -3,19 +3,19 @@
 ## Session Date: [Current Session]
 
 ### Completed
-- Successfully mapped the user's detailed specification to a foundational MVP architecture.
-- Initialized Next.js 15, Prisma (v5 for SQLite stability), and Tailwind CSS.
-- Created all required foundational documentation (`VISION.md`, `ROADMAP.md`, `TODO.md`, `MEMORY.md`, `DEPLOY.md`, `IDEAS.md`, `CHANGELOG.md`, `VERSION.md`).
-- Built the database schema mapping `Lead`, `LeadContact`, `LeadNote`, `LeadTask`, and `LeadTag`.
-- Developed the primary UI screens (Dashboard, Leads List, Lead Detail, Settings).
-- Implemented core REST API endpoints for leads, notes, and tasks.
+- Phase 1 (Standalone CRM Foundation) is officially complete.
+- Implemented Manual Lead Creation UI with real-time Prisma DB connection.
+- Added basic duplicate detection (409 Conflict based on Owner Name or Address).
+- Built interactive client actions (`AddNoteButton`, `AddTaskButton`) for dynamic detail views.
+- Fully wired the CSV export API endpoint to the Data Management Settings pane.
+- Updated all core documentation files.
 
 ### Next Steps for Successor Model
-1. Complete the remaining Phase 1 tasks listed in `TODO.md` (CSV Import/Export, manual lead creation form, wiring up the details page UI to API routes).
-2. Begin moving into Phase 2: Weekly Foreclosure Intake logic, including the parser and cron scheduler structure.
+1. Execute Phase 2 tasks defined in `TODO.md`.
+2. Build the parser for raw legal/public notice text to extract property info, owner names, and sale dates accurately.
+3. Configure an automated intake API route that accepts batches of notices.
+4. Finalize the Vercel cron architecture to meet the strict "Every Friday at 12 PM" requirement for Macomb County.
 
 ### Context / Notes
-- The Next.js project is fully functional locally.
-- Use `npm run dev` to test UI.
-- API is primarily route handlers under `src/app/api`.
-- The current stack intentionally uses SQLite and Prisma v5 to avoid edge-runtime/driver adapter issues. If shifting to Postgres/Vercel later, an upgrade to Prisma v7 with edge adapters can be explored.
+- Continue using Prisma v5 and SQLite locally.
+- Next.js API routes reside in `src/app/api`. Ensure asynchronous route params are properly awaited (Next.js 15+ spec).

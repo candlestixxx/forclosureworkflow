@@ -1,3 +1,4 @@
+import { IntakeTester } from "./ClientTester";
 import { Upload, Download, Database, Settings as SettingsIcon, AlertCircle } from "lucide-react";
 
 export default function SettingsPage() {
@@ -54,6 +55,8 @@ export default function SettingsPage() {
                </div>
                <button className="ml-auto text-xs font-medium text-blue-700 bg-blue-100 px-3 py-1.5 rounded-md hover:bg-blue-200">Configure</button>
             </div>
+
+            <IntakeTester />
 
             <button className="w-full py-2 border-2 border-dashed border-gray-300 text-gray-600 rounded-lg hover:border-gray-400 hover:text-gray-800 transition-colors text-sm font-medium">
               + Add New County Source

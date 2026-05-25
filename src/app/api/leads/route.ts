@@ -30,19 +30,20 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
 
-    // Basic Duplicate Detection Phase 1: Check exact match on Address OR Owner Name
+    // Fix Duplicate Detection: Use AND condition to prevent dropping multiple properties owned by same entity
+    // Also ignore "Unknown Owner" for string matching.
+    const whereCondition: any = { propertyAddress: { equals: body.propertyAddress } };
+    if (body.ownerName && body.ownerName !== "Unknown Owner") {
+       whereCondition.ownerName = { equals: body.ownerName };
+    }
+
     const existingLead = await prisma.lead.findFirst({
-      where: {
-        OR: [
-          { propertyAddress: { equals: body.propertyAddress } },
-          { ownerName: { equals: body.ownerName } }
-        ]
-      }
+      where: whereCondition
     });
 
     if (existingLead) {
       return NextResponse.json(
-        { error: "A lead with this property address or owner name already exists." },
+        { error: "A lead with this exact property address and owner already exists." },
         { status: 409 }
       );
     }
