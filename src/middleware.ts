@@ -18,6 +18,8 @@ export const config = {
     "/api/tasks/:path*",
     "/api/contacts/:path*",
     "/api/relatives/:path*",
+    "/api/tags/:path*",
+    "/api/import/:path*",
     "/api/export/:path*"
   ],
 };

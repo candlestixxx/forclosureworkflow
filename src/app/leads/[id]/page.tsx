@@ -1,4 +1,4 @@
-import { AddNoteButton, AddTaskButton, LookupHelper, PushToCrmButton } from "./ClientActions";
+import { AddNoteButton, AddTaskButton, LookupHelper, PushToCrmButton, AddTagButton } from "./ClientActions";
 import { AddContactButton, AddRelativeButton } from "./EnrichmentActions";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
@@ -50,10 +50,10 @@ export default async function LeadDetailPage({
           </span>
           <PushToCrmButton leadId={lead.id} />
 
-          <button className="flex items-center px-4 py-2 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 rounded-lg transition-colors font-medium">
+          <Link href={`/leads/${lead.id}/edit`} className="flex items-center px-4 py-2 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 rounded-lg transition-colors font-medium">
             <Edit className="w-4 h-4 mr-2" />
             Edit Lead
-          </button>
+          </Link>
         </div>
       </div>
 
@@ -232,7 +232,11 @@ export default async function LeadDetailPage({
           </div>
 
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-             <h2 className="text-lg font-semibold text-gray-800 mb-4">Tags</h2>
+            <div className="flex justify-between items-start mb-4">
+              <h2 className="text-lg font-semibold text-gray-800">Tags</h2>
+              <AddTagButton leadId={lead.id} />
+            </div>
+
              <div className="flex flex-wrap gap-2">
                 {lead.tags.map(tag => (
                   <span key={tag.id} className="px-2.5 py-1 bg-blue-50 text-blue-700 text-xs font-medium rounded-md border border-blue-100">

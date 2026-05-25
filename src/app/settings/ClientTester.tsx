@@ -17,7 +17,7 @@ export function IntakeTester() {
     try {
       const res = await fetch("/api/intake", {
         method: "POST",
-        headers: { "Content-Type": "application/json", "Authorization": "Bearer manual-ui-test-token-mvp" },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ notices: [rawText], source: "Manual UI Test" })
       });
       const data = await res.json();

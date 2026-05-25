@@ -10,10 +10,13 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" }
       },
       async authorize(credentials) {
-        // MVP: Hardcoded credentials for standalone ease-of-use
-        // In production, this would query Prisma: `prisma.user.findUnique(...)`
-        const validUser = process.env.AUTH_USER || "admin";
-        const validPass = process.env.AUTH_PASS || "admin";
+        const validUser = process.env.AUTH_USER;
+        const validPass = process.env.AUTH_PASS;
+
+        if (!validUser || !validPass) {
+            console.error("AUTH_USER and AUTH_PASS environment variables are not strictly defined. Authentication blocked.");
+            return null;
+        }
 
         if (credentials?.username === validUser && credentials?.password === validPass) {
           return { id: "1", name: "CRM Admin", email: "admin@crm.local" };

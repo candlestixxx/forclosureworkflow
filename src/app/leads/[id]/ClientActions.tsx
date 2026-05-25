@@ -189,3 +189,55 @@ export function PushToCrmButton({ leadId }: { leadId: string }) {
     </button>
   );
 }
+
+export function AddTagButton({ leadId }: { leadId: string }) {
+  const router = useRouter();
+  const [isOpen, setIsOpen] = useState(false);
+  const [name, setName] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!name.trim()) return;
+    setLoading(true);
+
+    try {
+      await fetch("/api/tags", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ leadId, name }),
+      });
+      setName("");
+      setIsOpen(false);
+      router.refresh();
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (!isOpen) {
+    return (
+      <button onClick={() => setIsOpen(true)} className="text-sm text-blue-600 hover:text-blue-800 font-medium flex items-center">
+        <Plus className="w-4 h-4 mr-1" /> Add Tag
+      </button>
+    );
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="flex items-center space-x-2 mt-2 w-full">
+      <div className="relative flex-1">
+        <span className="absolute left-2 top-1.5 text-gray-400 text-sm">#</span>
+        <input
+          required
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          className="w-full pl-6 pr-2 py-1.5 border border-blue-200 rounded-md text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          placeholder="investor"
+        />
+      </div>
+      <button type="submit" disabled={loading} className="px-3 py-1.5 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700">Save</button>
+      <button type="button" onClick={() => setIsOpen(false)} className="px-2 py-1.5 text-sm text-gray-500 hover:text-gray-700"><X className="w-4 h-4" /></button>
+    </form>
+  );
+}

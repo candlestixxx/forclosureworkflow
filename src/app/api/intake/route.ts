@@ -1,16 +1,18 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import { parseNoticeText } from "@/lib/parser";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/lib/auth";
 
 export async function POST(request: Request) {
   try {
     const authHeader = request.headers.get("authorization");
 
-    // Security check - Allow UI manual testing token OR Vercel Cron Secret
+    // Security check - Allow UI manual testing (if authenticated session exists) OR Vercel Cron Secret
+    const session = await getServerSession(authOptions);
     const isCronAuthed = process.env.CRON_SECRET && authHeader === `Bearer ${process.env.CRON_SECRET}`;
-    const isUIAuthed = authHeader === `Bearer manual-ui-test-token-mvp`;
 
-    if (!isCronAuthed && !isUIAuthed) {
+    if (!isCronAuthed && !session) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
