@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## [1.1.0-rc.1] - Analytics # CHANGELOG Preparation Release
+- Integrated `@vercel/analytics` into the root application layout.
+- Finalized stability, caching, and server-side components for production delivery.
+
+
 ## [1.1.0] - Search & Scaling Release
 - **COMPLETED**: The final refinements for the Foreclosure CRM.
 - All 17 Phases have been successfully implemented.

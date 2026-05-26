@@ -6,6 +6,7 @@ import Link from "next/link";
 import { LayoutDashboard, Users, Settings, MapPin } from "lucide-react";
 import { SessionProvider } from "./SessionProvider";
 import { LogoutButton } from "./LogoutButton";
+import { Analytics } from "@vercel/analytics/react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -59,6 +60,7 @@ export default function RootLayout({
             </header>
             <div className="flex-1 overflow-y-auto p-8 bg-gray-50">
               {children}
+              <Analytics />
             </div>
           </main>
         </div>

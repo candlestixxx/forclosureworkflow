@@ -1,11 +1,12 @@
 # TODO
 
-## Immediate Tasks (Phase 25: Performance & Bundle Optimization)
-- [ ] Analyze Next.js bundle size and optimize imports (e.g., dynamically import heavier Lucide icons or Recharts if necessary).
-- [ ] Implement robust caching logic for the `/api/settings` and `src/app/page.tsx` dashboard queries to prevent database strain.
-- [ ] Conduct a final sweep of code to address remaining TODO markers or placeholder logic.
+## Immediate Tasks (Phase 26: Vercel Analytics & Final Release Candidate)
+- [ ] Install `@vercel/analytics` to track UI interaction performance.
+- [x] Prepare repository for user handoff as the system has reached full maturity.
+- [x] Upgrade the global version tracking to `1.1.0-rc.1`.
 
 ## Completed Tasks
+- [x] Phase 25: Performance & Bundle Optimization (Next.js ISR caching)
 - [x] Phase 24: Real-Time Notifications (DB Polling)
 - [x] Phase 23: Assignment UI & Final Polish
 - [x] Phase 22: Lead Scoring Engine & Assignment (Backend utility, API integrations)
