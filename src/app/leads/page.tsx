@@ -1,7 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { format } from "date-fns";
-import { Plus, Search, Filter } from "lucide-react";
+import { Plus, Search } from "lucide-react";
+import { Pagination } from "@/components/Pagination";
 
 export default async function LeadsPage({
   searchParams,
@@ -10,6 +11,10 @@ export default async function LeadsPage({
 }) {
   const resolvedParams = await searchParams;
   const filter = typeof resolvedParams.filter === 'string' ? resolvedParams.filter : undefined;
+
+  const page = typeof resolvedParams.page === 'string' ? parseInt(resolvedParams.page, 10) : 1;
+  const limit = 20; // Hardcoded limit for standard views
+  const skip = (page - 1) * limit;
 
   let whereClause = {};
   if (filter === 'enrichment') {
@@ -23,11 +28,23 @@ export default async function LeadsPage({
     whereClause = { noticeStatus: 'New' };
   }
 
-  const leads = await prisma.lead.findMany({
-    where: whereClause,
-    orderBy: { createdAt: 'desc' },
-    include: { tags: true }
-  });
+  // Execute efficient dual-query pattern for Prisma pagination
+  const [leads, totalCount] = await Promise.all([
+    prisma.lead.findMany({
+      where: whereClause,
+      orderBy: { createdAt: 'desc' },
+      skip,
+      take: limit,
+      include: { tags: true }
+    }),
+    prisma.lead.count({ where: whereClause })
+  ]);
+
+  const totalPages = Math.ceil(totalCount / limit);
+
+  // Preserve existing filters when generating pagination URLs
+  const currentQueryParams: Record<string, string> = {};
+  if (filter) currentQueryParams['filter'] = filter;
 
   return (
     <div className="space-y-6">
@@ -39,7 +56,7 @@ export default async function LeadsPage({
         </Link>
       </div>
 
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden flex flex-col">
         <div className="p-4 border-b border-gray-200 bg-gray-50 flex justify-between items-center">
           <div className="flex gap-2">
             <Link href="/leads" className={`px-3 py-1.5 rounded-md text-sm font-medium ${!filter ? 'bg-white shadow-sm border border-gray-200 text-gray-900' : 'text-gray-600 hover:bg-gray-100'}`}>All</Link>
@@ -57,7 +74,7 @@ export default async function LeadsPage({
           </div>
         </div>
 
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto flex-1">
           <table className="w-full text-left text-sm">
             <thead className="bg-gray-50 border-b border-gray-200 text-gray-600">
               <tr>
@@ -109,6 +126,14 @@ export default async function LeadsPage({
             </tbody>
           </table>
         </div>
+
+        {/* Dynamic Pagination Component */}
+        <Pagination
+          currentPage={page}
+          totalPages={totalPages}
+          basePath="/leads"
+          queryParams={currentQueryParams}
+        />
       </div>
     </div>
   );

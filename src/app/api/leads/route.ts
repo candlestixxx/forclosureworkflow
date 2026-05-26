@@ -7,6 +7,11 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const filter = searchParams.get("filter");
 
+    // Pagination params
+    const page = parseInt(searchParams.get("page") || "1", 10);
+    const limit = parseInt(searchParams.get("limit") || "20", 10);
+    const skip = (page - 1) * limit;
+
     let whereClause = {};
     if (filter === "enrichment") {
       whereClause = {
@@ -16,13 +21,30 @@ export async function GET(request: Request) {
       whereClause = { noticeStatus: "New" };
     }
 
-    const leads = await prisma.lead.findMany({
-      where: whereClause,
-      orderBy: { createdAt: "desc" },
-    });
+    const [leads, totalCount] = await Promise.all([
+      prisma.lead.findMany({
+        where: whereClause,
+        orderBy: { createdAt: "desc" },
+        skip,
+        take: limit,
+        include: { tags: true } // Include tags for list view
+      }),
+      prisma.lead.count({ where: whereClause })
+    ]);
 
-    return NextResponse.json(leads);
+    const totalPages = Math.ceil(totalCount / limit);
+
+    return NextResponse.json({
+      data: leads,
+      meta: {
+        totalCount,
+        totalPages,
+        currentPage: page,
+        limit
+      }
+    });
   } catch (error) {
+    console.error("Failed to fetch leads:", error);
     return NextResponse.json({ error: "Failed to fetch leads" }, { status: 500 });
   }
 }

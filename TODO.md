@@ -1,12 +1,12 @@
 # TODO
 
-## Immediate Tasks (Phase 14: Data Integrity & Parser Hardening)
-- [x] Install `zod` and `papaparse`.
-- [x] Define API payload schemas in `src/lib/validations.ts`.
-- [x] Refactor Lead creation API and Intake API to utilize Zod schema validation.
-- [x] Replace naive string splitting in CSV `/api/import` with robust `papaparse` parsing.
+## Immediate Tasks (Phase 16: Final Review & Next Steps)
+- [ ] Wire up the visual "Search" input in `src/app/leads/page.tsx` to actually filter leads by name/address.
+- [ ] Evaluate deployment scaling (e.g. migrating `playwright-core` stubs to actual hosted Browserless.io instances).
 
 ## Completed Tasks
+- [x] Phase 15: Pagination & Optimization (Prisma offset pagination, UI controls)
+- [x] Phase 14: Data Integrity (Zod, PapaParse)
 - [x] Phase 13: Final Polish (Database Reset, Zod markers, Security patches)
 - [x] Phase 12: Advanced Connectors & Native Integrations (HubSpot, Browserless.io logic)
 - [x] Phase 11: Deployment Polish (Error Boundaries, Skeleton Loaders, Github CI)
