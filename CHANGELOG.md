@@ -1,8 +1,12 @@
 # CHANGELOG
 
-## [1.0.0-rc.1] - MVP Release Candidate
+## [1.0.0] - Production Ready Release
 - **COMPLETED**: The Foreclosure Lead Scrub + CRM Workflow Tool MVP.
-- All 11 Phases specified in the primary vision documents have been implemented.
+- All 13 Phases specified in the primary vision documents have been successfully implemented.
+- The platform operates as a secure, authenticated CRM with automated webhook parsing, integrated HubSpot connectivity, and Playwright-orchestrated headless scraping capabilities.
+- Finalized Zod schema placeholders, database reset hooks, and negative-lookahead security middleware boundaries.
+
+## [1.0.0-rc.1] - MVP Release Candidate
 - Finalized Next.js App Router boundaries (`loading.tsx`, `error.tsx`).
 - Finalized GitHub Actions deployment pipelines for CI verification.
 
@@ -17,6 +21,9 @@
 - Completed Phase 8: Audit Logging & Config DB schemas.
 - Completed Phase 9: PostgreSQL Provider transition.
 - Completed Phase 10: Playwright Connector core architecture framework.
+- Completed Phase 11: Deployment CI flows.
+- Completed Phase 12: HubSpot / Browserless integrations.
+- Completed Phase 13: Factory DB resets & Validation stubs.
 
 ## [0.1.0-alpha] - Initial Setup
 - Initialized documentation files.

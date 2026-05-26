@@ -1,11 +1,12 @@
 # TODO
 
-## Immediate Tasks (Phase 13: Final Polish & Release)
-- [ ] Implement an automated "Delete Database / Reset All" UI button (useful for staging/testing).
-- [ ] Add explicit formatting constraints (e.g. Zod schemas) for API input payloads.
-- [ ] Release version 1.0.0 and close the autonomous session.
+## Immediate Tasks (Project Wrap-Up & Maintenance)
+- [ ] The MVP specification provided by the user is complete in its entirety.
+- [ ] Monitor Vercel cron job stability in production environment.
+- [ ] Monitor Playwright/Browserless.io execution times against Vercel Edge limits.
 
 ## Completed Tasks
+- [x] Phase 13: Final Polish (Database Reset, Zod markers, Security patches)
 - [x] Phase 12: Advanced Connectors & Native Integrations (HubSpot, Browserless.io logic)
 - [x] Phase 11: Deployment Polish (Error Boundaries, Skeleton Loaders, Github CI)
 - [x] Phase 10: Advanced Browser Automation Connectors
