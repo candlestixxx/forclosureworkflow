@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
+import { calculateLeadScore } from "@/lib/scoring";
 
 export async function GET(
   request: Request,
@@ -39,8 +40,13 @@ export async function PATCH(
       body.saleDate = new Date(body.saleDate);
     } else if (body.saleDate === "") {
       body.saleDate = null;
-      body.saleDate = new Date(body.saleDate);
     }
+
+
+    // Recalculate score upon edit (e.g. saleDate might have changed)
+    const currentLead = await prisma.lead.findUnique({ where: { id: resolvedParams.id } });
+    const mergedData = { ...currentLead, ...body };
+    body.leadScore = calculateLeadScore(mergedData);
 
     const updatedLead = await prisma.lead.update({
       where: { id: resolvedParams.id },

@@ -7,6 +7,7 @@ import { IntakePayloadSchema } from "@/lib/validations";
 import { geocodeAddress } from "@/lib/geocoder";
 import { NoticeParser } from "@/lib/parsers/core";
 import { MacombCountyParser } from "@/lib/parsers/michigan_macomb";
+import { calculateLeadScore } from "@/lib/scoring";
 
 export async function POST(request: Request) {
   try {
@@ -92,7 +93,7 @@ export async function POST(request: Request) {
             needsAddressMatch: parsedData.needsAddressMatch,
             latitude: coords?.lat || null,
             longitude: coords?.lon || null,
-            leadScore: 10 // Base automated score
+            leadScore: calculateLeadScore({ source: parsedData.source, saleDate: parsedData.saleDate ? new Date(parsedData.saleDate) : null, needsAddressMatch: parsedData.needsAddressMatch, latitude: coords?.lat || null, longitude: coords?.lon || null })
           }
         });
 

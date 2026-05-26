@@ -1,11 +1,12 @@
 # TODO
 
-## Immediate Tasks (Phase 21: Analytics Dashboard & Metrics)
-- [x] Aggregate advanced lead metrics (conversion rates, lead scoring distributions) within the database.
-- [x] Implement an Analytics API route (`/api/analytics`) to serve aggregated metrics securely.
-- [x] Build a robust visual Dashboard UI on `src/app/page.tsx` utilizing charting libraries (like Recharts) to visualize intake volume over time.
+## Immediate Tasks (Phase 22: Lead Scoring Engine & Assignment)
+- [ ] Add `assignedTo` and expand `leadScore` dynamic updating in the `Lead` Prisma schema.
+- [ ] Build a scoring engine utility (`src/lib/scoring.ts`) that increases/decreases a lead's score based on automated criteria (e.g., has phone number, sale date is imminent, successfully geocoded).
+- [ ] Trigger the scoring engine whenever a lead is updated or enriched via the API routes.
 
 ## Completed Tasks
+- [x] Phase 21: Analytics Dashboard & Metrics (Recharts integration)
 - [x] Phase 20: Modular Parsing & County Workflows
 - [x] Phase 19: Geocode Backfill & Map Analytics
 - [x] Phase 18: Map Visualization & Geocoding (Leaflet, Nominatim API)

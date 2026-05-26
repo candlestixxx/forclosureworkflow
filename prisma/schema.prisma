@@ -15,6 +15,7 @@ model Lead {
   zip               String?
   saleDate          DateTime?
   noticeStatus      String   @default("New")
+  assignedTo        String?
   bestPhone         String?
   email             String?
   rawNoticeText     String?

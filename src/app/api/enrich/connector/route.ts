@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
+import { calculateLeadScore } from "@/lib/scoring";
 import { MyPlusLeadsConnector } from "@/lib/connectors/myplus";
 
 export async function POST(request: Request) {
@@ -60,6 +61,16 @@ export async function POST(request: Request) {
               content: `[System] Automated Enrichment via ${connectorType} ran successfully.`
           }
       });
+    }
+
+
+    // Recalculate score after enrichment completes
+    const updatedLeadForScore = await prisma.lead.findUnique({ where: { id: lead.id } });
+    if (updatedLeadForScore) {
+       await prisma.lead.update({
+          where: { id: lead.id },
+          data: { leadScore: calculateLeadScore(updatedLeadForScore) }
+       });
     }
 
     return NextResponse.json(result);

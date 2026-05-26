@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
+import { calculateLeadScore } from "@/lib/scoring";
 
 export async function POST(request: Request) {
   try {
@@ -27,6 +28,18 @@ export async function POST(request: Request) {
          data: body.type === "Phone" ? { bestPhone: body.value } : { email: body.value }
        });
     }
+
+
+
+    // Recalculate and update the master Lead Score because new contact data exists
+    const updatedLeadForScore = await prisma.lead.findUnique({ where: { id: body.leadId } });
+    if (updatedLeadForScore) {
+       await prisma.lead.update({
+          where: { id: body.leadId },
+          data: { leadScore: calculateLeadScore(updatedLeadForScore) }
+       });
+    }
+
 
     return NextResponse.json(newContact, { status: 201 });
   } catch (error) {
