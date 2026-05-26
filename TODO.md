@@ -1,10 +1,11 @@
 # TODO
 
-## Immediate Tasks (Phase 16: Final Review & Next Steps)
-- [ ] Wire up the visual "Search" input in `src/app/leads/page.tsx` to actually filter leads by name/address.
-- [ ] Evaluate deployment scaling (e.g. migrating `playwright-core` stubs to actual hosted Browserless.io instances).
+## Immediate Tasks (Phase 17: Stability & Handover)
+- [ ] Assess final system architecture.
+- [ ] Prepare repository for manual user testing.
 
 ## Completed Tasks
+- [x] Phase 16: Search Implementation (Client-side debounced search, Prisma filtering)
 - [x] Phase 15: Pagination & Optimization (Prisma offset pagination, UI controls)
 - [x] Phase 14: Data Integrity (Zod, PapaParse)
 - [x] Phase 13: Final Polish (Database Reset, Zod markers, Security patches)
