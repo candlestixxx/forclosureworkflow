@@ -94,12 +94,18 @@ export default async function LeadDetailPage({
                 </p>
               </div>
               <div>
+                <p className="text-sm font-medium text-gray-500 mb-1">Assigned To</p>
+                <p className="text-gray-900 font-medium">{lead.assignedTo || <span className="text-gray-400 italic">Unassigned</span>}</p>
+              </div>
+              <div>
                 <p className="text-sm font-medium text-gray-500 mb-1">Source</p>
-                <p className="text-gray-900">{lead.source || 'Manual Entry'}</p>
+                <p className="text-gray-900 text-sm">{lead.source || 'Manual Entry'}</p>
               </div>
               <div>
                 <p className="text-sm font-medium text-gray-500 mb-1">Lead Score</p>
-                <p className="text-gray-900">{lead.leadScore} / 100</p>
+                <p className={`font-bold ${lead.leadScore >= 50 ? 'text-green-600' : lead.leadScore >= 20 ? 'text-blue-600' : 'text-gray-600'}`}>
+                  {lead.leadScore} <span className="text-xs text-gray-400 font-normal">pts</span>
+                </p>
               </div>
             </div>
           </div>

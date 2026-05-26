@@ -20,6 +20,7 @@ export default function EditLeadPage({ params }: { params: Promise<{ id: string 
     zip: "",
     saleDate: "",
     noticeStatus: "New",
+    assignedTo: "",
     bestPhone: "",
     email: "",
     source: "",
@@ -40,6 +41,7 @@ export default function EditLeadPage({ params }: { params: Promise<{ id: string 
           zip: data.zip || "",
           saleDate: data.saleDate ? data.saleDate.split('T')[0] : "",
           noticeStatus: data.noticeStatus || "New",
+          assignedTo: data.assignedTo || "",
           bestPhone: data.bestPhone || "",
           email: data.email || "",
           source: data.source || "",
@@ -157,6 +159,18 @@ export default function EditLeadPage({ params }: { params: Promise<{ id: string 
               value={formData.saleDate}
               onChange={handleChange}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-gray-700">Assigned To</label>
+            <input
+              type="text"
+              name="assignedTo"
+              value={formData.assignedTo}
+              onChange={handleChange}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Agent Name"
             />
           </div>
 

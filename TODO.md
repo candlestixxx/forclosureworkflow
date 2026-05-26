@@ -1,11 +1,12 @@
 # TODO
 
-## Immediate Tasks (Phase 22: Lead Scoring Engine & Assignment)
-- [ ] Add `assignedTo` and expand `leadScore` dynamic updating in the `Lead` Prisma schema.
-- [ ] Build a scoring engine utility (`src/lib/scoring.ts`) that increases/decreases a lead's score based on automated criteria (e.g., has phone number, sale date is imminent, successfully geocoded).
-- [ ] Trigger the scoring engine whenever a lead is updated or enriched via the API routes.
+## Immediate Tasks (Phase 23: Assignment UI & Final Polish)
+- [ ] Add `assignedTo` dropdown/input to the `Edit Lead` UI (`src/app/leads/[id]/edit/page.tsx`).
+- [ ] Display `assignedTo` on the `Lead Details` UI (`src/app/leads/[id]/page.tsx`).
+- [ ] Render the dynamic `leadScore` visually on the `Lead Details` UI to give context to the user on why a lead is scored a certain way.
 
 ## Completed Tasks
+- [x] Phase 22: Lead Scoring Engine & Assignment (Backend utility, API integrations)
 - [x] Phase 21: Analytics Dashboard & Metrics (Recharts integration)
 - [x] Phase 20: Modular Parsing & County Workflows
 - [x] Phase 19: Geocode Backfill & Map Analytics
