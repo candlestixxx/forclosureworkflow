@@ -3,15 +3,14 @@
 ## Session Date: [Current Session]
 
 ### Completed
-- Phase 8 database architectural enhancements are complete.
-- Implemented `Setting` and `AuditLog` Prisma models.
-- Abstracted the hardcoded webhook URL out of the client `localStorage` and securely into the SQLite database.
-- Wired internal workflows (Intake API, Webhook Exporter) to output success/failure states to the `AuditLog` table.
+- The application architecture is shifting from the MVP SQLite database to a production-ready PostgreSQL environment.
+- This prepares the system for deployment on platforms like Vercel, which pair perfectly with serverless Postgres solutions like Supabase or Neon.
+- `DEPLOY.md` will be heavily updated to reflect the new connection string requirements.
 
 ### Next Steps for Successor Model
-1. The MVP is feature-complete and robustly tracked.
-2. The absolute final steps remaining on the roadmap are executing a production database migration from SQLite to PostgreSQL, and writing the final Playwright automation wrapper classes (the "connectors" to third party CRMs/Lead services) which require the production database to be stable first.
+1. Complete Phase 9: Finalize the Prisma schema transition to Postgres.
+2. Build Phase 10: The Playwright Automation Connectors. Since the database schema will be stable in Postgres, you can now construct the isolated modular classes (as dictated in `ARCHITECTURE.md`) that will execute user-approved headless browser workflows against third-party sites like MyPlus Leads.
 
 ### Context / Notes
-- Continue using Prisma v5.
-- The `src/lib/audit.ts` helper is globally available for any future automation tracking.
+- From this point forward, `npx prisma db push` will require a valid Postgres `DATABASE_URL` in the `.env` file to function.
+- If testing locally without a Postgres server, you will need to provision a free Supabase project to obtain a connection string.

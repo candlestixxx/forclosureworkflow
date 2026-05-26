@@ -1,8 +1,10 @@
 # TODO
 
-## Immediate Tasks (Phase 8: Post-MVP & Browser Connectors)
-- [ ] Migrate SQLite database to PostgreSQL (e.g., Supabase, Neon) for scalable production deployment.
-- [ ] Build robust, terms-of-service compliant Playwright browser automation connector pipelines for third-party enrichment (e.g. MyPlus Leads) following the architecture laid out in `ARCHITECTURE.md`.
+## Immediate Tasks (Phase 9: Production DB Migration)
+- [ ] Migrate Prisma schema provider from `sqlite` to `postgresql`.
+- [ ] Document specific Postgres connection string setup in `DEPLOY.md` (for Supabase/Neon).
+- [ ] Clear legacy `dev.db` artifacts.
+- [ ] (Future Phase 10) Build Playwright automation connector classes.
 
 ## Completed Tasks
 - [x] Phase 8: Data Architecture Evolution (Database Settings, Audit Logs)
