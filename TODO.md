@@ -1,11 +1,12 @@
 # TODO
 
-## Immediate Tasks (Phase 20: Modular Parsing & County Workflows)
-- [ ] Establish `src/lib/parsers/core.ts` defining a standard `NoticeParser` interface.
-- [x] Refactor the existing Macomb heuristics into `src/lib/parsers/michigan_macomb.ts`.
-- [ ] Update `/api/intake` to dynamically load the correct parser based on payload arguments, allowing the CRM to scale nationally.
+## Immediate Tasks (Phase 21: Analytics Dashboard & Metrics)
+- [x] Aggregate advanced lead metrics (conversion rates, lead scoring distributions) within the database.
+- [x] Implement an Analytics API route (`/api/analytics`) to serve aggregated metrics securely.
+- [x] Build a robust visual Dashboard UI on `src/app/page.tsx` utilizing charting libraries (like Recharts) to visualize intake volume over time.
 
 ## Completed Tasks
+- [x] Phase 20: Modular Parsing & County Workflows
 - [x] Phase 19: Geocode Backfill & Map Analytics
 - [x] Phase 18: Map Visualization & Geocoding (Leaflet, Nominatim API)
 - [x] Phase 17: Stability & Handover (System audit, final version bump)
