@@ -1,11 +1,12 @@
 # TODO
 
-## Immediate Tasks (Phase 23: Assignment UI & Final Polish)
-- [ ] Add `assignedTo` dropdown/input to the `Edit Lead` UI (`src/app/leads/[id]/edit/page.tsx`).
-- [ ] Display `assignedTo` on the `Lead Details` UI (`src/app/leads/[id]/page.tsx`).
-- [ ] Render the dynamic `leadScore` visually on the `Lead Details` UI to give context to the user on why a lead is scored a certain way.
+## Immediate Tasks (Phase 24: Real-Time Notifications)
+- [ ] Install `pusher` (or a similar lightweight WebSocket solution like `socket.io` / native Server-Sent Events) to enable real-time UI updates.
+- [x] Build a notification bell component in the UI header that tracks incoming leads processed by the Friday Cron intake.
+- [x] Integrate notification broadcast logic into `/api/intake` and `/api/export/webhook` so active users know when automated workflows complete.
 
 ## Completed Tasks
+- [x] Phase 23: Assignment UI & Final Polish
 - [x] Phase 22: Lead Scoring Engine & Assignment (Backend utility, API integrations)
 - [x] Phase 21: Analytics Dashboard & Metrics (Recharts integration)
 - [x] Phase 20: Modular Parsing & County Workflows

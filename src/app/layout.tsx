@@ -1,3 +1,4 @@
+import { NotificationBell } from "@/components/NotificationBell";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
@@ -52,8 +53,11 @@ export default function RootLayout({
           </aside>
 
           {/* Main Content */}
-          <main className="flex-1 overflow-y-auto">
-            <div className="p-8">
+          <main className="flex-1 flex flex-col min-h-0">
+            <header className="h-16 bg-white border-b flex items-center justify-end px-8 flex-shrink-0 z-10 relative">
+              <NotificationBell />
+            </header>
+            <div className="flex-1 overflow-y-auto p-8 bg-gray-50">
               {children}
             </div>
           </main>

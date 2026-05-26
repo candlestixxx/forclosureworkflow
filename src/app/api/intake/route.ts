@@ -107,6 +107,13 @@ export async function POST(request: Request) {
 
     await logAudit("INTAKE_RUN", `Completed intake for ${activeParser.countyIdentifier}. Created: ${results.created}, Duplicates: ${results.duplicates}, Errors: ${results.errors}`, "SUCCESS");
 
+    await prisma.notification.create({
+      data: {
+        title: "Intake Workflow Complete",
+        message: `${activeParser.countyIdentifier} run finished. ${results.created} new leads added.`
+      }
+    });
+
     return NextResponse.json({
       message: "Intake processing complete",
       results

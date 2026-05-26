@@ -68,6 +68,13 @@ export async function POST(request: Request) {
       }
     });
 
+    await prisma.notification.create({
+      data: {
+        title: "CRM Sync Complete",
+        message: `Lead ${leadId} was successfully pushed to ${pushTypes.join(" and ")}.`
+      }
+    });
+
     return NextResponse.json({ success: true, message: `Synced to ${pushTypes.join(", ")}` }, { status: 200 });
 
   } catch (error) {
