@@ -1,10 +1,16 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import { calculateLeadScore } from "@/lib/scoring";
+import { ContactSchema } from "@/lib/validations";
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
+    const rawBody = await request.json();
+    const validation = ContactSchema.safeParse(rawBody);
+    if (!validation.success) {
+      return NextResponse.json({ error: "Invalid contact payload", details: validation.error.format() }, { status: 400 });
+    }
+    const body = validation.data;
 
     // Ensure Lead exists
     const lead = await prisma.lead.findUnique({ where: { id: body.leadId } });
@@ -16,7 +22,7 @@ export async function POST(request: Request) {
         type: body.type, // 'Phone' or 'Email'
         value: body.value,
         isPrimary: body.isPrimary || false,
-        confidence: body.confidence ? parseInt(body.confidence, 10) : null,
+        confidence: body.confidence ? typeof body.confidence === "number" ? body.confidence : parseInt(body.confidence as string, 10) : null,
         source: body.source || "Manual Enrichment",
       },
     });

@@ -1,9 +1,15 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
+import { RelativeSchema } from "@/lib/validations";
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
+    const rawBody = await request.json();
+    const validation = RelativeSchema.safeParse(rawBody);
+    if (!validation.success) {
+      return NextResponse.json({ error: "Invalid relative payload", details: validation.error.format() }, { status: 400 });
+    }
+    const body = validation.data;
 
     const newRelative = await prisma.leadRelative.create({
       data: {

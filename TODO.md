@@ -1,11 +1,12 @@
 # TODO
 
-## Immediate Tasks (Phase 26: Vercel Analytics & Final Release Candidate)
-- [ ] Install `@vercel/analytics` to track UI interaction performance.
-- [x] Prepare repository for user handoff as the system has reached full maturity.
-- [x] Upgrade the global version tracking to `1.1.0-rc.1`.
+## Immediate Tasks (Phase 27: Production Deployment Polish)
+- [ ] Implement Vercel Speed Insights (`@vercel/speed-insights`) alongside Analytics to provide the client with real-time UI latency reporting.
+- [ ] Add explicit formatting constraints (e.g., Zod schemas) for the remaining unvalidated API endpoints (Settings, Contacts, Tasks, Relatives).
+- [ ] Finalize version 1.1.0 release documentation.
 
 ## Completed Tasks
+- [x] Phase 26: Vercel Analytics & Final Release Candidate
 - [x] Phase 25: Performance & Bundle Optimization (Next.js ISR caching)
 - [x] Phase 24: Real-Time Notifications (DB Polling)
 - [x] Phase 23: Assignment UI & Final Polish

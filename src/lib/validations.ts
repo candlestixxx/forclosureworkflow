@@ -19,3 +19,33 @@ export const IntakePayloadSchema = z.object({
   source: z.string().optional(),
   countyConfig: z.string().optional().default("MI_MACOMB"),
 });
+
+export const SettingsSchema = z.object({
+  webhookUrl: z.string().url("Must be a valid URL").or(z.literal("")).optional().nullable(),
+  hubspotApiKey: z.string().optional().nullable(),
+});
+
+export const ContactSchema = z.object({
+  leadId: z.string(),
+  type: z.enum(["Phone", "Email"]),
+  value: z.string().min(1, "Value is required"),
+  isPrimary: z.boolean().optional().default(false),
+  confidence: z.union([z.string(), z.number()]).optional().nullable(),
+  source: z.string().optional().default("Manual Enrichment"),
+});
+
+export const TaskSchema = z.object({
+  leadId: z.string(),
+  title: z.string().min(1, "Title is required"),
+  description: z.string().optional().nullable(),
+  status: z.string().optional().nullable(),
+  type: z.string().optional().nullable(),
+  dueDate: z.string().optional().nullable(),
+});
+
+export const RelativeSchema = z.object({
+  leadId: z.string(),
+  name: z.string().min(1, "Name is required"),
+  relation: z.string().optional().nullable(),
+  phone: z.string().optional().nullable(),
+});

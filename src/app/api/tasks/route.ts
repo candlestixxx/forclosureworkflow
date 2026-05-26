@@ -1,9 +1,15 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
+import { TaskSchema } from "@/lib/validations";
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
+    const rawBody = await request.json();
+    const validation = TaskSchema.safeParse(rawBody);
+    if (!validation.success) {
+      return NextResponse.json({ error: "Invalid task payload", details: validation.error.format() }, { status: 400 });
+    }
+    const body = validation.data;
     const newTask = await prisma.leadTask.create({
       data: {
         title: body.title,

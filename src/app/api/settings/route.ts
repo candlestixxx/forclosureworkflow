@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
+import { SettingsSchema } from "@/lib/validations";
 import { revalidatePath } from "next/cache";
 
 export const revalidate = 300; // Cache settings endpoint for 5 minutes
@@ -18,7 +19,12 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
+    const rawBody = await request.json();
+    const validation = SettingsSchema.safeParse(rawBody);
+    if (!validation.success) {
+      return NextResponse.json({ error: "Invalid settings payload", details: validation.error.format() }, { status: 400 });
+    }
+    const body = validation.data;
 
     const settings = await prisma.setting.upsert({
       where: { id: "global" },
