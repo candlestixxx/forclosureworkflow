@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
+import { LeadCreationSchema } from "@/lib/validations";
 
 export async function GET(request: Request) {
   try {
@@ -28,10 +29,15 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
-    // TODO (Phase 13): Implement Zod schema validation here to ensure
-    // payload matches { ownerName: string, propertyAddress: string, ... }
-    // e.g., const parsed = LeadSchema.parse(body);
+    const rawBody = await request.json();
+
+    // Zod Payload Validation
+    const validation = LeadCreationSchema.safeParse(rawBody);
+    if (!validation.success) {
+        return NextResponse.json({ error: "Invalid payload data", details: validation.error.format() }, { status: 400 });
+    }
+
+    const body = validation.data;
 
     // Fix Duplicate Detection: Use AND condition to prevent dropping multiple properties owned by same entity
     // Also ignore "Unknown Owner" for string matching.

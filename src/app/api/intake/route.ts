@@ -4,6 +4,7 @@ import { parseNoticeText } from "@/lib/parser";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import { logAudit } from "@/lib/audit";
+import { IntakePayloadSchema } from "@/lib/validations";
 
 export async function POST(request: Request) {
   try {
@@ -17,8 +18,16 @@ export async function POST(request: Request) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const body = await request.json();
-    const notices = Array.isArray(body.notices) ? body.notices : [body.notices];
+    const rawBody = await request.json();
+
+    // Validate generic payload shape using Zod
+    const validation = IntakePayloadSchema.safeParse(rawBody);
+    if (!validation.success) {
+        await logAudit("INTAKE_RUN", "Invalid JSON payload structure rejected.", "FAILURE");
+        return NextResponse.json({ error: "Invalid payload structure", details: validation.error.format() }, { status: 400 });
+    }
+
+    const notices = Array.isArray(validation.data.notices) ? validation.data.notices : [validation.data.notices];
 
     if (!notices || notices.length === 0) {
       return NextResponse.json({ error: "No notice text provided" }, { status: 400 });
@@ -36,7 +45,7 @@ export async function POST(request: Request) {
       results.totalProcessed++;
 
       try {
-        const parsedData = parseNoticeText(text, body.source || "Automated Intake Workflow");
+        const parsedData = parseNoticeText(text, validation.data.source || "Automated Intake Workflow");
 
         // Basic duplicate check by Address (AND Owner Name if available) to avoid false positives on Unknown Owners
         const whereCondition: any = { propertyAddress: { equals: parsedData.propertyAddress } };
@@ -79,7 +88,6 @@ export async function POST(request: Request) {
     await logAudit("INTAKE_RUN", `Completed intake. Created: ${results.created}, Duplicates: ${results.duplicates}, Errors: ${results.errors}`, "SUCCESS");
 
     return NextResponse.json({
-
       message: "Intake processing complete",
       results
     }, { status: 200 });

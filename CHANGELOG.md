@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## [1.1.0-alpha] - Data Integrity Hardening
+- Initiated Phase 14 development.
+
+
 ## [1.0.0] - Production Ready Release
 - **COMPLETED**: The Foreclosure Lead Scrub + CRM Workflow Tool MVP.
 - All 13 Phases specified in the primary vision documents have been successfully implemented.

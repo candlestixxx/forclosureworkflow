@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
+import Papa from "papaparse";
 
 export async function POST(request: Request) {
   try {
@@ -11,23 +12,33 @@ export async function POST(request: Request) {
     }
 
     const text = await file.text();
-    const rows = text.split("\n").filter(row => row.trim().length > 0);
 
-    if (rows.length < 2) {
-      return NextResponse.json({ error: "CSV appears empty or invalid" }, { status: 400 });
+    // Robust CSV parsing handling quoted strings, nested commas, and newlines
+    const parsedData = Papa.parse(text, {
+        header: false, // We rely on positional indices for generic ingest
+        skipEmptyLines: true,
+    });
+
+    if (parsedData.errors.length > 0) {
+        return NextResponse.json({ error: "CSV malformed", details: parsedData.errors }, { status: 400 });
     }
 
-    // Very naive CSV parsing for MVP (expects standard headers from our own export)
-    // ID,Owner Name,Property Address,City,Zip,Sale Date,Status,Phone,Email,Source,Needs Address Match,Created At
+    const rows = parsedData.data as string[][];
+
+    if (rows.length < 2) {
+      return NextResponse.json({ error: "CSV appears empty or lacks data rows" }, { status: 400 });
+    }
+
     const leadsCreated = [];
     let duplicates = 0;
 
+    // Start at 1 to skip the header row
     for (let i = 1; i < rows.length; i++) {
-      const cols = rows[i].split(",").map(c => c.replace(/^"|"$/g, "").trim());
+      const cols = rows[i];
 
-      // Minimum viable columns: OwnerName (1) and PropertyAddress (2)
-      const ownerName = cols[1];
-      const propertyAddress = cols[2];
+      // Minimum viable columns (based on our standard export: ID(0), OwnerName(1), Address(2))
+      const ownerName = cols[1]?.trim();
+      const propertyAddress = cols[2]?.trim();
 
       if (!ownerName || !propertyAddress) continue;
 
@@ -50,13 +61,13 @@ export async function POST(request: Request) {
         data: {
           ownerName,
           propertyAddress,
-          city: cols[3] || null,
-          zip: cols[4] || null,
+          city: cols[3]?.trim() || null,
+          zip: cols[4]?.trim() || null,
           saleDate: cols[5] ? new Date(cols[5]) : null,
-          noticeStatus: cols[6] || "New",
-          bestPhone: cols[7] || null,
-          email: cols[8] || null,
-          source: cols[9] || "CSV Import",
+          noticeStatus: cols[6]?.trim() || "New",
+          bestPhone: cols[7]?.trim() || null,
+          email: cols[8]?.trim() || null,
+          source: cols[9]?.trim() || "CSV Import",
           needsAddressMatch: cols[10] === "Yes",
         }
       });

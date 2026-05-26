@@ -1,9 +1,10 @@
 # TODO
 
-## Immediate Tasks (Project Wrap-Up & Maintenance)
-- [ ] The MVP specification provided by the user is complete in its entirety.
-- [ ] Monitor Vercel cron job stability in production environment.
-- [ ] Monitor Playwright/Browserless.io execution times against Vercel Edge limits.
+## Immediate Tasks (Phase 14: Data Integrity & Parser Hardening)
+- [x] Install `zod` and `papaparse`.
+- [x] Define API payload schemas in `src/lib/validations.ts`.
+- [x] Refactor Lead creation API and Intake API to utilize Zod schema validation.
+- [x] Replace naive string splitting in CSV `/api/import` with robust `papaparse` parsing.
 
 ## Completed Tasks
 - [x] Phase 13: Final Polish (Database Reset, Zod markers, Security patches)
