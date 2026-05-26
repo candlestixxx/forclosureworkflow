@@ -3,13 +3,14 @@
 ## Session Date: [Current Session]
 
 ### Completed
-- Phase 11 was the final technical implementation phase. Error boundaries (`error.tsx`), skeleton loading states (`loading.tsx`), and GitHub Actions CI pipelines were successfully deployed.
-- The overarching user prompt requesting a full MVP build for a real estate foreclosure CRM has been fulfilled flawlessly across 11 discrete phases.
+- Phases 1-11 are stable and act as the core RC.1 application.
 
 ### Next Steps for Successor Model
-1. The project has reached its terminal state for the MVP build.
-2. If further tasks are requested, prioritize upgrading the `src/lib/connectors/myplus.ts` stub into a true Browserless.io integration, or expanding the generic webhook push into specific CRM API SDKs (HubSpot/GoHighLevel).
+1. Complete Phase 12: Advanced Connectors and Integrations.
+2. We are fulfilling the original prompt's request to "allow other tools to connect" and handle advanced browser workflows.
+3. You will install `playwright-core` (not standard Playwright, to avoid massive binary bloat on Vercel) and map the `MyPlusLeadsConnector` to a remote WebSocket URL.
+4. You will expand the database to hold a HubSpot API Key and build a native exporter.
 
 ### Context / Notes
-- The application requires a PostgreSQL connection string to run `npm run build` due to Prisma static generation.
-- No further autonomous execution is required unless new feature specifications are provided by the user.
+- Continue using Prisma v5 (Postgres).
+- `playwright-core` requires connecting to an existing browser instance (like `wss://chrome.browserless.io`).

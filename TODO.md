@@ -1,9 +1,10 @@
 # TODO
 
-## Immediate Tasks (Project Wrap-Up & Maintenance)
-- [ ] The MVP specification provided by the user is complete in its entirety.
-- [ ] Monitor Vercel cron job stability in production environment.
-- [ ] Explore expanding the `MyPlusLeadsConnector` from a stub into a real Browserless.io pipeline in the next major development sprint.
+## Immediate Tasks (Phase 12: Advanced Connectors & Native Integrations)
+- [ ] Upgrade `src/lib/connectors/myplus.ts` from a stub into a functional `playwright-core` script targeting a remote Browserless.io websocket.
+- [ ] Add `hubspotApiKey` to the `Setting` Prisma model.
+- [ ] Build a native HubSpot API integration (`src/lib/integrations/hubspot.ts`) as a robust alternative to generic Webhooks.
+- [ ] Refactor Settings UI to allow configuring native integrations alongside webhooks.
 
 ## Completed Tasks
 - [x] Phase 11: Deployment Polish (Error Boundaries, Skeleton Loaders, Github CI)

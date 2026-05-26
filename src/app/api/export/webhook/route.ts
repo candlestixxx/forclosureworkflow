@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import { pushToWebhook } from "@/lib/webhook";
+import { pushToHubSpot } from "@/lib/integrations/hubspot";
 import { logAudit } from "@/lib/audit";
 
 export async function POST(request: Request) {
@@ -8,12 +9,10 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { leadId } = body;
 
-    // Fetch the target URL securely from the database config
     const settings = await prisma.setting.findUnique({ where: { id: "global" } });
-    const targetUrl = settings?.webhookUrl;
 
-    if (!targetUrl) {
-      return NextResponse.json({ error: "No target webhook URL is configured in settings." }, { status: 400 });
+    if (!settings || (!settings.webhookUrl && !settings.hubspotApiKey)) {
+      return NextResponse.json({ error: "No target integrations configured." }, { status: 400 });
     }
 
     const lead = await prisma.lead.findUnique({
@@ -30,28 +29,50 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Lead not found." }, { status: 404 });
     }
 
-    const success = await pushToWebhook(targetUrl, lead);
+    let success = false;
+    let pushTypes = [];
 
-    if (!success) {
-      await logAudit("WEBHOOK_PUSH", `Failed to push lead ${leadId} to ${targetUrl}`, "FAILURE");
-      return NextResponse.json({ error: "Webhook transmission failed. Check the target URL." }, { status: 502 });
+    // Trigger HubSpot Native Integration
+    if (settings.hubspotApiKey) {
+        const hsSuccess = await pushToHubSpot(settings.hubspotApiKey, lead);
+        if (hsSuccess) {
+            success = true;
+            pushTypes.push("HubSpot");
+            await logAudit("HUBSPOT_PUSH", `Successfully pushed lead ${leadId}`, "SUCCESS");
+        } else {
+            await logAudit("HUBSPOT_PUSH", `Failed to push lead ${leadId}`, "FAILURE");
+        }
     }
 
-    await logAudit("WEBHOOK_PUSH", `Successfully pushed lead ${leadId} to webhook`, "SUCCESS");
+    // Trigger Generic Webhook Integration
+    if (settings.webhookUrl) {
+        const whSuccess = await pushToWebhook(settings.webhookUrl, lead);
+        if (whSuccess) {
+            success = true;
+            pushTypes.push("Webhook");
+            await logAudit("WEBHOOK_PUSH", `Successfully pushed lead ${leadId} to webhook`, "SUCCESS");
+        } else {
+            await logAudit("WEBHOOK_PUSH", `Failed to push lead ${leadId} to webhook`, "FAILURE");
+        }
+    }
+
+    if (!success) {
+      return NextResponse.json({ error: "All configured integrations failed to transmit." }, { status: 502 });
+    }
 
     // Tag the lead to indicate sync success
     await prisma.leadNote.create({
       data: {
         leadId: lead.id,
-        content: `[System] Lead automatically pushed to CRM Webhook on ${new Date().toLocaleString()}`
+        content: `[System] Lead automatically synced via: ${pushTypes.join(", ")} on ${new Date().toLocaleString()}`
       }
     });
 
-    return NextResponse.json({ success: true }, { status: 200 });
+    return NextResponse.json({ success: true, message: `Synced to ${pushTypes.join(", ")}` }, { status: 200 });
 
   } catch (error) {
-    console.error("Webhook route error:", error);
-    await logAudit("WEBHOOK_PUSH", `Fatal error during push: ${error}`, "FAILURE");
+    console.error("Export route error:", error);
+    await logAudit("EXPORT_PUSH", `Fatal error during push: ${error}`, "FAILURE");
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }

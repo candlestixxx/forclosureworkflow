@@ -7,7 +7,7 @@ export async function GET() {
       where: { id: "global" }
     });
 
-    return NextResponse.json(settings || { webhookUrl: "" });
+    return NextResponse.json(settings || { webhookUrl: "", hubspotApiKey: "" });
   } catch (error) {
     return NextResponse.json({ error: "Failed to fetch settings" }, { status: 500 });
   }
@@ -19,8 +19,8 @@ export async function POST(request: Request) {
 
     const settings = await prisma.setting.upsert({
       where: { id: "global" },
-      update: { webhookUrl: body.webhookUrl },
-      create: { id: "global", webhookUrl: body.webhookUrl }
+      update: { webhookUrl: body.webhookUrl, hubspotApiKey: body.hubspotApiKey },
+      create: { id: "global", webhookUrl: body.webhookUrl, hubspotApiKey: body.hubspotApiKey }
     });
 
     return NextResponse.json(settings);

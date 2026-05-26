@@ -90,6 +90,7 @@ model LeadRelative {
 model Setting {
   id        String   @id @default("global") // Single row for global settings
   webhookUrl String?
+  hubspotApiKey String?
   updatedAt DateTime @updatedAt
 }
 

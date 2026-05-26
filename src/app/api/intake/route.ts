@@ -21,6 +21,7 @@ export async function POST(request: Request) {
     const notices = Array.isArray(body.notices) ? body.notices : [body.notices];
 
     if (!notices || notices.length === 0) {
+      return NextResponse.json({ error: "No notice text provided" }, { status: 400 });
     }
 
     const results = {

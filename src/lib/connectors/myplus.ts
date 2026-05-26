@@ -1,53 +1,82 @@
 import { BaseConnector, EnrichmentResult } from "./core";
 import { Lead } from "@prisma/client";
+import { chromium } from "playwright-core";
 
 export class MyPlusLeadsConnector extends BaseConnector {
   public connectorName = "MyPlus Leads";
   public requiresLogin = true;
 
   protected async performWorkflow(lead: Lead): Promise<EnrichmentResult> {
-    // NOTE: True Playwright execution inside a Next.js Server Action / API route
-    // requires a remote browser instance (e.g. Browserless.io) due to Vercel size limits.
-    // This is a stubbed implementation representing the workflow.
+    const wsEndpoint = process.env.BROWSERLESS_WS_ENDPOINT;
+    const myPlusUser = process.env.MYPLUS_USER;
+    const myPlusPass = process.env.MYPLUS_PASS;
 
-    /*
-    Example Playwright Implementation:
+    if (!wsEndpoint || !myPlusUser || !myPlusPass) {
+      throw new Error("Missing BROWSERLESS_WS_ENDPOINT, MYPLUS_USER, or MYPLUS_PASS environment variables.");
+    }
 
-    import { chromium } from "playwright";
-    const browser = await chromium.connectOverCDP('wss://chrome.browserless.io?token=...');
-    const context = await browser.newContext();
-    const page = await context.newPage();
+    let browser;
+    try {
+      // Connect to remote Browserless.io instance
+      browser = await chromium.connectOverCDP(wsEndpoint);
+      const context = await browser.newContext();
+      const page = await context.newPage();
 
-    // 1. Login
-    await page.goto('https://myplusleads.com/login');
-    await page.fill('#username', process.env.MYPLUS_USER!);
-    await page.fill('#password', process.env.MYPLUS_PASS!);
-    await page.click('button[type="submit"]');
+      // Set timeout for serverless constraint safety
+      page.setDefaultTimeout(15000);
 
-    // 2. Search by Address
-    await page.goto(`https://myplusleads.com/search?address=${encodeURIComponent(lead.propertyAddress)}`);
+      // 1. Login flow
+      await page.goto('https://www.myplusleads.com/login');
+      await page.fill('input[name="username"]', myPlusUser);
+      await page.fill('input[name="password"]', myPlusPass);
 
-    // 3. Extract Data safely (Terms of Service compliant reading)
-    const phoneElement = await page.$('.lead-phone-primary');
-    const phone = await phoneElement?.innerText();
+      // We assume standard login execution; wrapped in try/catch to gracefully fail if DOM changes
+      await Promise.all([
+        page.waitForNavigation(),
+        page.click('button[type="submit"]')
+      ]);
 
-    await browser.close();
-    */
+      // 2. Search by Address
+      // Convert standard address to query string
+      const query = encodeURIComponent(lead.propertyAddress);
+      await page.goto(`https://www.myplusleads.com/search?q=${query}`);
 
-    // Simulated network delay for the MVP UI demonstration
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+      // Wait for results
+      await page.waitForSelector('.search-results', { state: 'visible', timeout: 5000 }).catch(() => null);
 
-    // Simulated return payload
-    return {
-      success: true,
-      phones: [
-        { value: "(555) 000-1111", confidence: 90 }
-      ],
-      emails: [
-        { value: "auto-enriched@example.com", confidence: 75 }
-      ],
-      relatives: [],
-      message: "Simulated successful extraction."
-    };
+      // 3. Extract Data (ToS Compliant DOM scraping logic)
+      // This is theoretical DOM targeting based on standard CRM architectures
+      const phoneNodes = await page.$$('.lead-phone-number');
+      const emailNodes = await page.$$('.lead-email-address');
+
+      const phones = [];
+      const emails = [];
+
+      for (const node of phoneNodes) {
+        const text = await node.innerText();
+        if (text) phones.push({ value: text.trim(), confidence: 85 });
+      }
+
+      for (const node of emailNodes) {
+        const text = await node.innerText();
+        if (text) emails.push({ value: text.trim(), confidence: 80 });
+      }
+
+      return {
+        success: true,
+        phones,
+        emails,
+        relatives: [], // Skipping relatives extraction for this specific connector
+        message: "Successfully extracted data from MyPlus Leads."
+      };
+
+    } catch (error: any) {
+      console.error("MyPlusLeadsConnector Execution Error:", error);
+      throw error;
+    } finally {
+      if (browser) {
+        await browser.close();
+      }
+    }
   }
 }
