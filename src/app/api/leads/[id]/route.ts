@@ -37,6 +37,9 @@ export async function PATCH(
 
     if (body.saleDate) {
       body.saleDate = new Date(body.saleDate);
+    } else if (body.saleDate === "") {
+      body.saleDate = null;
+      body.saleDate = new Date(body.saleDate);
     }
 
     const updatedLead = await prisma.lead.update({

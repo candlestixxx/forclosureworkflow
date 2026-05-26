@@ -1,10 +1,11 @@
 # TODO
 
-## Immediate Tasks (Phase 17: Stability & Handover)
-- [ ] Assess final system architecture.
-- [ ] Prepare repository for manual user testing.
+## Immediate Tasks (Post-MVP Maintenance)
+- [ ] Monitor Vercel and Supabase production environments for any Prisma connection pool limits or latency spikes.
+- [ ] If additional data sources are needed (e.g., probate leads, tax liens), clone the `src/lib/parser.ts` logic to accommodate specific new county legal formats.
 
 ## Completed Tasks
+- [x] Phase 17: Stability & Handover (System audit, final version bump)
 - [x] Phase 16: Search Implementation (Client-side debounced search, Prisma filtering)
 - [x] Phase 15: Pagination & Optimization (Prisma offset pagination, UI controls)
 - [x] Phase 14: Data Integrity (Zod, PapaParse)

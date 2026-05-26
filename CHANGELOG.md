@@ -1,12 +1,15 @@
 # CHANGELOG
 
-## [1.1.0-alpha] - Data Integrity Hardening
-- Initiated Phase 14 development.
-
+## [1.1.0] - Search & Scaling Release
+- **COMPLETED**: The final refinements for the Foreclosure CRM.
+- All 17 Phases have been successfully implemented.
+- Implemented robust, dynamic Client-side URL searching mapped directly to Prisma ORM filtering logic.
+- Hardened data ingestion pipelines with Zod schema validation and PapaParse CSV ingestion.
+- Added server-side cursor pagination to the Leads list to ensure database stability at scale.
 
 ## [1.0.0] - Production Ready Release
 - **COMPLETED**: The Foreclosure Lead Scrub + CRM Workflow Tool MVP.
-- All 13 Phases specified in the primary vision documents have been successfully implemented.
+- All 13 original Phases specified in the primary vision documents have been successfully implemented.
 - The platform operates as a secure, authenticated CRM with automated webhook parsing, integrated HubSpot connectivity, and Playwright-orchestrated headless scraping capabilities.
 - Finalized Zod schema placeholders, database reset hooks, and negative-lookahead security middleware boundaries.
 
