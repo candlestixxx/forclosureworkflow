@@ -58,3 +58,43 @@ export function IntakeTester() {
     </div>
   );
 }
+
+export function DatabaseResetButton() {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+
+  const handleReset = async () => {
+    if (!confirm("Are you absolutely sure? This will delete ALL leads, tasks, notes, and integration settings. This cannot be undone.")) return;
+
+    setLoading(true);
+    try {
+      const res = await fetch("/api/settings/reset", {
+        method: "POST"
+      });
+      if (res.ok) {
+        alert("Database has been reset to factory defaults.");
+        router.refresh();
+      } else {
+        alert("Failed to reset database.");
+      }
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="mt-8 p-4 border border-red-200 bg-red-50 rounded-lg">
+      <h3 className="text-sm font-semibold text-red-900 mb-2">Danger Zone</h3>
+      <p className="text-xs text-red-700 mb-3">Wipe all data from the system. Useful for resetting the sandbox after testing.</p>
+      <button
+        onClick={handleReset}
+        disabled={loading}
+        className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 disabled:bg-red-300 text-sm font-medium transition-colors"
+      >
+        {loading ? "Resetting..." : "Factory Reset Database"}
+      </button>
+    </div>
+  );
+}

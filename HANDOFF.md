@@ -3,14 +3,14 @@
 ## Session Date: [Current Session]
 
 ### Completed
-- Phases 1-11 are stable and act as the core RC.1 application.
+- Phase 12 natively integrated HubSpot via `src/lib/integrations/hubspot.ts`.
+- The `playwright-core` library was successfully wired to connect to remote websockets for execution, bypassing Vercel Edge size limitations.
+- We are now entering Phase 13, the final polishing phase.
 
 ### Next Steps for Successor Model
-1. Complete Phase 12: Advanced Connectors and Integrations.
-2. We are fulfilling the original prompt's request to "allow other tools to connect" and handle advanced browser workflows.
-3. You will install `playwright-core` (not standard Playwright, to avoid massive binary bloat on Vercel) and map the `MyPlusLeadsConnector` to a remote WebSocket URL.
-4. You will expand the database to hold a HubSpot API Key and build a native exporter.
+1. Complete Phase 13: Final Polish.
+2. Build a "Reset Database" button and API route. Because this tool will be tested frequently by new users and AI agents in sandboxes, a quick way to wipe the Lead database is highly valuable.
+3. Review API routes and add foundational markers for schema validation (e.g., Zod).
 
 ### Context / Notes
-- Continue using Prisma v5 (Postgres).
-- `playwright-core` requires connecting to an existing browser instance (like `wss://chrome.browserless.io`).
+- The database reset should use Prisma's `deleteMany()` functionality to cascade and wipe leads, tasks, and contacts cleanly.

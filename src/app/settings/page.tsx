@@ -1,6 +1,6 @@
 import { CsvImportButton } from "./CsvImportClient";
 import { WebhookSettings } from "./WebhookSettings";
-import { IntakeTester } from "./ClientTester";
+import { IntakeTester, DatabaseResetButton } from "./ClientTester";
 import { Upload, Download, Database, Settings as SettingsIcon, AlertCircle } from "lucide-react";
 
 export default function SettingsPage() {
@@ -59,6 +59,7 @@ export default function SettingsPage() {
             </div>
 
             <IntakeTester />
+            <DatabaseResetButton />
 
             <button className="w-full py-2 border-2 border-dashed border-gray-300 text-gray-600 rounded-lg hover:border-gray-400 hover:text-gray-800 transition-colors text-sm font-medium">
               + Add New County Source

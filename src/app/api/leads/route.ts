@@ -29,6 +29,9 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
+    // TODO (Phase 13): Implement Zod schema validation here to ensure
+    // payload matches { ownerName: string, propertyAddress: string, ... }
+    // e.g., const parsed = LeadSchema.parse(body);
 
     // Fix Duplicate Detection: Use AND condition to prevent dropping multiple properties owned by same entity
     // Also ignore "Unknown Owner" for string matching.

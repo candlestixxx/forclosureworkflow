@@ -1,12 +1,12 @@
 # TODO
 
-## Immediate Tasks (Phase 12: Advanced Connectors & Native Integrations)
-- [ ] Upgrade `src/lib/connectors/myplus.ts` from a stub into a functional `playwright-core` script targeting a remote Browserless.io websocket.
-- [ ] Add `hubspotApiKey` to the `Setting` Prisma model.
-- [ ] Build a native HubSpot API integration (`src/lib/integrations/hubspot.ts`) as a robust alternative to generic Webhooks.
-- [ ] Refactor Settings UI to allow configuring native integrations alongside webhooks.
+## Immediate Tasks (Phase 13: Final Polish & Release)
+- [ ] Implement an automated "Delete Database / Reset All" UI button (useful for staging/testing).
+- [ ] Add explicit formatting constraints (e.g. Zod schemas) for API input payloads.
+- [ ] Release version 1.0.0 and close the autonomous session.
 
 ## Completed Tasks
+- [x] Phase 12: Advanced Connectors & Native Integrations (HubSpot, Browserless.io logic)
 - [x] Phase 11: Deployment Polish (Error Boundaries, Skeleton Loaders, Github CI)
 - [x] Phase 10: Advanced Browser Automation Connectors
 - [x] Phase 9: Production DB Migration (Prisma Postgres provider)
