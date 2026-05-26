@@ -86,3 +86,17 @@ model LeadRelative {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model Setting {
+  id        String   @id @default("global") // Single row for global settings
+  webhookUrl String?
+  updatedAt DateTime @updatedAt
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  action    String   // e.g., "INTAKE_RUN", "WEBHOOK_PUSH"
+  details   String?  // JSON stringified details
+  status    String   // "SUCCESS", "FAILURE"
+  createdAt DateTime @default(now())
+}

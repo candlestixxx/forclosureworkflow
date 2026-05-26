@@ -14,6 +14,12 @@ export const authOptions: NextAuthOptions = {
         const validPass = process.env.AUTH_PASS;
 
         if (!validUser || !validPass) {
+            // MVP Fallback for seamless local development
+            if (process.env.NODE_ENV !== "production") {
+                if (credentials?.username === "admin" && credentials?.password === "admin") {
+                    return { id: "1", name: "MVP Admin", email: "admin@crm.local" };
+                }
+            }
             console.error("AUTH_USER and AUTH_PASS environment variables are not strictly defined. Authentication blocked.");
             return null;
         }

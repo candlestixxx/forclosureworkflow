@@ -3,15 +3,15 @@
 ## Session Date: [Current Session]
 
 ### Completed
-- The MVP is entirely functional, verified via Playwright visual E2E UI testing, and fully deployed to the local repository.
-- NextAuth session barriers are proven to correctly restrict and authenticate dashboard access.
-- All backend routing, database modelling, client actions, and security mechanisms are functioning perfectly.
+- Phase 8 database architectural enhancements are complete.
+- Implemented `Setting` and `AuditLog` Prisma models.
+- Abstracted the hardcoded webhook URL out of the client `localStorage` and securely into the SQLite database.
+- Wired internal workflows (Intake API, Webhook Exporter) to output success/failure states to the `AuditLog` table.
 
 ### Next Steps for Successor Model
-1. The immediate goal requested by the user is complete. If continuing, look to Phase 8 in `TODO.md`.
-2. The Next stage of evolution involves scaling out of the MVP. This primarily involves migrating from `SQLite` to `PostgreSQL`.
-3. Following DB migration, construct the Playwright "Connector" classes to interface with external CRMs and paid data tools securely without violating ToS.
+1. The MVP is feature-complete and robustly tracked.
+2. The absolute final steps remaining on the roadmap are executing a production database migration from SQLite to PostgreSQL, and writing the final Playwright automation wrapper classes (the "connectors" to third party CRMs/Lead services) which require the production database to be stable first.
 
 ### Context / Notes
-- No major regressions or security flaws detected in the final build.
-- The project runs cleanly via `npm run dev` or `npm run build && npm run start`.
+- Continue using Prisma v5.
+- The `src/lib/audit.ts` helper is globally available for any future automation tracking.

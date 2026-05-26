@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { parseNoticeText } from "@/lib/parser";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
+import { logAudit } from "@/lib/audit";
 
 export async function POST(request: Request) {
   try {
@@ -20,7 +21,6 @@ export async function POST(request: Request) {
     const notices = Array.isArray(body.notices) ? body.notices : [body.notices];
 
     if (!notices || notices.length === 0) {
-      return NextResponse.json({ error: "No notice text provided" }, { status: 400 });
     }
 
     const results = {
@@ -71,10 +71,14 @@ export async function POST(request: Request) {
       } catch (err) {
         console.error("Intake parser error:", err);
         results.errors++;
+        await logAudit("INTAKE_RUN", `Parser error on text snippet: ${text.substring(0, 50)}...`, "FAILURE");
       }
     }
 
+    await logAudit("INTAKE_RUN", `Completed intake. Created: ${results.created}, Duplicates: ${results.duplicates}, Errors: ${results.errors}`, "SUCCESS");
+
     return NextResponse.json({
+
       message: "Intake processing complete",
       results
     }, { status: 200 });

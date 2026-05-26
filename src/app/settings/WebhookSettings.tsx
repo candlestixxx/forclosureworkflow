@@ -6,17 +6,40 @@ import { Save } from "lucide-react";
 export function WebhookSettings() {
   const [webhookUrl, setWebhookUrl] = useState("");
   const [saved, setSaved] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // For MVP, we use localStorage to hold the webhook config globally on the client side.
-    const stored = localStorage.getItem("crm_webhook_url");
-    if (stored) setWebhookUrl(stored);
+    const fetchSettings = async () => {
+      try {
+        const res = await fetch("/api/settings");
+        if (res.ok) {
+          const data = await res.json();
+          setWebhookUrl(data.webhookUrl || "");
+        }
+      } catch (err) {
+        console.error("Failed to load settings", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchSettings();
   }, []);
 
-  const handleSave = () => {
-    localStorage.setItem("crm_webhook_url", webhookUrl);
-    setSaved(true);
-    setTimeout(() => setSaved(false), 2000);
+  const handleSave = async () => {
+    setLoading(true);
+    try {
+      await fetch("/api/settings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ webhookUrl }),
+      });
+      setSaved(true);
+      setTimeout(() => setSaved(false), 2000);
+    } catch (err) {
+      console.error("Failed to save settings", err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -36,10 +59,12 @@ export function WebhookSettings() {
           onChange={(e) => setWebhookUrl(e.target.value)}
           placeholder="https://hooks.zapier.com/hooks/catch/..."
           className="flex-1 p-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          disabled={loading}
         />
         <button
           onClick={handleSave}
-          className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm font-medium flex items-center transition-colors"
+          disabled={loading}
+          className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm font-medium flex items-center transition-colors disabled:opacity-50"
         >
           <Save className="w-4 h-4 mr-2" />
           {saved ? "Saved!" : "Save Configuration"}

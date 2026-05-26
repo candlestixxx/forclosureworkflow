@@ -141,12 +141,7 @@ export function PushToCrmButton({ leadId }: { leadId: string }) {
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
 
   const handlePush = async () => {
-    const targetUrl = localStorage.getItem("crm_webhook_url");
 
-    if (!targetUrl) {
-      alert("Please configure a Webhook URL in the Settings tab first.");
-      return;
-    }
 
     setLoading(true);
     setStatus("idle");
@@ -155,7 +150,7 @@ export function PushToCrmButton({ leadId }: { leadId: string }) {
       const res = await fetch("/api/export/webhook", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ leadId, targetUrl })
+        body: JSON.stringify({ leadId })
       });
 
       if (!res.ok) throw new Error("Push failed");
