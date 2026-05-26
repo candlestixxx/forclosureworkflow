@@ -1,13 +1,14 @@
 # TODO
 
-## Immediate Tasks (Phase 11: Deployment & Post-Build Polish)
-- [ ] Implement robust error boundaries and loading states across `app/leads/[id]` to prevent complete page crashes on bad database relations.
-- [ ] Establish deployment automation checks (e.g., GitHub Actions stub for Prisma generation).
-- [ ] Run a final sweep of `package.json` to lock specific Next.js 15 library versions.
+## Immediate Tasks (Project Wrap-Up & Maintenance)
+- [ ] The MVP specification provided by the user is complete in its entirety.
+- [ ] Monitor Vercel cron job stability in production environment.
+- [ ] Explore expanding the `MyPlusLeadsConnector` from a stub into a real Browserless.io pipeline in the next major development sprint.
 
 ## Completed Tasks
+- [x] Phase 11: Deployment Polish (Error Boundaries, Skeleton Loaders, Github CI)
 - [x] Phase 10: Advanced Browser Automation Connectors
-- [x] Phase 9: Production DB Migration (Prisma Postgres provider).
+- [x] Phase 9: Production DB Migration (Prisma Postgres provider)
 - [x] Phase 8: Data Architecture Evolution (Database Settings, Audit Logs)
 - [x] Phase 7: Frontend Verification (Playwright UI E2E)
 - [x] Phase 6: UI/UX Refinements (CSV Import, Edit Lead, AddTagButton)

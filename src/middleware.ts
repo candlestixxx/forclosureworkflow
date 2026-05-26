@@ -8,18 +8,10 @@ export default withAuth({
 });
 
 export const config = {
-  // Protect root (Dashboard), /leads, /settings, and API routes except Auth/Intake
-  matcher: [
-    "/",
-    "/leads/:path*",
-    "/settings/:path*",
-    "/api/leads/:path*",
-    "/api/notes/:path*",
-    "/api/tasks/:path*",
-    "/api/contacts/:path*",
-    "/api/relatives/:path*",
-    "/api/tags/:path*",
-    "/api/import/:path*",
-    "/api/export/:path*"
-  ],
+  // Use negative lookahead to protect ALL routes EXCEPT explicitly public ones:
+  // - Next.js internals (_next)
+  // - Static files (favicon.ico, public assets)
+  // - Auth routes (/api/auth, /login)
+  // - Automated cron routes that handle their own auth (/api/intake)
+  matcher: ["/((?!api/auth|api/intake|login|_next/static|_next/image|favicon.ico).*)"],
 };
