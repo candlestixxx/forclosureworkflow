@@ -147,3 +147,41 @@ export function AddRelativeButton({ leadId }: { leadId: string }) {
     </form>
   );
 }
+
+export function RunConnectorButton({ leadId }: { leadId: string }) {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+
+  const handleRun = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch("/api/enrich/connector", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ leadId, connectorType: "MyPlusLeads" }),
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        router.refresh();
+      } else {
+        alert("Enrichment run failed: " + data.message);
+      }
+    } catch (e) {
+      console.error(e);
+      alert("System error running connector.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <button
+      onClick={handleRun}
+      disabled={loading}
+      className="mt-3 w-full py-2 px-4 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 rounded-lg text-sm font-medium transition-colors disabled:opacity-50"
+    >
+      {loading ? "Running MyPlus Leads Automation..." : "Run MyPlus Leads Automation"}
+    </button>
+  );
+}

@@ -1,12 +1,13 @@
 # TODO
 
-## Immediate Tasks (Phase 9: Production DB Migration)
-- [ ] Migrate Prisma schema provider from `sqlite` to `postgresql`.
-- [ ] Document specific Postgres connection string setup in `DEPLOY.md` (for Supabase/Neon).
-- [ ] Clear legacy `dev.db` artifacts.
-- [ ] (Future Phase 10) Build Playwright automation connector classes.
+## Immediate Tasks (Phase 10: Advanced Browser Automation Connectors)
+- [ ] Define `Connector` base interface (`src/lib/connectors/core.ts`) for executing Playwright workflows safely.
+- [ ] Build a stubbed `MyPlusLeadsConnector` implementing the core interface.
+- [ ] Create an API endpoint (`/api/enrich/connector`) to queue and execute headless connector workflows.
+- [ ] Update Lead Detail UI with a button to trigger connector runs.
 
 ## Completed Tasks
+- [x] Phase 9: Production DB Migration (Prisma Postgres provider).
 - [x] Phase 8: Data Architecture Evolution (Database Settings, Audit Logs)
 - [x] Phase 7: Frontend Verification (Playwright UI E2E)
 - [x] Phase 6: UI/UX Refinements (CSV Import, Edit Lead, AddTagButton)

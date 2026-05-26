@@ -1,5 +1,5 @@
 import { AddNoteButton, AddTaskButton, LookupHelper, PushToCrmButton, AddTagButton } from "./ClientActions";
-import { AddContactButton, AddRelativeButton } from "./EnrichmentActions";
+import { AddContactButton, AddRelativeButton, RunConnectorButton } from "./EnrichmentActions";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { format } from "date-fns";
@@ -167,6 +167,8 @@ export default async function LeadDetailPage({
                 </div>
               </div>
             </div>
+
+            <RunConnectorButton leadId={lead.id} />
 
             <AddContactButton leadId={lead.id} />
 
