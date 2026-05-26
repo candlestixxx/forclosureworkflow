@@ -1,9 +1,9 @@
-import { SessionProvider } from "./SessionProvider";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
-import { LayoutDashboard, Users, Settings } from "lucide-react";
+import { LayoutDashboard, Users, Settings, MapPin } from "lucide-react";
+import { SessionProvider } from "./SessionProvider";
 import { LogoutButton } from "./LogoutButton";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -37,6 +37,10 @@ export default function RootLayout({
                 <Users className="w-5 h-5 mr-3" />
                 Leads
               </Link>
+              <Link href="/map" className="flex items-center p-2 text-gray-700 hover:bg-gray-100 rounded-lg">
+                <MapPin className="w-5 h-5 mr-3" />
+                Map View
+              </Link>
               <Link href="/settings" className="flex items-center p-2 text-gray-700 hover:bg-gray-100 rounded-lg">
                 <Settings className="w-5 h-5 mr-3" />
                 Settings
@@ -44,7 +48,6 @@ export default function RootLayout({
               <div className="pt-4 mt-4 border-t border-gray-100">
                 <LogoutButton />
               </div>
-
             </nav>
           </aside>
 
@@ -55,7 +58,7 @@ export default function RootLayout({
             </div>
           </main>
         </div>
-              </SessionProvider>
+        </SessionProvider>
       </body>
     </html>
   );

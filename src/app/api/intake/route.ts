@@ -5,6 +5,7 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import { logAudit } from "@/lib/audit";
 import { IntakePayloadSchema } from "@/lib/validations";
+import { geocodeAddress } from "@/lib/geocoder";
 
 export async function POST(request: Request) {
   try {
@@ -62,6 +63,12 @@ export async function POST(request: Request) {
           continue; // Skip creation
         }
 
+        let coords = null;
+        if (!parsedData.needsAddressMatch) {
+          coords = await geocodeAddress(parsedData.propertyAddress, parsedData.city, parsedData.zip);
+          await new Promise(resolve => setTimeout(resolve, 1000)); // Rate limit OSM Nominatim
+        }
+
         await prisma.lead.create({
           data: {
             ownerName: parsedData.ownerName,
@@ -73,6 +80,8 @@ export async function POST(request: Request) {
             rawNoticeText: parsedData.rawNoticeText,
             source: parsedData.source,
             needsAddressMatch: parsedData.needsAddressMatch,
+            latitude: coords?.lat || null,
+            longitude: coords?.lon || null,
             leadScore: 10 // Base automated score
           }
         });

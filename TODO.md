@@ -1,8 +1,10 @@
 # TODO
 
-## Immediate Tasks (Post-MVP Maintenance)
-- [ ] Monitor Vercel and Supabase production environments for any Prisma connection pool limits or latency spikes.
-- [ ] If additional data sources are needed (e.g., probate leads, tax liens), clone the `src/lib/parser.ts` logic to accommodate specific new county legal formats.
+## Immediate Tasks (Phase 18: Map Visualization & Geocoding)
+- [ ] Add `latitude` and `longitude` fields to the `Lead` Prisma model.
+- [ ] Install `leaflet` and `react-leaflet` to support map rendering.
+- [ ] Build a Geocoding utility (`src/lib/geocoder.ts`) using the free OSM Nominatim API to convert property addresses into coordinates upon lead creation.
+- [ ] Create a `/map` CRM route to visualize foreclosure density visually.
 
 ## Completed Tasks
 - [x] Phase 17: Stability & Handover (System audit, final version bump)

@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import { LeadCreationSchema } from "@/lib/validations";
+import { geocodeAddress } from "@/lib/geocoder";
 
 export async function GET(request: Request) {
   try {
@@ -79,6 +80,8 @@ export async function POST(request: Request) {
       );
     }
 
+    const coords = await geocodeAddress(body.propertyAddress, body.city, body.zip);
+
     const newLead = await prisma.lead.create({
       data: {
         ownerName: body.ownerName,
@@ -92,6 +95,8 @@ export async function POST(request: Request) {
         rawNoticeText: body.rawNoticeText,
         source: body.source,
         needsAddressMatch: body.needsAddressMatch || false,
+        latitude: coords?.lat || null,
+        longitude: coords?.lon || null,
       },
     });
     return NextResponse.json(newLead, { status: 201 });
