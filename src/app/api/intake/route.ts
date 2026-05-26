@@ -1,11 +1,12 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
-import { parseNoticeText } from "@/lib/parser";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/auth";
 import { logAudit } from "@/lib/audit";
 import { IntakePayloadSchema } from "@/lib/validations";
 import { geocodeAddress } from "@/lib/geocoder";
+import { NoticeParser } from "@/lib/parsers/core";
+import { MacombCountyParser } from "@/lib/parsers/michigan_macomb";
 
 export async function POST(request: Request) {
   try {
@@ -34,6 +35,15 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "No notice text provided" }, { status: 400 });
     }
 
+    // Dynamic Module Routing
+    let activeParser: NoticeParser;
+    if (validation.data.countyConfig === "MI_MACOMB") {
+      activeParser = new MacombCountyParser();
+    } else {
+      await logAudit("INTAKE_RUN", `Unsupported county configuration requested: ${validation.data.countyConfig}`, "FAILURE");
+      return NextResponse.json({ error: "Unsupported county configuration" }, { status: 400 });
+    }
+
     const results = {
       totalProcessed: 0,
       created: 0,
@@ -46,7 +56,7 @@ export async function POST(request: Request) {
       results.totalProcessed++;
 
       try {
-        const parsedData = parseNoticeText(text, validation.data.source || "Automated Intake Workflow");
+        const parsedData = activeParser.parse(text, validation.data.source || "Automated Intake Workflow");
 
         // Basic duplicate check by Address (AND Owner Name if available) to avoid false positives on Unknown Owners
         const whereCondition: any = { propertyAddress: { equals: parsedData.propertyAddress } };
@@ -94,7 +104,7 @@ export async function POST(request: Request) {
       }
     }
 
-    await logAudit("INTAKE_RUN", `Completed intake. Created: ${results.created}, Duplicates: ${results.duplicates}, Errors: ${results.errors}`, "SUCCESS");
+    await logAudit("INTAKE_RUN", `Completed intake for ${activeParser.countyIdentifier}. Created: ${results.created}, Duplicates: ${results.duplicates}, Errors: ${results.errors}`, "SUCCESS");
 
     return NextResponse.json({
       message: "Intake processing complete",

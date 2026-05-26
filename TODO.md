@@ -1,12 +1,13 @@
 # TODO
 
-## Immediate Tasks (Phase 18: Map Visualization & Geocoding)
-- [ ] Add `latitude` and `longitude` fields to the `Lead` Prisma model.
-- [ ] Install `leaflet` and `react-leaflet` to support map rendering.
-- [ ] Build a Geocoding utility (`src/lib/geocoder.ts`) using the free OSM Nominatim API to convert property addresses into coordinates upon lead creation.
-- [ ] Create a `/map` CRM route to visualize foreclosure density visually.
+## Immediate Tasks (Phase 20: Modular Parsing & County Workflows)
+- [ ] Establish `src/lib/parsers/core.ts` defining a standard `NoticeParser` interface.
+- [x] Refactor the existing Macomb heuristics into `src/lib/parsers/michigan_macomb.ts`.
+- [ ] Update `/api/intake` to dynamically load the correct parser based on payload arguments, allowing the CRM to scale nationally.
 
 ## Completed Tasks
+- [x] Phase 19: Geocode Backfill & Map Analytics
+- [x] Phase 18: Map Visualization & Geocoding (Leaflet, Nominatim API)
 - [x] Phase 17: Stability & Handover (System audit, final version bump)
 - [x] Phase 16: Search Implementation (Client-side debounced search, Prisma filtering)
 - [x] Phase 15: Pagination & Optimization (Prisma offset pagination, UI controls)

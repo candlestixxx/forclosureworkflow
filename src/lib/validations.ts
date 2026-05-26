@@ -17,4 +17,5 @@ export const LeadCreationSchema = z.object({
 export const IntakePayloadSchema = z.object({
   notices: z.union([z.string(), z.array(z.string())]),
   source: z.string().optional(),
+  countyConfig: z.string().optional().default("MI_MACOMB"),
 });

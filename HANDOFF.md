@@ -3,15 +3,13 @@
 ## Session Date: [Current Session]
 
 ### Completed
-- The user requested we continue expanding functionality beyond the v1.1 terminal state.
-- Phase 18 (Map Visualization & Geocoding) has been initiated to provide spatial awareness of foreclosure data.
+- Phase 19 is successfully deployed. The legacy geocoding backfill utility is highly stable.
+- We have begun Phase 20, focusing on refactoring the hardcoded text-parser into a modular architecture.
 
 ### Next Steps for Successor Model
-1. Complete Phase 18.
-2. Install `leaflet` to power an interactive map view (`/map`).
-3. Update the `Lead` schema to hold `latitude` and `longitude` floats.
-4. Implement a lightweight geocoder (`src/lib/geocoder.ts`) that runs asynchronously whenever a new lead is ingested (via cron or manual entry) to resolve its street address into map coordinates using the OpenStreetMap Nominatim API.
+1. Complete Phase 20: Modular Parsing.
+2. The current parser (`src/lib/parser.ts`) assumes every text blob is a Macomb County notice. To expand the CRM, we must extract this into `src/lib/parsers/michigan_macomb.ts` implementing a generic `NoticeParser` interface.
+3. Update the intake API to instantiate the correct parser module based on user input, ensuring future developers can easily drop in new county parsers (e.g., `florida_miamidade.ts`).
 
 ### Context / Notes
 - Continue using Prisma v5 (Postgres).
-- Since Nominatim is a free public API, ensure geocoding requests are reasonably spaced or fail gracefully without blocking the primary lead ingestion workflow.
