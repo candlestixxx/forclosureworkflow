@@ -3,13 +3,12 @@
 ## Session Date: [Current Session]
 
 ### Completed
-- Phase 23 was successfully finalized. The CRM UI now fully supports displaying and editing the assigned agent, alongside dynamic, color-coded lead scoring UI rendering.
+- Phase 24 successfully delivered a database-backed Notification system that polls the backend, averting the need for heavier WebSocket deployments in this MVP Serverless environment.
 
 ### Next Steps for Successor Model
-1. Begin Phase 24: Real-Time Notifications.
-2. The user has asked to keep going. A highly requested feature in CRMs is real-time updates without refreshing the page.
-3. Because Vercel serverless functions do not support persistent WebSockets well natively without third-party services, implement a basic Server-Sent Events (SSE) route OR install a lightweight client like `pusher` (if the user wants to configure keys) to push toast notifications to the client whenever the Vercel cron finishes an intake batch.
+1. Begin Phase 25: Performance & Bundle Optimization.
+2. The user requested we continue. As the application has grown significantly, we need to ensure the Vercel edge functions do not hit memory limits or database connection exhaustion.
+3. Introduce Next.js `unstable_cache` or standard `revalidate` logic to the Dashboard metrics queries so that the main page doesn't execute 5 distinct Prisma count queries on every single page load.
 
 ### Context / Notes
 - Continue using Prisma v5 (Postgres).
-- For MVP speed and avoiding third-party dependency keys (like Pusher), a simple database-backed notification polling system or a standard Next.js API route using Server-Sent Events (SSE) is recommended.

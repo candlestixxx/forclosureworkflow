@@ -1,5 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
+
+export const revalidate = 300; // Cache settings endpoint for 5 minutes
 
 export async function GET() {
   try {
@@ -23,6 +26,7 @@ export async function POST(request: Request) {
       create: { id: "global", webhookUrl: body.webhookUrl, hubspotApiKey: body.hubspotApiKey }
     });
 
+    revalidatePath("/api/settings");
     return NextResponse.json(settings);
   } catch (error) {
     return NextResponse.json({ error: "Failed to update settings" }, { status: 500 });

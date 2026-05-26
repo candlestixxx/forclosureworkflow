@@ -1,11 +1,12 @@
 # TODO
 
-## Immediate Tasks (Phase 24: Real-Time Notifications)
-- [ ] Install `pusher` (or a similar lightweight WebSocket solution like `socket.io` / native Server-Sent Events) to enable real-time UI updates.
-- [x] Build a notification bell component in the UI header that tracks incoming leads processed by the Friday Cron intake.
-- [x] Integrate notification broadcast logic into `/api/intake` and `/api/export/webhook` so active users know when automated workflows complete.
+## Immediate Tasks (Phase 25: Performance & Bundle Optimization)
+- [ ] Analyze Next.js bundle size and optimize imports (e.g., dynamically import heavier Lucide icons or Recharts if necessary).
+- [ ] Implement robust caching logic for the `/api/settings` and `src/app/page.tsx` dashboard queries to prevent database strain.
+- [ ] Conduct a final sweep of code to address remaining TODO markers or placeholder logic.
 
 ## Completed Tasks
+- [x] Phase 24: Real-Time Notifications (DB Polling)
 - [x] Phase 23: Assignment UI & Final Polish
 - [x] Phase 22: Lead Scoring Engine & Assignment (Backend utility, API integrations)
 - [x] Phase 21: Analytics Dashboard & Metrics (Recharts integration)
