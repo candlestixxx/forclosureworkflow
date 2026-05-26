@@ -61,6 +61,7 @@ export function WebhookSettings() {
                 value={webhookUrl}
                 onChange={(e) => setWebhookUrl(e.target.value)}
                 placeholder="https://hooks.zapier.com/hooks/catch/..."
+                title="Enter your unique Zapier or Make.com catch hook URL here."
                 className="w-full p-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                 disabled={loading}
             />
@@ -76,6 +77,7 @@ export function WebhookSettings() {
                 value={hubspotApiKey}
                 onChange={(e) => setHubspotApiKey(e.target.value)}
                 placeholder="pat-na1-xxxx-xxxx-xxxx-xxxx"
+                title="Generate a Private App Token from your HubSpot developer portal with Contacts write access."
                 className="w-full p-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                 disabled={loading}
             />

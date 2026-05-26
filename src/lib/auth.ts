@@ -37,5 +37,5 @@ export const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
   },
-  secret: process.env.NEXTAUTH_SECRET || "default_mvp_secret_key_change_in_prod",
+  secret: process.env.NEXTAUTH_SECRET,
 };

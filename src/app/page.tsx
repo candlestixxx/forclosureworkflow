@@ -68,7 +68,7 @@ export default async function Dashboard() {
               <Users className="w-6 h-6 text-blue-600" />
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-500">Total Leads</p>
+              <p className="text-sm font-medium text-gray-500" title="Total active leads in the database across all statuses.">Total Leads</p>
               <h3 className="text-2xl font-bold text-gray-900">{totalLeads}</h3>
             </div>
           </div>
@@ -80,7 +80,7 @@ export default async function Dashboard() {
               <Clock className="w-6 h-6 text-green-600" />
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-500">New</p>
+              <p className="text-sm font-medium text-gray-500" title="Leads ingested this week awaiting review.">New</p>
               <h3 className="text-2xl font-bold text-gray-900">{newLeads}</h3>
             </div>
           </div>
@@ -92,7 +92,7 @@ export default async function Dashboard() {
               <AlertCircle className="w-6 h-6 text-yellow-600" />
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-500">Needs Enrichment</p>
+              <p className="text-sm font-medium text-gray-500" title="Leads missing critical phone or email contact data.">Needs Enrichment</p>
               <h3 className="text-2xl font-bold text-gray-900">{needsEnrichment}</h3>
             </div>
           </div>
@@ -104,7 +104,7 @@ export default async function Dashboard() {
               <CalendarDays className="w-6 h-6 text-red-600" />
             </div>
             <div className="ml-4">
-              <p className="text-sm font-medium text-gray-500">Sales &lt; 7 Days</p>
+              <p className="text-sm font-medium text-gray-500" title="Urgent leads with foreclosure auctions occurring within the next 7 days.">Sales &lt; 7 Days</p>
               <h3 className="text-2xl font-bold text-gray-900">{upcomingSales}</h3>
             </div>
           </div>

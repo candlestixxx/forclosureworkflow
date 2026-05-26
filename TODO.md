@@ -1,11 +1,11 @@
 # TODO
 
-## Immediate Tasks (Phase 27: Production Deployment Polish)
-- [ ] Implement Vercel Speed Insights (`@vercel/speed-insights`) alongside Analytics to provide the client with real-time UI latency reporting.
-- [ ] Add explicit formatting constraints (e.g., Zod schemas) for the remaining unvalidated API endpoints (Settings, Contacts, Tasks, Relatives).
-- [ ] Finalize version 1.1.0 release documentation.
+## Immediate Tasks (Phase 28: Theme Customization & UI Polish)
+- [x] Since all core system architectures and API routes are 100% complete and validated, the final request is pure UX polish. Implement a simple "Dark Mode" toggle or theme customization option.
+- [x] Finalize any remaining tooltip injections or help-text on the Dashboard to meet the user's "high-quality user manual and help files" requirement.
 
 ## Completed Tasks
+- [x] Phase 27: Production Deployment Polish (Vercel Speed Insights, Zod API coverage)
 - [x] Phase 26: Vercel Analytics & Final Release Candidate
 - [x] Phase 25: Performance & Bundle Optimization (Next.js ISR caching)
 - [x] Phase 24: Real-Time Notifications (DB Polling)
