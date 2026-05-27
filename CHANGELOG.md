@@ -1,6 +1,14 @@
 # Changelog
 
-## [1.1.7] - Current Session
+## [1.1.8] - Current Session
+### Added
+- Phase 37: Implemented complete Role-Based Access Control (RBAC) user authentication framework.
+- Added `User` table to Prisma Postgres schema tracking user credentials and roles (Admin, Manager, Agent).
+- Installed `bcryptjs` and updated the NextAuth `CredentialsProvider` (`src/lib/auth.ts`) to hash/verify database-driven logins seamlessly.
+- Constructed `/api/users/route.ts` API endpoints restricted strictly to the `Admin` role.
+- Deployed a graphical `UserManagement.tsx` component inside the settings panel enabling Admins to create and manage application access for team members.
+
+## [1.1.7] - Previous Session
 ### Added
 - Phase 36: Implemented the `TaxAssessorConnector` scaffold via Playwright/Browserless to intelligently resolve legal property descriptions into valid physical street addresses using headless tax portal lookups.
 - Expanded `/api/enrich/connector` to handle `TaxAssessor` routing, and added a conditional `ResolveAddressButton` to the Lead detail view when `needsAddressMatch` is `true`.

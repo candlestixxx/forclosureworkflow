@@ -1,11 +1,11 @@
 # TODO
 
 ## Immediate Tasks
-- [ ] Implement multi-user RBAC (Role-Based Access Control) using Prisma models instead of the single hardcoded Admin credential in `.env`.
 - [ ] Add direct calling (Voice) capability utilizing Twilio Voice APIs within the browser.
 - [ ] Configure `from` email address in SendGrid integration to use a verified, user-configurable domain instead of the hardcoded `system@foreclosurecrm.local`.
 
 ## Completed Tasks
+- [x] Phase 37: Multi-User RBAC Architecture (Prisma DB, bcryptjs, Admin User UI)
 - [x] Phase 36: Headless Tax Assessor Integrations & Advanced Leads Sorting
 - [x] Phase 35: Equity & Valuation Tracking (AVM API integrations and DB schema updates)
 - [x] Phase 34: Automated Follow-Up Drip Campaigns (Cron-driven Sequence Execution)

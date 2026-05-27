@@ -1,5 +1,6 @@
 import { CsvImportButton } from "./CsvImportClient";
 import { WebhookSettings } from "./WebhookSettings";
+import { UserManagement } from "./UserManagement";
 import { IntakeTester, DatabaseResetButton } from "./ClientTester";
 import { Upload, Download, Database, Settings as SettingsIcon, AlertCircle } from "lucide-react";
 
@@ -66,6 +67,8 @@ export default function SettingsPage() {
             </button>
           </div>
         </div>
+
+        <UserManagement />
 
         {/* Automation Rules Placeholder */}
         <WebhookSettings />
