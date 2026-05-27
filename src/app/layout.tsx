@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
-import { LayoutDashboard, Users, Settings, MapPin } from "lucide-react";
+import { LayoutDashboard, Users, Settings, MapPin, Hash } from "lucide-react";
 import { SessionProvider } from "./SessionProvider";
 import { LogoutButton } from "./LogoutButton";
 import { Analytics } from "@vercel/analytics/react";
@@ -39,6 +39,10 @@ export default function RootLayout({
               <Link href="/leads" className="flex items-center p-2 text-gray-700 hover:bg-gray-100 rounded-lg">
                 <Users className="w-5 h-5 mr-3" />
                 Leads
+              </Link>
+              <Link href="/segments" className="flex items-center p-2 text-gray-700 hover:bg-gray-100 rounded-lg">
+                <Hash className="w-5 h-5 mr-3" />
+                Segments
               </Link>
               <Link href="/map" className="flex items-center p-2 text-gray-700 hover:bg-gray-100 rounded-lg">
                 <MapPin className="w-5 h-5 mr-3" />

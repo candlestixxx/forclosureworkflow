@@ -1,9 +1,9 @@
 # TODO
 
-## Immediate Tasks (Project Wrap-Up & Maintenance)
-- [ ] The system has reached total architectural and UX feature completion.
-- [ ] Monitor Vercel and Supabase production environments for any scaling bottlenecks.
-- [ ] Monitor Playwright/Browserless.io execution times against Vercel Edge limits.
+## Immediate Tasks (Phase 29: Custom Segments & Hashtag UI)
+- [ ] Build a new CRM view at `/segments` that groups leads by their assigned Hashtags (`LeadTag`).
+- [ ] Inject a link to the "Segments" view in the main sidebar.
+- [ ] Fulfill the user's specific prompt requirement: "have a space that updates the hashtags and custom segments to build a list of leads and organized through a custom list".
 
 ## Completed Tasks
 - [x] Phase 28: Theme Customization & UI Polish (Manuals, Tooltips)

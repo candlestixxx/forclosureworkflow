@@ -38,7 +38,8 @@ export default async function LeadsPage({
     const searchFilter = {
       OR: [
         { ownerName: { contains: query, mode: "insensitive" } },
-        { propertyAddress: { contains: query, mode: "insensitive" } }
+        { propertyAddress: { contains: query, mode: "insensitive" } },
+        { tags: { some: { name: { equals: query, mode: "insensitive" } } } }
       ]
     };
 
