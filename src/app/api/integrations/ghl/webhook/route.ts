@@ -4,6 +4,15 @@ import { logAudit } from "@/lib/audit";
 
 export async function POST(request: Request) {
   try {
+    const authHeader = request.headers.get("authorization");
+    const settings = await prisma.setting.findUnique({ where: { id: "global" } });
+
+    // Webhook auth check: Expect a bearer token matching the configured GHL API Key
+    if (!settings || !settings.ghlApiKey || authHeader !== `Bearer ${settings.ghlApiKey}`) {
+      await logAudit("GHL_INBOUND_WEBHOOK", "Unauthorized inbound webhook attempt.", "FAILURE");
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
+
     const body = await request.json();
 
     // GoHighLevel sends a dense payload on pipeline stage changes.

@@ -1,6 +1,16 @@
 # Changelog
 
-## [1.1.4] - Current Session
+## [1.1.5] - Current Session
+### Added
+- Phase 34: Added `SequenceEnrollButton` to the Lead Detail UI, allowing users to enroll leads into predefined Follow-Up Drip Campaigns (e.g., "7-Day Aggressive", "30-Day Nurture").
+- Created `/api/sequences/enroll` endpoint to map sequence selections to future-dated `LeadTask` records prefixed with `Automated_Sequence_`.
+- Built `/api/sequences/execute` endpoint designed to be triggered hourly by Vercel Cron. It queries the database for pending automated tasks and securely dispatches payloads to Twilio/SendGrid.
+
+### Fixed
+- Fixed a critical security and routing bug in `src/middleware.ts` by explicitly injecting `/api/integrations/ghl/webhook` and `/api/sequences/execute` into the Auth bypass negative-lookahead regex.
+- Hardened the GHL inbound webhook by requiring `Authorization: Bearer <GHL_API_KEY>` before accepting mutations.
+
+## [1.1.4] - Previous Session
 ### Added
 - Phase 33: Built `/api/integrations/ghl/webhook/route.ts` to receive inbound POST requests from GoHighLevel automations.
 - Inbound GHL webhooks map `crm_lead_id`, phone, or email to a local Prisma Lead and update the local `noticeStatus` to match the pipeline stage (New, Ready, Attempted, Dead).

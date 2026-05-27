@@ -1,10 +1,11 @@
 # TODO
 
 ## Immediate Tasks
-- [x] Implement robust LLM-based parsing logic for unstructured HTML foreclosure notices (Phase 32)
-- [x] Connect GoHighLevel pipeline synchronization to dynamically pull updated Lead status back into the app.
+- [ ] Investigate implementing Playwright scrapers for county tax portals to grab missing addresses.
+- [ ] Add direct calling (Voice) capability utilizing Twilio Voice APIs within the browser.
 
 ## Completed Tasks
+- [x] Phase 34: Automated Follow-Up Drip Campaigns (Cron-driven Sequence Execution)
 - [x] Phase 33: GoHighLevel Inbound Webhook Sync Integration
 - [x] Phase 32: LLM Parser Integration (OpenAI API parsing raw foreclosure text into JSON)
 - [x] Phase 31: Twilio & SendGrid Outbound Integrations

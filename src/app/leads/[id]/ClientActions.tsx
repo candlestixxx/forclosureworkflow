@@ -276,6 +276,65 @@ export function CommsButtons({ leadId, defaultPhone, defaultEmail }: { leadId: s
   );
 }
 
+export function SequenceEnrollButton({ leadId }: { leadId: string }) {
+  const router = useRouter();
+  const [isOpen, setIsOpen] = useState(false);
+  const [sequence, setSequence] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!sequence) return;
+    setLoading(true);
+    try {
+      const res = await fetch("/api/sequences/enroll", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ leadId, sequence }),
+      });
+      if (!res.ok) throw new Error("Failed to enroll in sequence");
+      setIsOpen(false);
+      router.refresh();
+    } catch (err) {
+      console.error(err);
+      alert("Failed to enroll lead in sequence.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (!isOpen) {
+    return (
+      <button
+        onClick={() => setIsOpen(true)}
+        className="mt-3 w-full py-2 px-4 bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 rounded-lg text-sm font-medium transition-colors"
+      >
+        Enroll in Follow-Up Sequence
+      </button>
+    );
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="mt-3 space-y-3 p-4 border border-purple-200 bg-purple-50 rounded-lg">
+      <p className="text-xs text-purple-800 font-medium">Select a Drip Campaign:</p>
+      <select
+        required
+        value={sequence}
+        onChange={e => setSequence(e.target.value)}
+        className="w-full p-2 text-sm border border-purple-200 rounded focus:ring-2 focus:ring-purple-500 outline-none"
+      >
+        <option value="" disabled>Select Sequence...</option>
+        <option value="7_DAY_AGGRESSIVE">7-Day Aggressive (SMS + Email)</option>
+        <option value="30_DAY_NURTURE">30-Day Nurture (Email Only)</option>
+      </select>
+      <div className="flex justify-end space-x-2">
+        <button type="button" onClick={() => setIsOpen(false)} className="px-3 py-1.5 text-sm text-purple-600 hover:bg-purple-100 rounded-md">Cancel</button>
+        <button type="submit" disabled={loading} className="px-3 py-1.5 text-sm bg-purple-600 text-white rounded-md hover:bg-purple-700">Enroll</button>
+      </div>
+    </form>
+  );
+}
+
 export function PushToCrmButton({ leadId }: { leadId: string }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
