@@ -1,10 +1,12 @@
 # TODO
 
-## Immediate Tasks (Phase 28: Theme Customization & UI Polish)
-- [x] Since all core system architectures and API routes are 100% complete and validated, the final request is pure UX polish. Implement a simple "Dark Mode" toggle or theme customization option.
-- [x] Finalize any remaining tooltip injections or help-text on the Dashboard to meet the user's "high-quality user manual and help files" requirement.
+## Immediate Tasks (Project Wrap-Up & Maintenance)
+- [ ] The system has reached total architectural and UX feature completion.
+- [ ] Monitor Vercel and Supabase production environments for any scaling bottlenecks.
+- [ ] Monitor Playwright/Browserless.io execution times against Vercel Edge limits.
 
 ## Completed Tasks
+- [x] Phase 28: Theme Customization & UI Polish (Manuals, Tooltips)
 - [x] Phase 27: Production Deployment Polish (Vercel Speed Insights, Zod API coverage)
 - [x] Phase 26: Vercel Analytics & Final Release Candidate
 - [x] Phase 25: Performance & Bundle Optimization (Next.js ISR caching)

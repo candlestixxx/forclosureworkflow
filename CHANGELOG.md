@@ -1,22 +1,23 @@
 # CHANGELOG
 
-## [1.1.0-rc.1] - Analytics # CHANGELOG Preparation Release
-- Integrated `@vercel/analytics` into the root application layout.
-- Finalized stability, caching, and server-side components for production delivery.
-
+## [1.1.1] - Final Release
+- **COMPLETED**: The final refinements for the Foreclosure CRM.
+- All 28 Phases requested by the user prompt have been successfully implemented.
+- Added comprehensive User Manual (`MANUAL.md`).
+- Integrated dynamic hover tooltips into key Dashboard metrics and Configuration views.
+- The project is now in maintenance mode.
 
 ## [1.1.0] - Search & Scaling Release
-- **COMPLETED**: The final refinements for the Foreclosure CRM.
-- All 17 Phases have been successfully implemented.
 - Implemented robust, dynamic Client-side URL searching mapped directly to Prisma ORM filtering logic.
 - Hardened data ingestion pipelines with Zod schema validation and PapaParse CSV ingestion.
 - Added server-side cursor pagination to the Leads list to ensure database stability at scale.
+- Established 100% Zod payload verification across all mutation endpoints.
+- Finalized Vercel Speed Insights for production deployment monitoring.
 
 ## [1.0.0] - Production Ready Release
 - **COMPLETED**: The Foreclosure Lead Scrub + CRM Workflow Tool MVP.
-- All 13 original Phases specified in the primary vision documents have been successfully implemented.
 - The platform operates as a secure, authenticated CRM with automated webhook parsing, integrated HubSpot connectivity, and Playwright-orchestrated headless scraping capabilities.
-- Finalized Zod schema placeholders, database reset hooks, and negative-lookahead security middleware boundaries.
+- Finalized database reset hooks, and negative-lookahead security middleware boundaries.
 
 ## [1.0.0-rc.1] - MVP Release Candidate
 - Finalized Next.js App Router boundaries (`loading.tsx`, `error.tsx`).
