@@ -1,6 +1,13 @@
 # Changelog
 
-## [1.1.2] - Current Session
+## [1.1.3] - Current Session
+### Added
+- Phase 32: Integrated OpenAI SDK to process raw foreclosure notice text.
+- Built `LLMNoticeParser` extending the `NoticeParser` abstract class. Uses `gpt-4o-mini` with a strict JSON format structure.
+- Updated `Settings` Prisma model and Zod schemas to securely store `openAiApiKey`.
+- Refactored `/api/intake` to support the asynchronous LLM parsing methodology seamlessly via the `countyConfig=LLM_AUTO` payload tag.
+
+## [1.1.2] - Previous Session
 ### Added
 - Phase 31: Integrated Twilio API for outbound SMS directly from the lead detail view.
 - Phase 31: Integrated SendGrid API for outbound Emailing directly from the lead detail view.

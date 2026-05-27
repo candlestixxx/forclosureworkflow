@@ -99,6 +99,7 @@ model Setting {
   twilioAuthToken String?
   twilioFromNumber String?
   sendgridApiKey String?
+  openAiApiKey String?
   updatedAt DateTime @updatedAt
 }
 

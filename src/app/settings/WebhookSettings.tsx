@@ -11,6 +11,7 @@ export function WebhookSettings() {
   const [twilioAuthToken, setTwilioAuthToken] = useState("");
   const [twilioFromNumber, setTwilioFromNumber] = useState("");
   const [sendgridApiKey, setSendgridApiKey] = useState("");
+  const [openAiApiKey, setOpenAiApiKey] = useState("");
   const [saved, setSaved] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -27,6 +28,7 @@ export function WebhookSettings() {
           setTwilioAuthToken(data.twilioAuthToken || "");
           setTwilioFromNumber(data.twilioFromNumber || "");
           setSendgridApiKey(data.sendgridApiKey || "");
+          setOpenAiApiKey(data.openAiApiKey || "");
         }
       } catch (err) {
         console.error("Failed to load settings", err);
@@ -45,7 +47,7 @@ export function WebhookSettings() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           webhookUrl, hubspotApiKey, ghlApiKey,
-          twilioAccountSid, twilioAuthToken, twilioFromNumber, sendgridApiKey
+          twilioAccountSid, twilioAuthToken, twilioFromNumber, sendgridApiKey, openAiApiKey
         }),
       });
       setSaved(true);
@@ -155,6 +157,21 @@ export function WebhookSettings() {
                 value={sendgridApiKey}
                 onChange={(e) => setSendgridApiKey(e.target.value)}
                 placeholder="SendGrid API Key"
+                className="w-full p-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                disabled={loading}
+            />
+        </div>
+
+        <div className="pt-4 border-t border-gray-100">
+            <p className="text-sm font-medium text-gray-800 mb-1">OpenAI (LLM Parser integration)</p>
+            <p className="text-xs text-gray-500 mb-3">
+                Enable robust LLM parsing for complex HTML/PDF foreclosure notices.
+            </p>
+            <input
+                type="password"
+                value={openAiApiKey}
+                onChange={(e) => setOpenAiApiKey(e.target.value)}
+                placeholder="OpenAI API Key (sk-...)"
                 className="w-full p-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                 disabled={loading}
             />

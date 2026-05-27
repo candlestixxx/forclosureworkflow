@@ -7,6 +7,7 @@ import { IntakePayloadSchema } from "@/lib/validations";
 import { geocodeAddress } from "@/lib/geocoder";
 import { NoticeParser } from "@/lib/parsers/core";
 import { MacombCountyParser } from "@/lib/parsers/michigan_macomb";
+import { LLMNoticeParser } from "@/lib/parsers/llm_parser";
 import { calculateLeadScore } from "@/lib/scoring";
 
 export async function POST(request: Request) {
@@ -38,7 +39,15 @@ export async function POST(request: Request) {
 
     // Dynamic Module Routing
     let activeParser: NoticeParser;
-    if (validation.data.countyConfig === "MI_MACOMB") {
+    const settings = await prisma.setting.findUnique({ where: { id: "global" } });
+
+    if (validation.data.countyConfig === "LLM_AUTO") {
+      if (!settings || !settings.openAiApiKey) {
+        await logAudit("INTAKE_RUN", "LLM_AUTO requested but OpenAI API Key is missing from settings.", "FAILURE");
+        return NextResponse.json({ error: "OpenAI API Key not configured" }, { status: 400 });
+      }
+      activeParser = new LLMNoticeParser(settings.openAiApiKey);
+    } else if (validation.data.countyConfig === "MI_MACOMB") {
       activeParser = new MacombCountyParser();
     } else {
       await logAudit("INTAKE_RUN", `Unsupported county configuration requested: ${validation.data.countyConfig}`, "FAILURE");
@@ -57,7 +66,13 @@ export async function POST(request: Request) {
       results.totalProcessed++;
 
       try {
-        const parsedData = activeParser.parse(text, validation.data.source || "Automated Intake Workflow");
+        let parsedData;
+
+        if (activeParser instanceof LLMNoticeParser) {
+           parsedData = await activeParser.parseAsync(text, validation.data.source || "LLM Automated Intake Workflow");
+        } else {
+           parsedData = activeParser.parse(text, validation.data.source || "Automated Intake Workflow");
+        }
 
         // Basic duplicate check by Address (AND Owner Name if available) to avoid false positives on Unknown Owners
         const whereCondition: any = { propertyAddress: { equals: parsedData.propertyAddress } };

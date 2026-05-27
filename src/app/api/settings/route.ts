@@ -13,7 +13,7 @@ export async function GET() {
 
     return NextResponse.json(settings || {
       webhookUrl: "", hubspotApiKey: "", ghlApiKey: "",
-      twilioAccountSid: "", twilioAuthToken: "", twilioFromNumber: "", sendgridApiKey: ""
+      twilioAccountSid: "", twilioAuthToken: "", twilioFromNumber: "", sendgridApiKey: "", openAiApiKey: ""
     });
   } catch (error) {
     return NextResponse.json({ error: "Failed to fetch settings" }, { status: 500 });
@@ -33,11 +33,11 @@ export async function POST(request: Request) {
       where: { id: "global" },
       update: {
         webhookUrl: body.webhookUrl, hubspotApiKey: body.hubspotApiKey, ghlApiKey: body.ghlApiKey,
-        twilioAccountSid: body.twilioAccountSid, twilioAuthToken: body.twilioAuthToken, twilioFromNumber: body.twilioFromNumber, sendgridApiKey: body.sendgridApiKey
+        twilioAccountSid: body.twilioAccountSid, twilioAuthToken: body.twilioAuthToken, twilioFromNumber: body.twilioFromNumber, sendgridApiKey: body.sendgridApiKey, openAiApiKey: body.openAiApiKey
       },
       create: {
         id: "global", webhookUrl: body.webhookUrl, hubspotApiKey: body.hubspotApiKey, ghlApiKey: body.ghlApiKey,
-        twilioAccountSid: body.twilioAccountSid, twilioAuthToken: body.twilioAuthToken, twilioFromNumber: body.twilioFromNumber, sendgridApiKey: body.sendgridApiKey
+        twilioAccountSid: body.twilioAccountSid, twilioAuthToken: body.twilioAuthToken, twilioFromNumber: body.twilioFromNumber, sendgridApiKey: body.sendgridApiKey, openAiApiKey: body.openAiApiKey
       }
     });
 

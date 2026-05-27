@@ -1,10 +1,11 @@
 # TODO
 
 ## Immediate Tasks
-- [ ] Implement robust LLM-based parsing logic for unstructured HTML foreclosure notices (Phase 32)
+- [x] Implement robust LLM-based parsing logic for unstructured HTML foreclosure notices (Phase 32)
 - [ ] Connect GoHighLevel pipeline synchronization to dynamically pull updated Lead status back into the app.
 
 ## Completed Tasks
+- [x] Phase 32: LLM Parser Integration (OpenAI API parsing raw foreclosure text into JSON)
 - [x] Phase 31: Twilio & SendGrid Outbound Integrations
 - [x] Phase 30: GoHighLevel Native Integration and Bulk UI Actions
 - [x] Phase 29: Custom Segments & Hashtag UI

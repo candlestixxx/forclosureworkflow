@@ -28,6 +28,7 @@ export const SettingsSchema = z.object({
   twilioAuthToken: z.string().optional().nullable(),
   twilioFromNumber: z.string().optional().nullable(),
   sendgridApiKey: z.string().optional().nullable(),
+  openAiApiKey: z.string().optional().nullable(),
 });
 
 export const ContactSchema = z.object({
