@@ -1,6 +1,12 @@
 # Changelog
 
-## [1.1.3] - Current Session
+## [1.1.4] - Current Session
+### Added
+- Phase 33: Built `/api/integrations/ghl/webhook/route.ts` to receive inbound POST requests from GoHighLevel automations.
+- Inbound GHL webhooks map `crm_lead_id`, phone, or email to a local Prisma Lead and update the local `noticeStatus` to match the pipeline stage (New, Ready, Attempted, Dead).
+- Updated outbound GHL sync (`src/lib/integrations/gohighlevel.ts`) to inject the internal Prisma `lead.id` into the `crm_lead_id` custom field payload to complete the bidirectional mapping loop.
+
+## [1.1.3] - Previous Session
 ### Added
 - Phase 32: Integrated OpenAI SDK to process raw foreclosure notice text.
 - Built `LLMNoticeParser` extending the `NoticeParser` abstract class. Uses `gpt-4o-mini` with a strict JSON format structure.

@@ -20,7 +20,8 @@ export async function pushToGoHighLevel(apiKey: string, lead: Lead & { contacts:
     tags: ["foreclosure-lead", "automated-import"],
     source: "Foreclosure CRM",
     customField: {
-      "sale_date": lead.saleDate ? lead.saleDate.toISOString() : ""
+      "sale_date": lead.saleDate ? lead.saleDate.toISOString() : "",
+      "crm_lead_id": lead.id
     }
   };
 
