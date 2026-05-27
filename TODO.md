@@ -1,11 +1,13 @@
 # TODO
 
-## Immediate Tasks (Phase 29: Custom Segments & Hashtag UI)
-- [ ] Build a new CRM view at `/segments` that groups leads by their assigned Hashtags (`LeadTag`).
-- [ ] Inject a link to the "Segments" view in the main sidebar.
-- [ ] Fulfill the user's specific prompt requirement: "have a space that updates the hashtags and custom segments to build a list of leads and organized through a custom list".
+## Immediate Tasks
+- [ ] Implement robust LLM-based parsing logic for unstructured HTML foreclosure notices (Phase 32)
+- [ ] Connect GoHighLevel pipeline synchronization to dynamically pull updated Lead status back into the app.
 
 ## Completed Tasks
+- [x] Phase 31: Twilio & SendGrid Outbound Integrations
+- [x] Phase 30: GoHighLevel Native Integration and Bulk UI Actions
+- [x] Phase 29: Custom Segments & Hashtag UI
 - [x] Phase 28: Theme Customization & UI Polish (Manuals, Tooltips)
 - [x] Phase 27: Production Deployment Polish (Vercel Speed Insights, Zod API coverage)
 - [x] Phase 26: Vercel Analytics & Final Release Candidate

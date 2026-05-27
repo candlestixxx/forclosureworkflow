@@ -11,7 +11,10 @@ export async function GET() {
       where: { id: "global" }
     });
 
-    return NextResponse.json(settings || { webhookUrl: "", hubspotApiKey: "", ghlApiKey: "" });
+    return NextResponse.json(settings || {
+      webhookUrl: "", hubspotApiKey: "", ghlApiKey: "",
+      twilioAccountSid: "", twilioAuthToken: "", twilioFromNumber: "", sendgridApiKey: ""
+    });
   } catch (error) {
     return NextResponse.json({ error: "Failed to fetch settings" }, { status: 500 });
   }
@@ -28,8 +31,14 @@ export async function POST(request: Request) {
 
     const settings = await prisma.setting.upsert({
       where: { id: "global" },
-      update: { webhookUrl: body.webhookUrl, hubspotApiKey: body.hubspotApiKey, ghlApiKey: body.ghlApiKey },
-      create: { id: "global", webhookUrl: body.webhookUrl, hubspotApiKey: body.hubspotApiKey, ghlApiKey: body.ghlApiKey }
+      update: {
+        webhookUrl: body.webhookUrl, hubspotApiKey: body.hubspotApiKey, ghlApiKey: body.ghlApiKey,
+        twilioAccountSid: body.twilioAccountSid, twilioAuthToken: body.twilioAuthToken, twilioFromNumber: body.twilioFromNumber, sendgridApiKey: body.sendgridApiKey
+      },
+      create: {
+        id: "global", webhookUrl: body.webhookUrl, hubspotApiKey: body.hubspotApiKey, ghlApiKey: body.ghlApiKey,
+        twilioAccountSid: body.twilioAccountSid, twilioAuthToken: body.twilioAuthToken, twilioFromNumber: body.twilioFromNumber, sendgridApiKey: body.sendgridApiKey
+      }
     });
 
     revalidatePath("/api/settings");

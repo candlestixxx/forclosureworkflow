@@ -135,6 +135,147 @@ export function LookupHelper({ ownerName, propertyAddress, zip }: { ownerName: s
   );
 }
 
+export function CommsButtons({ leadId, defaultPhone, defaultEmail }: { leadId: string, defaultPhone?: string, defaultEmail?: string }) {
+  const router = useRouter();
+
+  // SMS State
+  const [isSmsOpen, setIsSmsOpen] = useState(false);
+  const [smsTo, setSmsTo] = useState(defaultPhone || "");
+  const [smsMessage, setSmsMessage] = useState("");
+  const [smsStatus, setSmsStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+
+  // Email State
+  const [isEmailOpen, setIsEmailOpen] = useState(false);
+  const [emailTo, setEmailTo] = useState(defaultEmail || "");
+  const [emailSubject, setEmailSubject] = useState("");
+  const [emailBody, setEmailBody] = useState("");
+  const [emailStatus, setEmailStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+
+  const handleSendSms = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSmsStatus("sending");
+    try {
+      const res = await fetch("/api/communications/sms", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ leadId, to: smsTo, message: smsMessage }),
+      });
+      if (!res.ok) throw new Error("SMS failed");
+      setSmsStatus("success");
+      setSmsMessage("");
+      setTimeout(() => {
+        setSmsStatus("idle");
+        setIsSmsOpen(false);
+      }, 2000);
+      router.refresh();
+    } catch (e) {
+      console.error(e);
+      setSmsStatus("error");
+      setTimeout(() => setSmsStatus("idle"), 3000);
+    }
+  };
+
+  const handleSendEmail = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setEmailStatus("sending");
+    try {
+      const res = await fetch("/api/communications/email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ leadId, to: emailTo, subject: emailSubject, body: emailBody }),
+      });
+      if (!res.ok) throw new Error("Email failed");
+      setEmailStatus("success");
+      setEmailSubject("");
+      setEmailBody("");
+      setTimeout(() => {
+        setEmailStatus("idle");
+        setIsEmailOpen(false);
+      }, 2000);
+      router.refresh();
+    } catch (e) {
+      console.error(e);
+      setEmailStatus("error");
+      setTimeout(() => setEmailStatus("idle"), 3000);
+    }
+  };
+
+  return (
+    <div className="flex gap-2">
+      {/* SMS Container */}
+      <div className="relative">
+        <button
+          onClick={() => { setIsSmsOpen(!isSmsOpen); setIsEmailOpen(false); }}
+          className="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 text-sm font-medium transition-colors"
+        >
+          Send SMS
+        </button>
+        {isSmsOpen && (
+          <form onSubmit={handleSendSms} className="absolute z-10 top-12 left-0 w-72 bg-white border border-gray-200 shadow-xl rounded-lg p-4 space-y-3">
+            <h4 className="text-sm font-semibold text-gray-800 border-b pb-2">Send SMS via Twilio</h4>
+            <input
+              required type="text" value={smsTo} onChange={e => setSmsTo(e.target.value)}
+              placeholder="To: +1234567890"
+              className="w-full p-2 text-sm border rounded focus:ring-2 focus:ring-blue-500 outline-none"
+            />
+            <textarea
+              required value={smsMessage} onChange={e => setSmsMessage(e.target.value)}
+              placeholder="Message body..." rows={3}
+              className="w-full p-2 text-sm border rounded focus:ring-2 focus:ring-blue-500 outline-none"
+            />
+            <button
+              type="submit" disabled={smsStatus === 'sending'}
+              className={`w-full py-2 text-white text-sm font-medium rounded transition-colors
+                ${smsStatus === 'success' ? 'bg-green-600' : smsStatus === 'error' ? 'bg-red-600' : 'bg-blue-600 hover:bg-blue-700'}
+                disabled:opacity-50`}
+            >
+              {smsStatus === 'sending' ? 'Sending...' : smsStatus === 'success' ? 'Sent!' : smsStatus === 'error' ? 'Failed' : 'Send SMS'}
+            </button>
+          </form>
+        )}
+      </div>
+
+      {/* Email Container */}
+      <div className="relative">
+        <button
+          onClick={() => { setIsEmailOpen(!isEmailOpen); setIsSmsOpen(false); }}
+          className="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 text-sm font-medium transition-colors"
+        >
+          Send Email
+        </button>
+        {isEmailOpen && (
+          <form onSubmit={handleSendEmail} className="absolute z-10 top-12 right-0 md:left-0 w-80 bg-white border border-gray-200 shadow-xl rounded-lg p-4 space-y-3">
+            <h4 className="text-sm font-semibold text-gray-800 border-b pb-2">Send Email via SendGrid</h4>
+            <input
+              required type="email" value={emailTo} onChange={e => setEmailTo(e.target.value)}
+              placeholder="To: email@example.com"
+              className="w-full p-2 text-sm border rounded focus:ring-2 focus:ring-blue-500 outline-none"
+            />
+            <input
+              required type="text" value={emailSubject} onChange={e => setEmailSubject(e.target.value)}
+              placeholder="Subject"
+              className="w-full p-2 text-sm border rounded focus:ring-2 focus:ring-blue-500 outline-none"
+            />
+            <textarea
+              required value={emailBody} onChange={e => setEmailBody(e.target.value)}
+              placeholder="Message body..." rows={4}
+              className="w-full p-2 text-sm border rounded focus:ring-2 focus:ring-blue-500 outline-none"
+            />
+            <button
+              type="submit" disabled={emailStatus === 'sending'}
+              className={`w-full py-2 text-white text-sm font-medium rounded transition-colors
+                ${emailStatus === 'success' ? 'bg-green-600' : emailStatus === 'error' ? 'bg-red-600' : 'bg-blue-600 hover:bg-blue-700'}
+                disabled:opacity-50`}
+            >
+              {emailStatus === 'sending' ? 'Sending...' : emailStatus === 'success' ? 'Sent!' : emailStatus === 'error' ? 'Failed' : 'Send Email'}
+            </button>
+          </form>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export function PushToCrmButton({ leadId }: { leadId: string }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);

@@ -7,6 +7,10 @@ export function WebhookSettings() {
   const [webhookUrl, setWebhookUrl] = useState("");
   const [hubspotApiKey, setHubspotApiKey] = useState("");
   const [ghlApiKey, setGhlApiKey] = useState("");
+  const [twilioAccountSid, setTwilioAccountSid] = useState("");
+  const [twilioAuthToken, setTwilioAuthToken] = useState("");
+  const [twilioFromNumber, setTwilioFromNumber] = useState("");
+  const [sendgridApiKey, setSendgridApiKey] = useState("");
   const [saved, setSaved] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -19,6 +23,10 @@ export function WebhookSettings() {
           setWebhookUrl(data.webhookUrl || "");
           setHubspotApiKey(data.hubspotApiKey || "");
           setGhlApiKey(data.ghlApiKey || "");
+          setTwilioAccountSid(data.twilioAccountSid || "");
+          setTwilioAuthToken(data.twilioAuthToken || "");
+          setTwilioFromNumber(data.twilioFromNumber || "");
+          setSendgridApiKey(data.sendgridApiKey || "");
         }
       } catch (err) {
         console.error("Failed to load settings", err);
@@ -35,7 +43,10 @@ export function WebhookSettings() {
       await fetch("/api/settings", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ webhookUrl, hubspotApiKey, ghlApiKey }),
+        body: JSON.stringify({
+          webhookUrl, hubspotApiKey, ghlApiKey,
+          twilioAccountSid, twilioAuthToken, twilioFromNumber, sendgridApiKey
+        }),
       });
       setSaved(true);
       setTimeout(() => setSaved(false), 2000);
@@ -96,6 +107,54 @@ export function WebhookSettings() {
                 onChange={(e) => setGhlApiKey(e.target.value)}
                 placeholder="Enter GHL Location API Key"
                 title="Find this in your GoHighLevel Location Settings under 'API Key'."
+                className="w-full p-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                disabled={loading}
+            />
+        </div>
+
+        <div className="pt-4 border-t border-gray-100">
+            <p className="text-sm font-medium text-gray-800 mb-1">Twilio (SMS integration)</p>
+            <p className="text-xs text-gray-500 mb-3">
+                Configure Twilio to send SMS to leads directly from the dashboard.
+            </p>
+            <div className="space-y-2">
+                <input
+                    type="text"
+                    value={twilioAccountSid}
+                    onChange={(e) => setTwilioAccountSid(e.target.value)}
+                    placeholder="Account SID"
+                    className="w-full p-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    disabled={loading}
+                />
+                <input
+                    type="password"
+                    value={twilioAuthToken}
+                    onChange={(e) => setTwilioAuthToken(e.target.value)}
+                    placeholder="Auth Token"
+                    className="w-full p-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    disabled={loading}
+                />
+                <input
+                    type="text"
+                    value={twilioFromNumber}
+                    onChange={(e) => setTwilioFromNumber(e.target.value)}
+                    placeholder="From Number (e.g. +1234567890)"
+                    className="w-full p-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    disabled={loading}
+                />
+            </div>
+        </div>
+
+        <div className="pt-4 border-t border-gray-100">
+            <p className="text-sm font-medium text-gray-800 mb-1">SendGrid (Email integration)</p>
+            <p className="text-xs text-gray-500 mb-3">
+                Configure SendGrid to send emails to leads directly from the dashboard.
+            </p>
+            <input
+                type="password"
+                value={sendgridApiKey}
+                onChange={(e) => setSendgridApiKey(e.target.value)}
+                placeholder="SendGrid API Key"
                 className="w-full p-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                 disabled={loading}
             />

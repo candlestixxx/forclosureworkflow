@@ -95,6 +95,10 @@ model Setting {
   webhookUrl String?
   hubspotApiKey String?
   ghlApiKey String?
+  twilioAccountSid String?
+  twilioAuthToken String?
+  twilioFromNumber String?
+  sendgridApiKey String?
   updatedAt DateTime @updatedAt
 }
 

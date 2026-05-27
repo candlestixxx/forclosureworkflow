@@ -24,6 +24,10 @@ export const SettingsSchema = z.object({
   webhookUrl: z.string().url("Must be a valid URL").or(z.literal("")).optional().nullable(),
   hubspotApiKey: z.string().optional().nullable(),
   ghlApiKey: z.string().optional().nullable(),
+  twilioAccountSid: z.string().optional().nullable(),
+  twilioAuthToken: z.string().optional().nullable(),
+  twilioFromNumber: z.string().optional().nullable(),
+  sendgridApiKey: z.string().optional().nullable(),
 });
 
 export const ContactSchema = z.object({

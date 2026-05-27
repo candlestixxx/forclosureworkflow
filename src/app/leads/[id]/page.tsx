@@ -1,4 +1,4 @@
-import { AddNoteButton, AddTaskButton, LookupHelper, PushToCrmButton, AddTagButton } from "./ClientActions";
+import { AddNoteButton, AddTaskButton, LookupHelper, PushToCrmButton, AddTagButton, CommsButtons } from "./ClientActions";
 import { AddContactButton, AddRelativeButton, RunConnectorButton } from "./EnrichmentActions";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
@@ -48,6 +48,7 @@ export default async function LeadDetailPage({
               'bg-gray-50 text-gray-700 border-gray-200'}`}>
             {lead.noticeStatus}
           </span>
+          <CommsButtons leadId={lead.id} defaultPhone={lead.bestPhone || ""} defaultEmail={lead.email || ""} />
           <PushToCrmButton leadId={lead.id} />
 
           <Link href={`/leads/${lead.id}/edit`} className="flex items-center px-4 py-2 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 rounded-lg transition-colors font-medium">
