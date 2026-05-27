@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import { calculateLeadScore } from "@/lib/scoring";
 import { MyPlusLeadsConnector } from "@/lib/connectors/myplus";
+import { TaxAssessorConnector } from "@/lib/connectors/tax_assessor";
 
 export async function POST(request: Request) {
   try {
@@ -14,6 +15,8 @@ export async function POST(request: Request) {
     let connector;
     if (connectorType === "MyPlusLeads") {
       connector = new MyPlusLeadsConnector();
+    } else if (connectorType === "TaxAssessor") {
+      connector = new TaxAssessorConnector();
     } else {
       return NextResponse.json({ error: "Unknown connector type" }, { status: 400 });
     }
@@ -21,6 +24,19 @@ export async function POST(request: Request) {
     const result = await connector.execute(lead);
 
     if (result.success) {
+      // Handle Tax Assessor specific resolutions
+      if (connectorType === "TaxAssessor" && result.resolvedAddress) {
+         await prisma.lead.update({
+             where: { id: lead.id },
+             data: {
+                 propertyAddress: result.resolvedAddress,
+                 city: result.resolvedCity || lead.city,
+                 zip: result.resolvedZip || lead.zip,
+                 needsAddressMatch: false
+             }
+         });
+      }
+
       // Automatically save the enriched data into the database
       if (result.phones.length > 0) {
         await prisma.leadContact.createMany({

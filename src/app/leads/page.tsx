@@ -6,6 +6,8 @@ import { Pagination } from "@/components/Pagination";
 import { SearchBar } from "@/components/SearchBar";
 import { ClientLeadsList } from "./ClientLeadsList";
 
+import { LeadSortDropdown } from "./LeadSortDropdown";
+
 export default async function LeadsPage({
   searchParams,
 }: {
@@ -14,6 +16,7 @@ export default async function LeadsPage({
   const resolvedParams = await searchParams;
   const filter = typeof resolvedParams.filter === 'string' ? resolvedParams.filter : undefined;
   const query = typeof resolvedParams.query === 'string' ? resolvedParams.query : undefined;
+  const sort = typeof resolvedParams.sort === 'string' ? resolvedParams.sort : undefined;
 
   const page = typeof resolvedParams.page === 'string' ? parseInt(resolvedParams.page, 10) : 1;
   const limit = 20; // Hardcoded limit for standard views
@@ -21,6 +24,7 @@ export default async function LeadsPage({
 
   // Build the base Prisma where clause
   let whereClause: any = {};
+  let orderByClause: any = { createdAt: 'desc' }; // default
 
   // Apply standard filters
   if (filter === 'enrichment') {
@@ -57,11 +61,19 @@ export default async function LeadsPage({
     }
   }
 
+  if (sort === 'equity_desc') {
+     orderByClause = { estimatedEquity: 'desc' };
+  } else if (sort === 'score_desc') {
+     orderByClause = { leadScore: 'desc' };
+  } else if (sort === 'date_asc') {
+     orderByClause = { saleDate: 'asc' };
+  }
+
   // Execute efficient dual-query pattern for Prisma pagination
   const [leads, totalCount] = await Promise.all([
     prisma.lead.findMany({
       where: whereClause,
-      orderBy: { createdAt: 'desc' },
+      orderBy: orderByClause,
       skip,
       take: limit,
       include: { tags: true }
@@ -75,6 +87,7 @@ export default async function LeadsPage({
   const currentQueryParams: Record<string, string> = {};
   if (filter) currentQueryParams['filter'] = filter;
   if (query) currentQueryParams['query'] = query;
+  if (sort) currentQueryParams['sort'] = sort;
 
   return (
     <div className="space-y-6">
@@ -94,7 +107,10 @@ export default async function LeadsPage({
             <Link href="/leads?filter=enrichment" className={`px-3 py-1.5 rounded-md text-sm font-medium ${filter === 'enrichment' ? 'bg-white shadow-sm border border-gray-200 text-gray-900' : 'text-gray-600 hover:bg-gray-100'}`}>Needs Enrichment</Link>
           </div>
 
-          <SearchBar />
+          <div className="flex items-center gap-4">
+            <LeadSortDropdown currentSort={sort} />
+            <SearchBar />
+          </div>
         </div>
 
         <ClientLeadsList leads={leads} />

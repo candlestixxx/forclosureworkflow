@@ -1,6 +1,19 @@
 # Changelog
 
-## [1.1.5] - Current Session
+## [1.1.7] - Current Session
+### Added
+- Phase 36: Implemented the `TaxAssessorConnector` scaffold via Playwright/Browserless to intelligently resolve legal property descriptions into valid physical street addresses using headless tax portal lookups.
+- Expanded `/api/enrich/connector` to handle `TaxAssessor` routing, and added a conditional `ResolveAddressButton` to the Lead detail view when `needsAddressMatch` is `true`.
+- Added advanced sorting dropdown parameters (`?sort=`) to the Leads list view to dynamically order leads by "Soonest Sale Date", "Highest Equity", or "Highest Lead Score", driving those constraints down to the Prisma pagination queries.
+
+## [1.1.6] - Previous Session
+### Added
+- Phase 35: Implemented Automated Valuation Model (AVM) API integration.
+- Expanded the Prisma `Lead` model schema to track `estimatedValue`, `estimatedEquity`, and `mortgageBalance`.
+- Created `/api/valuation/route.ts` to execute deterministic heuristic estimations based on zipcode and property address data (simulating Zillow/Estated API calls).
+- Updated `src/app/leads/[id]/page.tsx` and `EnrichmentActions.tsx` to display an interactive "Equity & Valuation" dashboard card.
+
+## [1.1.5] - Previous Session
 ### Added
 - Phase 34: Added `SequenceEnrollButton` to the Lead Detail UI, allowing users to enroll leads into predefined Follow-Up Drip Campaigns (e.g., "7-Day Aggressive", "30-Day Nurture").
 - Created `/api/sequences/enroll` endpoint to map sequence selections to future-dated `LeadTask` records prefixed with `Automated_Sequence_`.

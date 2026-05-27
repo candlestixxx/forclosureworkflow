@@ -1,5 +1,5 @@
 import { AddNoteButton, AddTaskButton, LookupHelper, PushToCrmButton, AddTagButton, CommsButtons, SequenceEnrollButton } from "./ClientActions";
-import { AddContactButton, AddRelativeButton, RunConnectorButton } from "./EnrichmentActions";
+import { AddContactButton, AddRelativeButton, RunConnectorButton, ResolveAddressButton } from "./EnrichmentActions";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { format } from "date-fns";
@@ -68,6 +68,7 @@ export default async function LeadDetailPage({
               <p className="text-sm text-yellow-700">
                 This lead needs address matching. The current address might only be a legal description.
               </p>
+              <ResolveAddressButton leadId={lead.id} />
             </div>
           </div>
         </div>

@@ -1,10 +1,13 @@
 # TODO
 
 ## Immediate Tasks
-- [ ] Investigate implementing Playwright scrapers for county tax portals to grab missing addresses.
+- [ ] Implement multi-user RBAC (Role-Based Access Control) using Prisma models instead of the single hardcoded Admin credential in `.env`.
 - [ ] Add direct calling (Voice) capability utilizing Twilio Voice APIs within the browser.
+- [ ] Configure `from` email address in SendGrid integration to use a verified, user-configurable domain instead of the hardcoded `system@foreclosurecrm.local`.
 
 ## Completed Tasks
+- [x] Phase 36: Headless Tax Assessor Integrations & Advanced Leads Sorting
+- [x] Phase 35: Equity & Valuation Tracking (AVM API integrations and DB schema updates)
 - [x] Phase 34: Automated Follow-Up Drip Campaigns (Cron-driven Sequence Execution)
 - [x] Phase 33: GoHighLevel Inbound Webhook Sync Integration
 - [x] Phase 32: LLM Parser Integration (OpenAI API parsing raw foreclosure text into JSON)

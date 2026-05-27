@@ -148,6 +148,44 @@ export function AddRelativeButton({ leadId }: { leadId: string }) {
   );
 }
 
+export function ResolveAddressButton({ leadId }: { leadId: string }) {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+
+  const handleResolve = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch("/api/enrich/connector", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ leadId, connectorType: "TaxAssessor" }),
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        router.refresh();
+      } else {
+        alert("Address resolution failed: " + data.message);
+      }
+    } catch (e) {
+      console.error(e);
+      alert("System error running Tax Assessor connector.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <button
+      onClick={handleResolve}
+      disabled={loading}
+      className="mt-2 w-full py-1.5 px-3 bg-yellow-50 hover:bg-yellow-100 text-yellow-700 border border-yellow-200 rounded-md text-xs font-medium transition-colors disabled:opacity-50"
+    >
+      {loading ? "Resolving Address via County GIS..." : "Run Headless Tax Assessor Lookup"}
+    </button>
+  );
+}
+
 export function RunConnectorButton({ leadId }: { leadId: string }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
