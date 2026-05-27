@@ -1,6 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import { MapComponent } from "@/components/MapComponent";
 
+export const dynamic = "force-dynamic";
+
 export default async function MapPage() {
   // Only fetch leads that have valid geocoordinates
   const leads = await prisma.lead.findMany({

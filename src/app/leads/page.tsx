@@ -4,6 +4,7 @@ import { format } from "date-fns";
 import { Plus } from "lucide-react";
 import { Pagination } from "@/components/Pagination";
 import { SearchBar } from "@/components/SearchBar";
+import { ClientLeadsList } from "./ClientLeadsList";
 
 export default async function LeadsPage({
   searchParams,
@@ -96,58 +97,7 @@ export default async function LeadsPage({
           <SearchBar />
         </div>
 
-        <div className="overflow-x-auto flex-1">
-          <table className="w-full text-left text-sm">
-            <thead className="bg-gray-50 border-b border-gray-200 text-gray-600">
-              <tr>
-                <th className="px-6 py-3 font-medium">Owner Name</th>
-                <th className="px-6 py-3 font-medium">Property Address</th>
-                <th className="px-6 py-3 font-medium">Sale Date</th>
-                <th className="px-6 py-3 font-medium">Status</th>
-                <th className="px-6 py-3 font-medium">Phone</th>
-                <th className="px-6 py-3 font-medium">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200">
-              {leads.length === 0 ? (
-                <tr>
-                  <td colSpan={6} className="px-6 py-8 text-center text-gray-500">
-                    No leads found. Create one or wait for the Friday intake.
-                  </td>
-                </tr>
-              ) : (
-                leads.map((lead) => (
-                  <tr key={lead.id} className="hover:bg-gray-50 transition-colors">
-                    <td className="px-6 py-4 font-medium text-gray-900">{lead.ownerName}</td>
-                    <td className="px-6 py-4 text-gray-600">
-                      {lead.propertyAddress}<br/>
-                      <span className="text-xs text-gray-400">{lead.city}, MI {lead.zip}</span>
-                    </td>
-                    <td className="px-6 py-4 text-gray-600">
-                      {lead.saleDate ? format(new Date(lead.saleDate), 'MMM d, yyyy') : 'N/A'}
-                    </td>
-                    <td className="px-6 py-4">
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium
-                        ${lead.noticeStatus === 'New' ? 'bg-blue-100 text-blue-800' :
-                          lead.noticeStatus === 'Ready' ? 'bg-green-100 text-green-800' :
-                          'bg-gray-100 text-gray-800'}`}>
-                        {lead.noticeStatus}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 text-gray-600">
-                      {lead.bestPhone || <span className="text-gray-400 italic">Missing</span>}
-                    </td>
-                    <td className="px-6 py-4">
-                      <Link href={`/leads/${lead.id}`} className="text-blue-600 hover:text-blue-800 font-medium text-sm">
-                        View
-                      </Link>
-                    </td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-        </div>
+        <ClientLeadsList leads={leads} />
 
         <Pagination
           currentPage={page}

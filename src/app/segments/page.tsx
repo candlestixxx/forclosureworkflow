@@ -2,6 +2,8 @@ import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { Hash, Users } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+
 export default async function SegmentsPage() {
   // Fetch all tags and group them by name to get counts
   const tags = await prisma.leadTag.groupBy({

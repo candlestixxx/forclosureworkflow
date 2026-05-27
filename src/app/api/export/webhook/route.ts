@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 import { pushToWebhook } from "@/lib/webhook";
 import { pushToHubSpot } from "@/lib/integrations/hubspot";
+import { pushToGoHighLevel } from "@/lib/integrations/gohighlevel";
 import { logAudit } from "@/lib/audit";
 
 export async function POST(request: Request) {
@@ -11,7 +12,7 @@ export async function POST(request: Request) {
 
     const settings = await prisma.setting.findUnique({ where: { id: "global" } });
 
-    if (!settings || (!settings.webhookUrl && !settings.hubspotApiKey)) {
+    if (!settings || (!settings.webhookUrl && !settings.hubspotApiKey && !settings.ghlApiKey)) {
       return NextResponse.json({ error: "No target integrations configured." }, { status: 400 });
     }
 
@@ -30,7 +31,7 @@ export async function POST(request: Request) {
     }
 
     let success = false;
-    let pushTypes = [];
+    const pushTypes = [];
 
     // Trigger HubSpot Native Integration
     if (settings.hubspotApiKey) {
@@ -41,6 +42,18 @@ export async function POST(request: Request) {
             await logAudit("HUBSPOT_PUSH", `Successfully pushed lead ${leadId}`, "SUCCESS");
         } else {
             await logAudit("HUBSPOT_PUSH", `Failed to push lead ${leadId}`, "FAILURE");
+        }
+    }
+
+    // Trigger GoHighLevel Native Integration
+    if (settings.ghlApiKey) {
+        const ghlSuccess = await pushToGoHighLevel(settings.ghlApiKey, lead);
+        if (ghlSuccess) {
+            success = true;
+            pushTypes.push("GoHighLevel");
+            await logAudit("GHL_PUSH", `Successfully pushed lead ${leadId} to GoHighLevel`, "SUCCESS");
+        } else {
+            await logAudit("GHL_PUSH", `Failed to push lead ${leadId} to GoHighLevel`, "FAILURE");
         }
     }
 

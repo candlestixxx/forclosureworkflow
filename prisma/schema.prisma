@@ -94,6 +94,7 @@ model Setting {
   id        String   @id @default("global") // Single row for global settings
   webhookUrl String?
   hubspotApiKey String?
+  ghlApiKey String?
   updatedAt DateTime @updatedAt
 }
 

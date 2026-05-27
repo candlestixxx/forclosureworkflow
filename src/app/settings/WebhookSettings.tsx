@@ -6,6 +6,7 @@ import { Save } from "lucide-react";
 export function WebhookSettings() {
   const [webhookUrl, setWebhookUrl] = useState("");
   const [hubspotApiKey, setHubspotApiKey] = useState("");
+  const [ghlApiKey, setGhlApiKey] = useState("");
   const [saved, setSaved] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -17,6 +18,7 @@ export function WebhookSettings() {
           const data = await res.json();
           setWebhookUrl(data.webhookUrl || "");
           setHubspotApiKey(data.hubspotApiKey || "");
+          setGhlApiKey(data.ghlApiKey || "");
         }
       } catch (err) {
         console.error("Failed to load settings", err);
@@ -33,7 +35,7 @@ export function WebhookSettings() {
       await fetch("/api/settings", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ webhookUrl, hubspotApiKey }),
+        body: JSON.stringify({ webhookUrl, hubspotApiKey, ghlApiKey }),
       });
       setSaved(true);
       setTimeout(() => setSaved(false), 2000);
@@ -78,6 +80,22 @@ export function WebhookSettings() {
                 onChange={(e) => setHubspotApiKey(e.target.value)}
                 placeholder="pat-na1-xxxx-xxxx-xxxx-xxxx"
                 title="Generate a Private App Token from your HubSpot developer portal with Contacts write access."
+                className="w-full p-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                disabled={loading}
+            />
+        </div>
+
+        <div className="pt-4 border-t border-gray-100">
+            <p className="text-sm font-medium text-gray-800 mb-1">GoHighLevel (Native Exporter)</p>
+            <p className="text-xs text-gray-500 mb-3">
+                Connect directly to GoHighLevel (GHL) Contacts API using a Location API Key.
+            </p>
+            <input
+                type="password"
+                value={ghlApiKey}
+                onChange={(e) => setGhlApiKey(e.target.value)}
+                placeholder="Enter GHL Location API Key"
+                title="Find this in your GoHighLevel Location Settings under 'API Key'."
                 className="w-full p-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                 disabled={loading}
             />

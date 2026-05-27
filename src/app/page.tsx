@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Users, AlertCircle, Clock, CalendarDays, TrendingUp } from "lucide-react";
 import { LeadTrendChart } from "@/components/LeadTrendChart";
 
-export const revalidate = 60; // Cache dashboard metrics for 60 seconds
+export const dynamic = "force-dynamic";
 
 export default async function Dashboard() {
   const totalLeads = await prisma.lead.count();
