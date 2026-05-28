@@ -1,10 +1,12 @@
 # TODO
 
 ## Immediate Tasks
-- [ ] Add direct calling (Voice) capability utilizing Twilio Voice APIs within the browser.
-- [ ] Configure `from` email address in SendGrid integration to use a verified, user-configurable domain instead of the hardcoded `system@foreclosurecrm.local`.
+- [ ] Add real-time WebSocket infrastructure for active voice call monitoring (advanced phase).
+- [ ] Add an AWS/S3 adapter to handle direct PDF document uploads to the Lead model.
+- [ ] Implement Playwright scrapers for county tax portals to grab missing addresses.
 
 ## Completed Tasks
+- [x] Phase 38: Twilio In-Browser Voice Calling (Voice SDK & TwiML App integration)
 - [x] Phase 37: Multi-User RBAC Architecture (Prisma DB, bcryptjs, Admin User UI)
 - [x] Phase 36: Headless Tax Assessor Integrations & Advanced Leads Sorting
 - [x] Phase 35: Equity & Valuation Tracking (AVM API integrations and DB schema updates)
