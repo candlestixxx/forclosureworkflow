@@ -3,7 +3,7 @@
 ## Immediate Tasks
 - [ ] Add real-time WebSocket infrastructure for active voice call monitoring (advanced phase).
 - [ ] Add an AWS/S3 adapter to handle direct PDF document uploads to the Lead model.
-- [ ] Implement Playwright scrapers for county tax portals to grab missing addresses.
+
 
 ## Completed Tasks
 - [x] Phase 38: Twilio In-Browser Voice Calling (Voice SDK & TwiML App integration)
