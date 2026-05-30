@@ -1,5 +1,6 @@
 import { AddNoteButton, AddTaskButton, LookupHelper, PushToCrmButton, AddTagButton, CommsButtons, SequenceEnrollButton } from "./ClientActions";
 import { AddContactButton, AddRelativeButton, RunConnectorButton, ResolveAddressButton } from "./EnrichmentActions";
+import { DocumentUploader } from "./DocumentUploader";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { format } from "date-fns";
@@ -20,6 +21,7 @@ export default async function LeadDetailPage({
       notes: { orderBy: { createdAt: 'desc' } },
       tasks: { orderBy: { dueDate: 'asc' } },
       tags: true,
+      documents: { orderBy: { createdAt: 'desc' } }
     }
   });
 
@@ -147,6 +149,8 @@ export default async function LeadDetailPage({
               {lead.rawNoticeText ? lead.rawNoticeText : <span className="italic text-gray-400">No raw notice text stored.</span>}
             </div>
           </div>
+
+          <DocumentUploader leadId={lead.id} documents={lead.documents} />
         </div>
 
         {/* Right Column: Contacts & Tasks */}
