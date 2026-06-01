@@ -12,6 +12,7 @@ export function WebhookSettings() {
   const [twilioFromNumber, setTwilioFromNumber] = useState("");
   const [sendgridApiKey, setSendgridApiKey] = useState("");
   const [openAiApiKey, setOpenAiApiKey] = useState("");
+  const [browserlessEndpoint, setBrowserlessEndpoint] = useState("");
   const [saved, setSaved] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -29,6 +30,7 @@ export function WebhookSettings() {
           setTwilioFromNumber(data.twilioFromNumber || "");
           setSendgridApiKey(data.sendgridApiKey || "");
           setOpenAiApiKey(data.openAiApiKey || "");
+          setBrowserlessEndpoint(data.browserlessEndpoint || "");
         }
       } catch (err) {
         console.error("Failed to load settings", err);

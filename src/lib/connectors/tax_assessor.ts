@@ -1,13 +1,15 @@
 import { BaseConnector, EnrichmentResult } from "./core";
 import { Lead } from "@prisma/client";
 import { chromium } from "playwright-core";
+import { prisma } from "@/lib/prisma";
 
 export class TaxAssessorConnector extends BaseConnector {
   public connectorName = "County Tax Assessor";
   public requiresLogin = false;
 
   protected async performWorkflow(lead: Lead): Promise<EnrichmentResult> {
-    const wsEndpoint = process.env.BROWSERLESS_WS_ENDPOINT;
+    const settings = await prisma.setting.findUnique({ where: { id: "global" } });
+    const wsEndpoint = settings?.browserlessEndpoint || process.env.BROWSERLESS_WS_ENDPOINT;
 
     // For local development or environments without Browserless, we simulate the scrape gracefully.
     if (!wsEndpoint) {
