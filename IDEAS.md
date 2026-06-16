@@ -1,0 +1,7 @@
+# IDEAS
+*   **Refactoring**: Once MVP is complete, consider migrating from SQLite to PostgreSQL for better concurrency and scaling.
+*   **Feature Expansion**:
+    *   Implement an AI-based parser to extract lead details from raw notice text automatically.
+    *   Add map view for leads using Mapbox or Google Maps to visualize foreclosure clusters.
+    *   Integrate a built-in dialer or Twilio integration for direct calling/texting from the CRM.
+*   **Pivots**: Expand beyond foreclosure leads to encompass other real estate distress indicators (e.g., tax liens, probate).
