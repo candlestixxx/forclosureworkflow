@@ -43,3 +43,12 @@ npx prisma db push
 3. Configure the `.env` file as shown above (you must have a remote Postgres DB or run one locally via Docker).
 4. Run `npx prisma db push`.
 5. Run `npm run dev` to start the development server.
+
+
+## AWS S3 Configuration (v1.1.9+)
+To use the document upload feature, ensure the global settings contain valid AWS S3 credentials:
+- AWS Access Key ID
+- AWS Secret Access Key
+- AWS Region (e.g., us-east-1)
+- AWS S3 Bucket Name
+The bucket should be configured to allow PutObject operations.

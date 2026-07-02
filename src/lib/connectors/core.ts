@@ -2,6 +2,9 @@ import { Lead } from "@prisma/client";
 import { logAudit } from "../audit";
 
 export interface EnrichmentResult {
+  resolvedAddress?: string;
+  resolvedCity?: string;
+  resolvedZip?: string;
   phones: Array<{ value: string, confidence: number }>;
   emails: Array<{ value: string, confidence: number }>;
   relatives: Array<{ name: string, relation?: string, phone?: string }>;

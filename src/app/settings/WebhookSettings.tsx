@@ -13,6 +13,10 @@ export function WebhookSettings() {
   const [sendgridApiKey, setSendgridApiKey] = useState("");
   const [openAiApiKey, setOpenAiApiKey] = useState("");
   const [browserlessEndpoint, setBrowserlessEndpoint] = useState("");
+  const [awsAccessKeyId, setAwsAccessKeyId] = useState("");
+  const [awsSecretAccessKey, setAwsSecretAccessKey] = useState("");
+  const [awsRegion, setAwsRegion] = useState("");
+  const [awsS3Bucket, setAwsS3Bucket] = useState("");
   const [saved, setSaved] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -31,6 +35,10 @@ export function WebhookSettings() {
           setSendgridApiKey(data.sendgridApiKey || "");
           setOpenAiApiKey(data.openAiApiKey || "");
           setBrowserlessEndpoint(data.browserlessEndpoint || "");
+          setAwsAccessKeyId(data.awsAccessKeyId || "");
+          setAwsSecretAccessKey(data.awsSecretAccessKey || "");
+          setAwsRegion(data.awsRegion || "");
+          setAwsS3Bucket(data.awsS3Bucket || "");
         }
       } catch (err) {
         console.error("Failed to load settings", err);
@@ -49,7 +57,7 @@ export function WebhookSettings() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           webhookUrl, hubspotApiKey, ghlApiKey,
-          twilioAccountSid, twilioAuthToken, twilioFromNumber, sendgridApiKey, openAiApiKey
+          twilioAccountSid, twilioAuthToken, twilioFromNumber, sendgridApiKey, openAiApiKey, browserlessEndpoint, awsAccessKeyId, awsSecretAccessKey, awsRegion, awsS3Bucket
         }),
       });
       setSaved(true);
@@ -179,7 +187,47 @@ export function WebhookSettings() {
             />
         </div>
 
-        <div className="flex justify-end pt-4">
+        <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">AWS S3 Access Key ID</label>
+            <input
+              type="text"
+              value={awsAccessKeyId}
+              onChange={(e) => setAwsAccessKeyId(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              placeholder="AKIA..."
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">AWS S3 Secret Access Key</label>
+            <input
+              type="password"
+              value={awsSecretAccessKey}
+              onChange={(e) => setAwsSecretAccessKey(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              placeholder="Secret..."
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">AWS S3 Region</label>
+            <input
+              type="text"
+              value={awsRegion}
+              onChange={(e) => setAwsRegion(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              placeholder="us-east-1"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">AWS S3 Bucket Name</label>
+            <input
+              type="text"
+              value={awsS3Bucket}
+              onChange={(e) => setAwsS3Bucket(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              placeholder="my-crm-bucket"
+            />
+          </div>
+          <div className="flex justify-end pt-4">
             <button
                 onClick={handleSave}
                 disabled={loading}

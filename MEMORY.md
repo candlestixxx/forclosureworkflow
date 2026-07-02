@@ -4,3 +4,5 @@
 *   **Architectural Observations**:
     *   The app is built as a standalone CRM first, with integration capabilities to be added later.
     *   Prioritizing MVP features: database schema, lead list view, and detail view.
+
+- AWS S3 Document Uploads: Implemented via `@aws-sdk/client-s3` dynamically pulling credentials from Prisma `Setting` model. Uploaded documents are tracked in the `Document` model linked to `Lead`.
