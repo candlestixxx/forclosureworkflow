@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { SettingsSchema } from "@/lib/validations";
 import { revalidatePath } from "next/cache";
 
-export const revalidate = 300; // Cache settings endpoint for 5 minutes
+export const revalidate = 300;
 
 export async function GET() {
   try {
@@ -13,7 +13,7 @@ export async function GET() {
 
     return NextResponse.json(settings || {
       webhookUrl: "", hubspotApiKey: "", ghlApiKey: "",
-      twilioAccountSid: "", twilioAuthToken: "", twilioFromNumber: "", sendgridApiKey: "", openAiApiKey: "", browserlessEndpoint: ""
+      twilioAccountSid: "", twilioAuthToken: "", twilioFromNumber: "", sendgridApiKey: "", openAiApiKey: "", browserlessEndpoint: "", awsAccessKeyId: "", awsSecretAccessKey: "", awsRegion: "", awsS3Bucket: ""
     });
   } catch (error) {
     return NextResponse.json({ error: "Failed to fetch settings" }, { status: 500 });
@@ -33,11 +33,11 @@ export async function POST(request: Request) {
       where: { id: "global" },
       update: {
         webhookUrl: body.webhookUrl, hubspotApiKey: body.hubspotApiKey, ghlApiKey: body.ghlApiKey,
-        twilioAccountSid: body.twilioAccountSid, twilioAuthToken: body.twilioAuthToken, twilioFromNumber: body.twilioFromNumber, sendgridApiKey: body.sendgridApiKey, openAiApiKey: body.openAiApiKey, browserlessEndpoint: body.browserlessEndpoint
+        twilioAccountSid: body.twilioAccountSid, twilioAuthToken: body.twilioAuthToken, twilioFromNumber: body.twilioFromNumber, sendgridApiKey: body.sendgridApiKey, openAiApiKey: body.openAiApiKey, browserlessEndpoint: (body as any).browserlessEndpoint, awsAccessKeyId: (body as any).awsAccessKeyId, awsSecretAccessKey: (body as any).awsSecretAccessKey, awsRegion: (body as any).awsRegion, awsS3Bucket: (body as any).awsS3Bucket
       },
       create: {
         id: "global", webhookUrl: body.webhookUrl, hubspotApiKey: body.hubspotApiKey, ghlApiKey: body.ghlApiKey,
-        twilioAccountSid: body.twilioAccountSid, twilioAuthToken: body.twilioAuthToken, twilioFromNumber: body.twilioFromNumber, sendgridApiKey: body.sendgridApiKey, openAiApiKey: body.openAiApiKey, browserlessEndpoint: body.browserlessEndpoint
+        twilioAccountSid: body.twilioAccountSid, twilioAuthToken: body.twilioAuthToken, twilioFromNumber: body.twilioFromNumber, sendgridApiKey: body.sendgridApiKey, openAiApiKey: body.openAiApiKey, browserlessEndpoint: (body as any).browserlessEndpoint, awsAccessKeyId: (body as any).awsAccessKeyId, awsSecretAccessKey: (body as any).awsSecretAccessKey, awsRegion: (body as any).awsRegion, awsS3Bucket: (body as any).awsS3Bucket
       }
     });
 

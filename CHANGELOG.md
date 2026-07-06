@@ -1,3 +1,8 @@
+## v1.1.9
+- Implemented AWS S3 document upload adapter.
+- Integrated DocumentUploader UI into Lead Detail page.
+- Added AWS configuration fields to global Settings and WebhookSettings UI.
+
 # Changelog
 
 ## [1.1.8] - Current Session
