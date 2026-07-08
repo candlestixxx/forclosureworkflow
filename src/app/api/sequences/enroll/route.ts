@@ -88,10 +88,11 @@ export async function POST(request: Request) {
       }
     });
 
-    await prisma.leadTag.create({
-        data: { leadId, name: `drip-${sequence.toLowerCase()}` },
-        skipDuplicates: true
-    });
+        try {
+      await prisma.leadTag.create({
+          data: { leadId, name: `drip-${sequence.toLowerCase()}` }
+      });
+    } catch(e) { /* ignore if exists */ }
 
     return NextResponse.json({ success: true, message: `Enrolled in ${sequence}` });
   } catch (error) {
