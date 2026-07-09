@@ -1,4 +1,5 @@
 "use client";
+import { TwilioVoiceButton } from "./TwilioVoiceButton";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -202,6 +203,11 @@ export function CommsButtons({ leadId, defaultPhone, defaultEmail }: { leadId: s
 
   return (
     <div className="flex gap-2">
+      {/* Voice Container */}
+      <div className="relative">
+        <TwilioVoiceButton leadId={leadId} toPhone={defaultPhone || ""} />
+      </div>
+
       {/* SMS Container */}
       <div className="relative">
         <button

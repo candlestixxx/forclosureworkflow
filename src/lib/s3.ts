@@ -1,7 +1,5 @@
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import { prisma } from "@/lib/prisma";
 
 export async function uploadToS3(fileBuffer: Buffer, fileName: string, mimeType: string): Promise<string> {
   const settings = await prisma.setting.findUnique({ where: { id: 'global' } });
