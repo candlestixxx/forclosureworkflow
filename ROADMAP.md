@@ -35,3 +35,8 @@
 - Secure credential handling
 - User-approved browser automation
 - Error handling, Audit log, Compliance safeguards
+
+
+## Phase 6: Next Steps
+- Document Storage integration complete (AWS S3).
+- Next major milestone is Real-time voice monitoring via WebSockets.

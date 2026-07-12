@@ -5,3 +5,5 @@
     *   Add map view for leads using Mapbox or Google Maps to visualize foreclosure clusters.
     *   Integrate a built-in dialer or Twilio integration for direct calling/texting from the CRM.
 *   **Pivots**: Expand beyond foreclosure leads to encompass other real estate distress indicators (e.g., tax liens, probate).
+
+*   **Voice Monitoring**: Look into Socket.io or Twilio Event Streams to build real-time monitoring.
