@@ -1,7 +1,7 @@
 # TODO
 
 ## Immediate Tasks
-- [ ] Add real-time WebSocket infrastructure for active voice call monitoring (advanced phase).
+- [x] Add real-time WebSocket infrastructure for active voice call monitoring (advanced phase). (v1.1.10)
 - [x] Add an AWS/S3 adapter to handle direct PDF document uploads to the Lead model. (v1.1.9)
 
 

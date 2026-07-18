@@ -1,3 +1,4 @@
+import { ActiveCallsMonitor } from "@/components/ActiveCallsMonitor";
 import { NotificationBell } from "@/components/NotificationBell";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -65,6 +66,7 @@ export default function RootLayout({
             </header>
             <div className="flex-1 overflow-y-auto p-8 bg-gray-50">
               {children}
+        <ActiveCallsMonitor />
               <Analytics />
               <SpeedInsights />
             </div>

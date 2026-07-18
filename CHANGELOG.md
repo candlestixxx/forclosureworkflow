@@ -1,3 +1,7 @@
+## v1.1.10
+- Added real-time WebSocket infrastructure (socket.io) for active voice call monitoring.
+- Integrated Twilio Voice webhooks to stream call statuses to connected clients.
+
 ## v1.1.9
 - Implemented AWS S3 document upload adapter.
 - Integrated DocumentUploader UI into Lead Detail page.

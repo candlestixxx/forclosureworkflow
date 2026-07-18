@@ -52,3 +52,6 @@ To use the document upload feature, ensure the global settings contain valid AWS
 - AWS Region (e.g., us-east-1)
 - AWS S3 Bucket Name
 The bucket should be configured to allow PutObject operations.
+
+## WebSockets (v1.1.10+)
+For active voice call monitoring to work, the application must be run using the custom `server.js` entrypoint. Serverless platforms like Vercel do not natively support stateful Socket.io servers without external adapters.

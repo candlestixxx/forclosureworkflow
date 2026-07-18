@@ -23,6 +23,9 @@ export async function GET(request: Request) {
       twiml: `<Response><Say>Connecting you to the agent.</Say><Dial callerId="${settings.twilioFromNumber}">${to}</Dial></Response>`,
       to,
       from: settings.twilioFromNumber,
+      statusCallback: `${settings.webhookUrl || process.env.NEXTAUTH_URL}/api/communications/voice/webhook`,
+      statusCallbackEvent: ["initiated", "ringing", "answered", "completed"],
+      statusCallbackMethod: "POST",
     });
 
     return NextResponse.json({ success: true, callSid: call.sid });
