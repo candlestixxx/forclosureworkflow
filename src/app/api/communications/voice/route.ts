@@ -1,9 +1,12 @@
+import { getServerSession } from "next-auth/next";
 import { NextResponse } from 'next/server';
 import { prisma } from "@/lib/prisma";
 import twilio from 'twilio';
 
 export async function GET(request: Request) {
   try {
+    const session = await getServerSession();
+    if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     const { searchParams } = new URL(request.url);
     const to = searchParams.get('to');
 

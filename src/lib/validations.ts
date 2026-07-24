@@ -29,6 +29,11 @@ export const SettingsSchema = z.object({
   twilioFromNumber: z.string().optional().nullable(),
   sendgridApiKey: z.string().optional().nullable(),
   openAiApiKey: z.string().optional().nullable(),
+  browserlessEndpoint: z.string().optional().nullable(),
+  awsAccessKeyId: z.string().optional().nullable(),
+  awsSecretAccessKey: z.string().optional().nullable(),
+  awsRegion: z.string().optional().nullable(),
+  awsS3Bucket: z.string().optional().nullable(),
 });
 
 export const ContactSchema = z.object({

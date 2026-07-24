@@ -7,3 +7,4 @@
 *   **Pivots**: Expand beyond foreclosure leads to encompass other real estate distress indicators (e.g., tax liens, probate).
 
 *   **Voice Monitoring**: Look into Socket.io or Twilio Event Streams to build real-time monitoring.
+*   **Data Quality Dashboard**: Implement a dashboard to track contact enrichment success rates and data completeness over time.

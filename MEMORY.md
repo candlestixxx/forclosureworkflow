@@ -7,3 +7,4 @@
 
 - AWS S3 Document Uploads: Implemented via `@aws-sdk/client-s3` dynamically pulling credentials from Prisma `Setting` model. Uploaded documents are tracked in the `Document` model linked to `Lead`.
 - WebSocket Monitoring: Implemented a custom `server.js` entrypoint with `socket.io` to push Twilio `statusCallback` updates to a global UI `ActiveCallsMonitor`.
+- The next task is to build a Data Quality Dashboard (`DataQuality.tsx`) to track contact enrichment success rates.
