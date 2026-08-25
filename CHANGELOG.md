@@ -1,3 +1,6 @@
+## v1.1.11
+- Built a Data Quality Dashboard (`/data-quality`) to track contact enrichment success rates and data completeness.
+
 ## v1.1.10
 - Added real-time WebSocket infrastructure (socket.io) for active voice call monitoring.
 - Integrated Twilio Voice webhooks to stream call statuses to connected clients.
