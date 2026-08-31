@@ -40,4 +40,5 @@
 ## Phase 6: Next Steps
 - Document Storage integration complete (AWS S3).
 - Next major milestone is Real-time voice monitoring via WebSockets.
-- Next major milestone is a Data Quality Dashboard to track enrichment metrics.
+- Data Quality Dashboard integrated.
+- Next major milestone is to finalize Handover Protocol and Handoff session docs to wrap up this session.
