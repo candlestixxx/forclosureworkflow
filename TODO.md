@@ -1,7 +1,7 @@
 # TODO
 
 ## Immediate Tasks
-- [ ] Look into fixing BROWSERLESS_WS_ENDPOINT and the tax_assessor.ts logic so Playwright scrapers work in serverless/production environments.
+- [x] Look into fixing BROWSERLESS_WS_ENDPOINT and the tax_assessor.ts logic so Playwright scrapers work in serverless/production environments. (v1.1.12)
 - [x] Finalize HANDOFF.md protocol and document structural shifts for successor AI model session handover.
 - [x] Build a Data Quality Dashboard (DataQuality.tsx) to track contact enrichment success rates and data completeness. (v1.1.11)
 - [x] Add real-time WebSocket infrastructure for active voice call monitoring (advanced phase). (v1.1.10)

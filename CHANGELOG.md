@@ -1,3 +1,6 @@
+## v1.1.12
+- Exposed Browserless API endpoint configuration to the UI so remote headless tax assessor playwright scripts can be executed in serverless environments.
+
 ## v1.1.11
 - Built a Data Quality Dashboard (`/data-quality`) to track contact enrichment success rates and data completeness.
 
