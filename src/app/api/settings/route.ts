@@ -33,11 +33,11 @@ export async function POST(request: Request) {
       where: { id: "global" },
       update: {
         webhookUrl: body.webhookUrl, hubspotApiKey: body.hubspotApiKey, ghlApiKey: body.ghlApiKey,
-        twilioAccountSid: body.twilioAccountSid, twilioAuthToken: body.twilioAuthToken, twilioFromNumber: body.twilioFromNumber, sendgridApiKey: body.sendgridApiKey, openAiApiKey: body.openAiApiKey, browserlessEndpoint: (body as any).browserlessEndpoint, awsAccessKeyId: (body as any).awsAccessKeyId, awsSecretAccessKey: (body as any).awsSecretAccessKey, awsRegion: (body as any).awsRegion, awsS3Bucket: (body as any).awsS3Bucket
+        twilioAccountSid: body.twilioAccountSid, twilioAuthToken: body.twilioAuthToken, twilioFromNumber: body.twilioFromNumber, sendgridApiKey: body.sendgridApiKey, openAiApiKey: body.openAiApiKey, browserlessEndpoint: body.browserlessEndpoint, awsAccessKeyId: body.awsAccessKeyId, awsSecretAccessKey: body.awsSecretAccessKey, awsRegion: body.awsRegion, awsS3Bucket: body.awsS3Bucket
       },
       create: {
         id: "global", webhookUrl: body.webhookUrl, hubspotApiKey: body.hubspotApiKey, ghlApiKey: body.ghlApiKey,
-        twilioAccountSid: body.twilioAccountSid, twilioAuthToken: body.twilioAuthToken, twilioFromNumber: body.twilioFromNumber, sendgridApiKey: body.sendgridApiKey, openAiApiKey: body.openAiApiKey, browserlessEndpoint: (body as any).browserlessEndpoint, awsAccessKeyId: (body as any).awsAccessKeyId, awsSecretAccessKey: (body as any).awsSecretAccessKey, awsRegion: (body as any).awsRegion, awsS3Bucket: (body as any).awsS3Bucket
+        twilioAccountSid: body.twilioAccountSid, twilioAuthToken: body.twilioAuthToken, twilioFromNumber: body.twilioFromNumber, sendgridApiKey: body.sendgridApiKey, openAiApiKey: body.openAiApiKey, browserlessEndpoint: body.browserlessEndpoint, awsAccessKeyId: body.awsAccessKeyId, awsSecretAccessKey: body.awsSecretAccessKey, awsRegion: body.awsRegion, awsS3Bucket: body.awsS3Bucket
       }
     });
 
