@@ -31,11 +31,21 @@ export class TaxAssessorConnector extends BaseConnector {
 
     let browser;
     try {
-      // Connect to remote Browserless.io instance
-      browser = await chromium.connectOverCDP(wsEndpoint);
+      // Connect to remote Browserless.io instance with retry
+      let lastError: any;
+      for (let attempt = 1; attempt <= 3; attempt++) {
+        try {
+          browser = await chromium.connectOverCDP(wsEndpoint);
+          break;
+        } catch (err: any) {
+          lastError = err;
+          if (attempt < 3) await new Promise(r => setTimeout(r, 1000 * attempt));
+        }
+      }
+      if (!browser) throw lastError || new Error('Failed to connect to browser');
+
       const context = await browser.newContext();
       const page = await context.newPage();
-
       page.setDefaultTimeout(15000);
 
       // In a real scenario, this would navigate to a specific county GIS or Tax portal.
