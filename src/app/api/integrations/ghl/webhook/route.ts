@@ -68,7 +68,7 @@ export async function POST(request: Request) {
         internalStatus = "Ready";
     }
 
-    await prisma.lead.update({
+    await prisma.lead.updateMany({
         where: { id: lead.id },
         data: { noticeStatus: internalStatus }
     });
