@@ -14,6 +14,13 @@ export async function POST(request: Request) {
     }
     const { leadId, connectorType } = body;
 
+    if (!leadId || typeof leadId !== 'string') {
+      return NextResponse.json({ error: "leadId is required" }, { status: 400 });
+    }
+    if (!connectorType || typeof connectorType !== 'string') {
+      return NextResponse.json({ error: "connectorType is required (MyPlusLeads or TaxAssessor)" }, { status: 400 });
+    }
+
     const lead = await prisma.lead.findUnique({ where: { id: leadId } });
     if (!lead) return NextResponse.json({ error: "Lead not found" }, { status: 404 });
 

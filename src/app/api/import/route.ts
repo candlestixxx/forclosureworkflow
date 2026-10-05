@@ -4,7 +4,12 @@ import Papa from "papaparse";
 
 export async function POST(request: Request) {
   try {
-    const formData = await request.formData();
+    let formData;
+    try {
+      formData = await request.formData();
+    } catch {
+      return NextResponse.json({ error: "Expected multipart form data with a 'file' field" }, { status: 400 });
+    }
     const file = formData.get("file") as File;
 
     if (!file) {

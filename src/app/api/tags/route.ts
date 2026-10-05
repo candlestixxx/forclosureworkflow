@@ -10,6 +10,13 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
     }
 
+    if (!body.name || typeof body.name !== 'string') {
+      return NextResponse.json({ error: "name is required" }, { status: 400 });
+    }
+    if (!body.leadId || typeof body.leadId !== 'string') {
+      return NextResponse.json({ error: "leadId is required" }, { status: 400 });
+    }
+
     // Simple sanitization: remove spaces and # symbols, convert to lowercase
     const tagName = body.name.toLowerCase().replace(/[\s#]/g, '');
 
