@@ -13,7 +13,12 @@ export async function POST(request: Request) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const body = await request.json();
+    let body;
+    try {
+      body = await request.json();
+    } catch {
+      return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+    }
 
     // GoHighLevel sends a dense payload on pipeline stage changes.
     // We expect the user to map our internal Lead ID to a custom field in GHL named "crm_lead_id".
