@@ -63,7 +63,7 @@ export async function POST(request: Request) {
     });
 
     // Update lead status
-    await prisma.lead.update({
+    await prisma.lead.updateMany({
       where: { id: leadId },
       data: { noticeStatus: "Attempted" }
     });
