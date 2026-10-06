@@ -16,6 +16,8 @@ export async function POST(request: Request) {
     }
     const body = validation.data;
 
+    const lead = await prisma.lead.findUnique({ where: { id: body.leadId } });
+    if (!lead) return NextResponse.json({ error: "Lead not found" }, { status: 404 });
     const newRelative = await prisma.leadRelative.create({
       data: {
         leadId: body.leadId,
