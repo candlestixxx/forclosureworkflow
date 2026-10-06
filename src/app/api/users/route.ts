@@ -26,6 +26,9 @@ export async function GET(request: Request) {
 
     return NextResponse.json(users);
   } catch (error) {
+    if ((error as { code?: string })?.code === 'P2002') {
+        return NextResponse.json({ error: 'A record with this unique field already exists' }, { status: 409 });
+      }
     return NextResponse.json({ error: "Failed to fetch users" }, { status: 500 });
   }
 }
@@ -37,7 +40,12 @@ export async function POST(request: Request) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const rawBody = await request.json();
+    let rawBody;
+    try {
+      rawBody = await request.json();
+    } catch {
+      return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+    }
     const validation = UserCreateSchema.safeParse(rawBody);
 
     if (!validation.success) {

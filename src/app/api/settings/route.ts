@@ -22,7 +22,12 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
-    const rawBody = await request.json();
+    let rawBody;
+    try {
+      rawBody = await request.json();
+    } catch {
+      return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+    }
     const validation = SettingsSchema.safeParse(rawBody);
     if (!validation.success) {
       return NextResponse.json({ error: "Invalid settings payload", details: validation.error.format() }, { status: 400 });

@@ -18,13 +18,14 @@ export function NotificationBell() {
   const fetchNotifications = async () => {
     try {
       const res = await fetch("/api/notifications");
-      if (res.ok) {
+      const contentType = res.headers.get("content-type") || "";
+      if (res.ok && contentType.includes("application/json")) {
         const data = await res.json();
         setNotifications(data.notifications);
         setCount(data.count);
       }
-    } catch (e) {
-      console.error("Failed to fetch notifications", e);
+    } catch {
+      // Silently ignore — unauthenticated or backend unavailable
     }
   };
 

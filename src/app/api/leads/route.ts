@@ -9,8 +9,8 @@ export async function GET(request: Request) {
     const filter = searchParams.get("filter");
 
     // Pagination params
-    const page = parseInt(searchParams.get("page") || "1", 10);
-    const limit = parseInt(searchParams.get("limit") || "20", 10);
+    const page = Math.max(1, parseInt(searchParams.get("page") || "1", 10) || 1);
+    const limit = Math.min(100, Math.max(1, parseInt(searchParams.get("limit") || "20", 10) || 20));
     const skip = (page - 1) * limit;
 
     let whereClause = {};
@@ -52,7 +52,12 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
-    const rawBody = await request.json();
+    let rawBody;
+    try {
+      rawBody = await request.json();
+    } catch {
+      return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+    }
 
     // Zod Payload Validation
     const validation = LeadCreationSchema.safeParse(rawBody);
@@ -101,6 +106,7 @@ export async function POST(request: Request) {
     });
     return NextResponse.json(newLead, { status: 201 });
   } catch (error) {
+    console.error("Lead create error:", error);
     return NextResponse.json({ error: "Failed to create lead" }, { status: 500 });
   }
 }

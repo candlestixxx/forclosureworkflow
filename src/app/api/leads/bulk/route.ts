@@ -11,7 +11,12 @@ const BulkActionSchema = z.object({
 
 export async function POST(request: Request) {
   try {
-    const rawBody = await request.json();
+    let rawBody;
+    try {
+      rawBody = await request.json();
+    } catch {
+      return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+    }
     const validation = BulkActionSchema.safeParse(rawBody);
 
     if (!validation.success) {

@@ -3,7 +3,17 @@ import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
+    let body;
+    try {
+      body = await request.json();
+    } catch {
+      return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+    }
+    if (!body.content || !body.leadId) {
+      return NextResponse.json({ error: "content and leadId are required" }, { status: 400 });
+    }
+    const lead = await prisma.lead.findUnique({ where: { id: body.leadId } });
+    if (!lead) return NextResponse.json({ error: "Lead not found" }, { status: 404 });
     const newNote = await prisma.leadNote.create({
       data: {
         content: body.content,

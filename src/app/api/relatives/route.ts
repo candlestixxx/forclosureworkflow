@@ -4,13 +4,20 @@ import { RelativeSchema } from "@/lib/validations";
 
 export async function POST(request: Request) {
   try {
-    const rawBody = await request.json();
+    let rawBody;
+    try {
+      rawBody = await request.json();
+    } catch {
+      return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+    }
     const validation = RelativeSchema.safeParse(rawBody);
     if (!validation.success) {
       return NextResponse.json({ error: "Invalid relative payload", details: validation.error.format() }, { status: 400 });
     }
     const body = validation.data;
 
+    const lead = await prisma.lead.findUnique({ where: { id: body.leadId } });
+    if (!lead) return NextResponse.json({ error: "Lead not found" }, { status: 404 });
     const newRelative = await prisma.leadRelative.create({
       data: {
         leadId: body.leadId,

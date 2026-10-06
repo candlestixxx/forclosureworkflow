@@ -10,7 +10,12 @@ const EnrollSchema = z.object({
 
 export async function POST(request: Request) {
   try {
-    const rawBody = await request.json();
+    let rawBody;
+    try {
+      rawBody = await request.json();
+    } catch {
+      return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+    }
     const validation = EnrollSchema.safeParse(rawBody);
 
     if (!validation.success) {
@@ -96,6 +101,9 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ success: true, message: `Enrolled in ${sequence}` });
   } catch (error) {
+    if ((error as { code?: string })?.code === 'P2002') {
+        return NextResponse.json({ error: 'A record with this unique field already exists' }, { status: 409 });
+      }
     console.error("Sequence Enrollment error:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }

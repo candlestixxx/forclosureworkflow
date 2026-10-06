@@ -3,7 +3,19 @@ import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
+    let body;
+    try {
+      body = await request.json();
+    } catch {
+      return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+    }
+
+    if (!body.name || typeof body.name !== 'string') {
+      return NextResponse.json({ error: "name is required" }, { status: 400 });
+    }
+    if (!body.leadId || typeof body.leadId !== 'string') {
+      return NextResponse.json({ error: "leadId is required" }, { status: 400 });
+    }
 
     // Simple sanitization: remove spaces and # symbols, convert to lowercase
     const tagName = body.name.toLowerCase().replace(/[\s#]/g, '');
@@ -11,6 +23,9 @@ export async function POST(request: Request) {
     if (!tagName) {
       return NextResponse.json({ error: "Invalid tag name" }, { status: 400 });
     }
+
+    const lead = await prisma.lead.findUnique({ where: { id: body.leadId } });
+    if (!lead) return NextResponse.json({ error: "Lead not found" }, { status: 404 });
 
     const newTag = await prisma.leadTag.create({
       data: {

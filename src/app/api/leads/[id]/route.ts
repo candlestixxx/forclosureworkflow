@@ -34,7 +34,12 @@ export async function PATCH(
 ) {
   try {
     const resolvedParams = await params;
-    const body = await request.json();
+    let body;
+    try {
+      body = await request.json();
+    } catch {
+      return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+    }
 
     if (body.saleDate) {
       body.saleDate = new Date(body.saleDate);
@@ -45,6 +50,7 @@ export async function PATCH(
 
     // Recalculate score upon edit (e.g. saleDate might have changed)
     const currentLead = await prisma.lead.findUnique({ where: { id: resolvedParams.id } });
+    if (!currentLead) return NextResponse.json({ error: "Lead not found" }, { status: 404 });
     const mergedData = { ...currentLead, ...body };
     body.leadScore = calculateLeadScore(mergedData);
 
