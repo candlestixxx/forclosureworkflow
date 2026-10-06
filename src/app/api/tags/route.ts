@@ -24,6 +24,9 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Invalid tag name" }, { status: 400 });
     }
 
+    const lead = await prisma.lead.findUnique({ where: { id: body.leadId } });
+    if (!lead) return NextResponse.json({ error: "Lead not found" }, { status: 404 });
+
     const newTag = await prisma.leadTag.create({
       data: {
         name: tagName,

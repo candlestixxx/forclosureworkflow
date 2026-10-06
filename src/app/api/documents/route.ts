@@ -16,6 +16,9 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "File and leadId are required." }, { status: 400 });
     }
 
+    const lead = await prisma.lead.findUnique({ where: { id: leadId } });
+    if (!lead) return NextResponse.json({ error: "Lead not found" }, { status: 404 });
+
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 
