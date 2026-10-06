@@ -50,6 +50,7 @@ export async function PATCH(
 
     // Recalculate score upon edit (e.g. saleDate might have changed)
     const currentLead = await prisma.lead.findUnique({ where: { id: resolvedParams.id } });
+    if (!currentLead) return NextResponse.json({ error: "Lead not found" }, { status: 404 });
     const mergedData = { ...currentLead, ...body };
     body.leadScore = calculateLeadScore(mergedData);
 
