@@ -1,5 +1,5 @@
 const { createServer } = require("http");
-const { parse } = require("url");
+const { URL } = require("url");
 const next = require("next");
 const { Server } = require("socket.io");
 
@@ -9,7 +9,7 @@ const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
   const server = createServer((req, res) => {
-    const parsedUrl = parse(req.url, true);
+    const parsedUrl = new URL(req.url || "/", "http://" + (req.headers.host || "localhost"));
     handle(req, res, parsedUrl);
   });
 
