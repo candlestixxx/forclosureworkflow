@@ -59,6 +59,23 @@ export default async function Dashboard() {
 
   return (
     <div className="space-y-6">
+      {/* Project Goal */}
+      <div className="rounded-xl border border-blue-200 bg-blue-50/60 p-4">
+        <div className="flex items-start gap-3">
+          <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center shrink-0">
+            <AlertCircle className="w-4 h-4 text-white" />
+          </div>
+          <div>
+            <h2 className="text-sm font-bold text-gray-900">Foreclosure Workflow — Legal Intake &amp; Monitoring</h2>
+            <p className="text-xs text-gray-600 mt-1 leading-relaxed">
+              Automated foreclosure notice monitoring, legal document parsing, and distressed-property lead generation
+              for Macomb and Bay Counties. Monitors legal news, parses notices into CRM leads, and tracks auction dates
+              with tax-assessor prefill. Part of the <a href="https://excellegacyrealtygroup.site" className="text-blue-600 underline">Excel Legacy Realty Group</a> platform.
+            </p>
+          </div>
+        </div>
+      </div>
+
       <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
