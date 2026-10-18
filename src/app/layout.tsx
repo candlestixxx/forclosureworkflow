@@ -33,6 +33,11 @@ export default function RootLayout({
               <h1 className="text-xl font-bold text-gray-800 tracking-tight">Foreclosure CRM</h1>
             </div>
             <nav className="p-4 space-y-2">
+              <a href="https://excellegacyrealtygroup.site" className="flex items-center p-2 text-blue-600 hover:bg-blue-50 rounded-lg font-medium">
+                <LayoutDashboard className="w-5 h-5 mr-3 rotate-180" />
+                Main Dashboard
+              </a>
+              <div className="border-t my-2" />
               <Link href="/" className="flex items-center p-2 text-gray-700 hover:bg-gray-100 rounded-lg">
                 <LayoutDashboard className="w-5 h-5 mr-3" />
                 Dashboard
