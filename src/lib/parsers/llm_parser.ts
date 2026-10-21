@@ -2,7 +2,7 @@ import { NoticeParser, ParsedLead } from "./core";
 import OpenAI from "openai";
 
 // DeepSeek is OpenAI-compatible; point the SDK at it when DEEPSEEK_API_KEY is set.
-const LLM_MODEL = process.env.DEEPSEEK_API_KEY ? (process.env.DEEPSEEK_MODEL || "deepseek-chat") : "gpt-4o-mini";
+const LLM_MODEL = process.env.DEEPSEEK_API_KEY ? (process.env.DEEPSEEK_MODEL || "deepseek-v4-flash") : "gpt-4o-mini";
 const LLM_BASE_URL = process.env.DEEPSEEK_API_KEY ? "https://api.deepseek.com/v1" : undefined;
 
 export class LLMNoticeParser extends NoticeParser {
