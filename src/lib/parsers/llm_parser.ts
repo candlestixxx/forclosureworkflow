@@ -1,13 +1,17 @@
 import { NoticeParser, ParsedLead } from "./core";
 import OpenAI from "openai";
 
+// DeepSeek is OpenAI-compatible; point the SDK at it when DEEPSEEK_API_KEY is set.
+const LLM_MODEL = process.env.DEEPSEEK_API_KEY ? (process.env.DEEPSEEK_MODEL || "deepseek-chat") : "gpt-4o-mini";
+const LLM_BASE_URL = process.env.DEEPSEEK_API_KEY ? "https://api.deepseek.com/v1" : undefined;
+
 export class LLMNoticeParser extends NoticeParser {
   public countyIdentifier = "LLM_AUTO";
   private openai: OpenAI;
 
   constructor(apiKey: string) {
     super();
-    this.openai = new OpenAI({ apiKey });
+    this.openai = new OpenAI({ apiKey, ...(LLM_BASE_URL ? { baseURL: LLM_BASE_URL } : {}) });
   }
 
   public async parseAsync(text: string, source: string = "LLM Automated Intake"): Promise<ParsedLead> {
@@ -34,7 +38,7 @@ ${cleanText}
     `;
 
     const response = await this.openai.chat.completions.create({
-      model: "gpt-4o-mini",
+      model: LLM_MODEL,
       messages: [{ role: "user", content: prompt }],
       response_format: { type: "json_object" },
       temperature: 0.1,
